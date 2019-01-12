@@ -12,14 +12,14 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.adbListener"
+		"onCommand:extension.adbwificonnect"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.adbListener",
-				"title": "List Adb Devices"
+				"command": "extension.adbwificonnect",
+				"title": "ADB connect to device IP address"
 			}
 		]
 	},
