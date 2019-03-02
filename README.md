@@ -1,5 +1,7 @@
 # ADB Wifi Code
 
+### Attention !! ONLY TESTED IN WINDOWS !!
+
 An simple adb extesion that makes possible to connect to an device over wifi connection without console.
 
 
