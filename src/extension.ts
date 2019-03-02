@@ -1,7 +1,9 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-const execSync = require('child_process').execSync;
+import { ADBInterface, ADBResultState } from "./adb-interface/adb-interface";
+
+
 const LastIPAddressKey = 'lastIPAddress';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -23,26 +25,56 @@ export function activate(context: vscode.ExtensionContext) {
 				ignoreFocusOut: true,
 				prompt: 'Enter the IP address from your device to connect to him. (Last address will be filled in next time)'
 			}
-		).then((value) => {
+		).then(async (value) => {
+			context.globalState.update(LastIPAddressKey, value);
 			try {
-				context.globalState.update(LastIPAddressKey, value);
-				var result = execSync('adb connect ' + value)
-				vscode.window.showInformationMessage('Success connected to device')
-			}
-			catch (e) {
-				if (e.message.includes('Command failed')) {
-					vscode.window.showErrorMessage('The plugin needs ADB tool added to enviroment variables correctly.')
-				}
-				else {
-					vscode.window.showErrorMessage('Fail to connect to device\n' + e.message)
-				}
-				console.log(JSON.stringify(e));
+				await vscode.window.withProgress(
+					{
+						location: vscode.ProgressLocation.Notification,
+						title: "Connecting to device\n"
+					},
+					async (progress, token) => {
+						progress.report({ increment: 70 });
+						var result = await ADBInterface.ConnectToDevice(value)
+						if (result.state == ADBResultState.ConnectionRefused) {
+							progress.report({ message: "Retrying Connection", increment: 70 });
+							result = await ADBInterface.ConnectToDevice(value)
+							progress.report({ message: result.message, increment: 100 });
+						}
+
+						if (result.state == ADBResultState.Error)
+							await vscode.window.showErrorMessage(result.message);
+						if (result.state == ADBResultState.ConnectionRefused) {
+							await vscode.window.showWarningMessage(result.message);
+						}
+						return;
+					});
+			} catch (e) {
+				vscode.window.showErrorMessage('Fail to connect to device\n' + e.message);
 			}
 		})
 		// Display a message box to the user
 	});
 
+	let disposable2 = vscode.commands.registerCommand('extension.adbResetPorts', async () => {
+
+		await vscode.window.withProgress(
+			{
+				location: vscode.ProgressLocation.Notification,
+				title: "Connecting to device\n"
+			},
+			async (progress, token) => {
+				progress.report({ increment: 70 });
+				var result = await ADBInterface.ResetPorts()
+
+				await vscode.window.showInformationMessage(result.message);
+
+				return;
+			});
+		// Display a message box to the user
+	});
 	context.subscriptions.push(disposable)
+	context.subscriptions.push(disposable2)
 }
 
 // this method is called when your extension is deactivated

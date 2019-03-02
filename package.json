@@ -12,7 +12,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.adbwificonnect"
+		"onCommand:extension.adbwificonnect",
+		"onCommand:extension.adbResetPorts"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -20,6 +21,10 @@
 			{
 				"command": "extension.adbwificonnect",
 				"title": "ADB connect to device IP address"
+			},
+			{
+				"command": "extension.adbResetPorts",
+				"title": "Reset TCP Ports from device"
 			}
 		]
 	},
@@ -33,6 +38,10 @@
 		"@types/node": "^8.10.25",
 		"tslint": "^5.11.0",
 		"typescript": "^2.6.1",
-		"vscode": "^1.1.22"
+		"vscode": "^1.1.30"
+	},
+	"dependencies": {
+		"cross-spawn": "^6.0.5",
+		"node-cmd": "^3.0.0"
 	}
 }
