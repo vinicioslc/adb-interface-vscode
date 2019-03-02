@@ -1,4 +1,3 @@
-import * as cmd from "node-cmd";
 import { execSync } from "child_process";
 
 export class ADBInterface {

@@ -1,15 +1,16 @@
 {
-	"name": "helloworld-sample",
-	"displayName": "helloworld-sample",
-	"description": "HelloWorld example for VS Code",
-	"version": "0.0.1",
-	"publisher": "vscode-samples",
-	"repository": "https://github.com/Microsoft/vscode-extension-samples/helloworld-sample",
+	"name": "adb-interface-vscode",
+	"displayName": "ADB Interface for VSCode",
+	"description": "A simple adb interface for VS Code",
+	"version": "0.0.5",
+	"publisher": "vinicioslc",
+	"repository": "https://github.com/vinicioslc/adb-interface-vscode",
 	"engines": {
 		"vscode": "^1.25.0"
 	},
 	"categories": [
-		"Other"
+		"Other",
+		"Debuggers"
 	],
 	"activationEvents": [
 		"onCommand:adbInterface.adbwificonnect",
@@ -25,7 +26,7 @@
 			},
 			{
 				"command": "adbInterface.adbwificonnect",
-				"title": "📱 ADB Interface :: Connect to and device by IP over wifi"
+				"title": "📱 ADB Interface :: Connect to device IP"
 			},
 			{
 				"command": "adbInterface.disconnectEverthing",
@@ -45,8 +46,5 @@
 		"typescript": "^2.6.1",
 		"vscode": "^1.1.30"
 	},
-	"dependencies": {
-		"cross-spawn": "^6.0.5",
-		"node-cmd": "^3.0.0"
-	}
+	"dependencies": {}
 }
