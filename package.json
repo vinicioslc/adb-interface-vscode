@@ -1,6 +1,6 @@
 {
 	"name": "adb-interface-vscode",
-	"displayName": "ADB Commands Interface for VSCode",
+	"displayName": "ADB Commands for VSCode",
 	"description": "A simple adb interface to allow use adb commands inside VSCode",
 	"version": "0.0.5",
 	"publisher": "vinicioslc",
