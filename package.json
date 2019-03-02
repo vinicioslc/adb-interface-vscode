@@ -12,19 +12,24 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.adbwificonnect",
-		"onCommand:extension.adbResetPorts"
+		"onCommand:adbInterface.adbwificonnect",
+		"onCommand:adbInterface.adbResetPorts",
+		"onCommand:adbInterface.disconnectEverthing"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.adbwificonnect",
-				"title": "ADB connect to device IP address"
+				"command": "adbInterface.adbResetPorts",
+				"title": "📱 ADB Interface :: Reset TCP ports from connected devices to :5555"
 			},
 			{
-				"command": "extension.adbResetPorts",
-				"title": "Reset TCP Ports from device"
+				"command": "adbInterface.adbwificonnect",
+				"title": "📱 ADB Interface :: Connect to and device by IP over wifi"
+			},
+			{
+				"command": "adbInterface.disconnectEverthing",
+				"title": "📱 ADB Interface :: Disconnect from any devices"
 			}
 		]
 	},
