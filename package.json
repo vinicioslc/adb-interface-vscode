@@ -8,9 +8,13 @@
 	"engines": {
 		"vscode": "^1.25.0"
 	},
+	"icon": "media/icon.jpg",
+	"galleryBanner": {
+		"color": "#000",
+		"theme": "dark"
+	},
 	"categories": [
-		"Other",
-		"Debuggers"
+		"Other"
 	],
 	"activationEvents": [
 		"onCommand:adbInterface.adbwificonnect",
