@@ -11,6 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const child_process_1 = require("child_process");
 class ADBInterface {
     static ConnectToDevice(deviceIP) {
+        deviceIP = this.extractIPAddress(deviceIP);
         var finalResult = new ADBResult(ADBResultState.Error, "Some error ocurred during connection");
         const result = child_process_1.execSync(`adb connect ${deviceIP}`);
         // const result = execSync(`adb devices`);
@@ -66,6 +67,41 @@ class ADBInterface {
             }
             return finalResult;
         });
+    }
+    /**
+     * Returns if the ipAddress contains some ip address pattern
+     * @param ipAddress string to test
+     */
+    static testIP(ipAddress) {
+        const regexIP = /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1}\.[0-9]{1,3})/gmi;
+        return regexIP.test(ipAddress);
+    }
+    static GetConnectedDevices() {
+        return __awaiter(this, void 0, void 0, function* () {
+            var devicesArray = [];
+            try {
+                const result = child_process_1.execSync(`adb devices`);
+                const output = result.toLocaleString();
+                if (output.startsWith("List of devices attached")) {
+                    let ips = output.split(/[\r]|[\n]/gmi);
+                    ips = ips.filter((ip, index, array) => this.testIP(ip));
+                    ips = ips.map((ipAddress, index, array) => {
+                        let nameOfDevice = this.getDeviceName(this.extractIPAddress(ipAddress));
+                        return `${ipAddress} | ${nameOfDevice}`;
+                    });
+                    console.log("ips", ips);
+                    return ips;
+                }
+            }
+            catch (e) {
+            }
+            return devicesArray;
+        });
+    }
+    static extractIPAddress(ipAddress) {
+        const regexIP = /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1}\.[0-9]{1,3})/gmi;
+        var matches = regexIP.exec(ipAddress) || [""];
+        return matches[0];
     }
 }
 exports.ADBInterface = ADBInterface;

@@ -7,7 +7,7 @@ export async function ResetPort() {
       location: vscode.ProgressLocation.Notification,
       title: "Starting ADB"
     },
-    async (progress, token) => {
+    async (progress) => {
       progress.report({ message: "Reseting Ports to 5555", increment: 50 });
       var adbInterfaceResult = await ADBInterface.ResetPorts()
       progress.report({ increment: 85 });
@@ -40,45 +40,47 @@ export async function ConnectToDevice(context: vscode.ExtensionContext) {
       prompt: 'Enter the IP address from your device to connect to him. (Last address will be filled in next time)'
     }
   ).then(async (value) => {
-    context.globalState.update(LastIPAddressKey, value);
-    try {
-      vscode.window.withProgress(
-        {
-          location: vscode.ProgressLocation.Notification,
-          title: "Starting ADB"
-        },
-        async (progress, token) => {
-          progress.report({ message: `Connecting to ${value}`, increment: 50 });
-          var adbInterfaceResult = await ADBInterface.ConnectToDevice(value)
-          progress.report({ increment: 85 });
-          switch (adbInterfaceResult.state) {
-            case ADBResultState.NoDevices:
-              vscode.window.showWarningMessage(adbInterfaceResult.message);
-              break;
-            case ADBResultState.ConnectionRefused:
-              vscode.window.showWarningMessage(adbInterfaceResult.message);
-              break;
-            case ADBResultState.AllreadyConnected:
-              vscode.window.showWarningMessage(adbInterfaceResult.message);
-              break;
-            case ADBResultState.Error:
-              vscode.window.showErrorMessage(adbInterfaceResult.message);
-              break;
-            case ADBResultState.ConnectedToDevice:
-              vscode.window.showInformationMessage(adbInterfaceResult.message);
-              break;
-            default:
-              vscode.window.showWarningMessage(adbInterfaceResult.message);
-              break;
-          }
-          return async () => { };
-
-        });
-    } catch (e) {
-      vscode.window.showErrorMessage('Fail to connect to device\n' + e.message);
-    }
+    connectToAdbDevice(context, value);
   })
   // Display a message box to the user
+}
+
+function connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
+  context.globalState.update(LastIPAddressKey, value);
+  try {
+    vscode.window.withProgress({
+      location: vscode.ProgressLocation.Notification,
+      title: "Starting ADB"
+    }, async (progress) => {
+      progress.report({ message: `Connecting to ${value}`, increment: 50 });
+      var adbInterfaceResult = await ADBInterface.ConnectToDevice(value);
+      progress.report({ increment: 85 });
+      switch (adbInterfaceResult.state) {
+        case ADBResultState.NoDevices:
+          vscode.window.showWarningMessage(adbInterfaceResult.message);
+          break;
+        case ADBResultState.ConnectionRefused:
+          vscode.window.showWarningMessage(adbInterfaceResult.message);
+          break;
+        case ADBResultState.AllreadyConnected:
+          vscode.window.showWarningMessage(adbInterfaceResult.message);
+          break;
+        case ADBResultState.Error:
+          vscode.window.showErrorMessage(adbInterfaceResult.message);
+          break;
+        case ADBResultState.ConnectedToDevice:
+          vscode.window.showInformationMessage(adbInterfaceResult.message);
+          break;
+        default:
+          vscode.window.showWarningMessage(adbInterfaceResult.message);
+          break;
+      }
+      return async () => { };
+    });
+  }
+  catch (e) {
+    vscode.window.showErrorMessage('Fail to connect to device\n' + e.message);
+  }
 }
 
 export async function DisconnectAnyDevice() {
@@ -96,4 +98,13 @@ export async function DisconnectAnyDevice() {
   } catch (e) {
     vscode.window.showErrorMessage('Fail to disconnect all devices\n' + e.message);
   }
+}
+
+export async function ConnectToDeviceFromList(context: vscode.ExtensionContext) {
+  let items = ADBInterface.GetConnectedDevices();
+  let result = await vscode.window.showQuickPick(items, {
+    ignoreFocusOut: true,
+    placeHolder: "Enter the IP address from your device to connect to him.",
+  });
+  connectToAdbDevice(context, ADBInterface.extractIPAddress(result));
 }

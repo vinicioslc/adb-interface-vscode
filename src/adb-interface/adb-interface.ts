@@ -1,8 +1,12 @@
 import { execSync } from "child_process";
+import { log } from "util";
 
 export class ADBInterface {
 
   static ConnectToDevice(deviceIP: string): ADBResult {
+
+    deviceIP = this.extractIPAddress(deviceIP);
+
     var finalResult = new ADBResult(ADBResultState.Error, "Some error ocurred during connection");
 
     const result = execSync(`adb connect ${deviceIP}`);
@@ -55,6 +59,40 @@ export class ADBInterface {
       finalResult = new ADBResult(ADBResultState.Error, e.message)
     }
     return finalResult;
+  }
+  /**
+   * Returns if the ipAddress contains some ip address pattern
+   * @param ipAddress string to test
+   */
+  static testIP(ipAddress: string): Boolean {
+    const regexIP = /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1}\.[0-9]{1,3})/gmi;
+    return regexIP.test(ipAddress);
+  }
+  static async GetConnectedDevices(): Promise<Array<string>> {
+    var devicesArray = [];
+    try {
+      const result = execSync(`adb devices`);
+      const output = result.toLocaleString();
+      if (output.startsWith("List of devices attached")) {
+        let ips = output.split(/[\r]|[\n]/gmi)
+        ips = ips.filter((ip, index, array) => this.testIP(ip))
+        ips = ips.map((ipAddress, index, array) => {
+          let nameOfDevice = this.getDeviceName(this.extractIPAddress(ipAddress));
+          return `${ipAddress} | ${nameOfDevice}`;
+        });
+        console.log("ips", ips);
+
+        return ips
+      }
+    } catch (e) {
+    }
+    return devicesArray;
+  }
+
+  static extractIPAddress(ipAddress: string): string {
+    const regexIP = /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1}\.[0-9]{1,3})/gmi;
+    var matches = regexIP.exec(ipAddress) || [""];
+    return matches[0];
   }
 }
 

@@ -15,7 +15,7 @@ function ResetPort() {
         vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
             title: "Starting ADB"
-        }, (progress, token) => __awaiter(this, void 0, void 0, function* () {
+        }, (progress) => __awaiter(this, void 0, void 0, function* () {
             progress.report({ message: "Reseting Ports to 5555", increment: 50 });
             var adbInterfaceResult = yield adb_interface_1.ADBInterface.ResetPorts();
             progress.report({ increment: 85 });
@@ -47,46 +47,49 @@ function ConnectToDevice(context) {
             ignoreFocusOut: true,
             prompt: 'Enter the IP address from your device to connect to him. (Last address will be filled in next time)'
         }).then((value) => __awaiter(this, void 0, void 0, function* () {
-            context.globalState.update(LastIPAddressKey, value);
-            try {
-                vscode.window.withProgress({
-                    location: vscode.ProgressLocation.Notification,
-                    title: "Starting ADB"
-                }, (progress, token) => __awaiter(this, void 0, void 0, function* () {
-                    progress.report({ message: `Connecting to ${value}`, increment: 50 });
-                    var adbInterfaceResult = yield adb_interface_1.ADBInterface.ConnectToDevice(value);
-                    progress.report({ increment: 85 });
-                    switch (adbInterfaceResult.state) {
-                        case adb_interface_1.ADBResultState.NoDevices:
-                            vscode.window.showWarningMessage(adbInterfaceResult.message);
-                            break;
-                        case adb_interface_1.ADBResultState.ConnectionRefused:
-                            vscode.window.showWarningMessage(adbInterfaceResult.message);
-                            break;
-                        case adb_interface_1.ADBResultState.AllreadyConnected:
-                            vscode.window.showWarningMessage(adbInterfaceResult.message);
-                            break;
-                        case adb_interface_1.ADBResultState.Error:
-                            vscode.window.showErrorMessage(adbInterfaceResult.message);
-                            break;
-                        case adb_interface_1.ADBResultState.ConnectedToDevice:
-                            vscode.window.showInformationMessage(adbInterfaceResult.message);
-                            break;
-                        default:
-                            vscode.window.showWarningMessage(adbInterfaceResult.message);
-                            break;
-                    }
-                    return () => __awaiter(this, void 0, void 0, function* () { });
-                }));
-            }
-            catch (e) {
-                vscode.window.showErrorMessage('Fail to connect to device\n' + e.message);
-            }
+            connectToAdbDevice(context, value);
         }));
         // Display a message box to the user
     });
 }
 exports.ConnectToDevice = ConnectToDevice;
+function connectToAdbDevice(context, value) {
+    context.globalState.update(LastIPAddressKey, value);
+    try {
+        vscode.window.withProgress({
+            location: vscode.ProgressLocation.Notification,
+            title: "Starting ADB"
+        }, (progress) => __awaiter(this, void 0, void 0, function* () {
+            progress.report({ message: `Connecting to ${value}`, increment: 50 });
+            var adbInterfaceResult = yield adb_interface_1.ADBInterface.ConnectToDevice(value);
+            progress.report({ increment: 85 });
+            switch (adbInterfaceResult.state) {
+                case adb_interface_1.ADBResultState.NoDevices:
+                    vscode.window.showWarningMessage(adbInterfaceResult.message);
+                    break;
+                case adb_interface_1.ADBResultState.ConnectionRefused:
+                    vscode.window.showWarningMessage(adbInterfaceResult.message);
+                    break;
+                case adb_interface_1.ADBResultState.AllreadyConnected:
+                    vscode.window.showWarningMessage(adbInterfaceResult.message);
+                    break;
+                case adb_interface_1.ADBResultState.Error:
+                    vscode.window.showErrorMessage(adbInterfaceResult.message);
+                    break;
+                case adb_interface_1.ADBResultState.ConnectedToDevice:
+                    vscode.window.showInformationMessage(adbInterfaceResult.message);
+                    break;
+                default:
+                    vscode.window.showWarningMessage(adbInterfaceResult.message);
+                    break;
+            }
+            return () => __awaiter(this, void 0, void 0, function* () { });
+        }));
+    }
+    catch (e) {
+        vscode.window.showErrorMessage('Fail to connect to device\n' + e.message);
+    }
+}
 function DisconnectAnyDevice() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -107,4 +110,15 @@ function DisconnectAnyDevice() {
     });
 }
 exports.DisconnectAnyDevice = DisconnectAnyDevice;
+function ConnectToDeviceFromList(context) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let items = adb_interface_1.ADBInterface.GetConnectedDevices();
+        let result = yield vscode.window.showQuickPick(items, {
+            ignoreFocusOut: true,
+            placeHolder: "Enter the IP address from your device to connect to him.",
+        });
+        connectToAdbDevice(context, adb_interface_1.ADBInterface.extractIPAddress(result));
+    });
+}
+exports.ConnectToDeviceFromList = ConnectToDeviceFromList;
 //# sourceMappingURL=index.js.map

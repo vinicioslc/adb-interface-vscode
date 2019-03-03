@@ -15,7 +15,8 @@
 	"activationEvents": [
 		"onCommand:adbInterface.adbwificonnect",
 		"onCommand:adbInterface.adbResetPorts",
-		"onCommand:adbInterface.disconnectEverthing"
+		"onCommand:adbInterface.disconnectEverthing",
+		"onCommand:adbInterface.connectToDeviceFromList"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -23,6 +24,10 @@
 			{
 				"command": "adbInterface.adbResetPorts",
 				"title": "📱 ADB Interface :: Reset TCP ports from connected devices to :5555"
+			},
+			{
+				"command": "adbInterface.connectToDeviceFromList",
+				"title": "📱 ADB Interface :: Connect to device from List"
 			},
 			{
 				"command": "adbInterface.adbwificonnect",

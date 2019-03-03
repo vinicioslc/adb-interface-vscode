@@ -18,6 +18,8 @@ function activate(context) {
     context.subscriptions.push(resetTCPPortAction);
     let disconnectDevicesAction = vscode.commands.registerCommand('adbInterface.disconnectEverthing', () => index_1.DisconnectAnyDevice());
     context.subscriptions.push(disconnectDevicesAction);
+    let connectToDeviceFromListAction = vscode.commands.registerCommand('adbInterface.connectToDeviceFromList', () => index_1.ConnectToDeviceFromList(context));
+    context.subscriptions.push(connectToDeviceFromListAction);
 }
 exports.activate = activate;
 // this method is called when your extension is deactivated
