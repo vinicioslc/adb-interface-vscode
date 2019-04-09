@@ -9,14 +9,14 @@ export class ADBInterface {
 
     var finalResult = new ADBResult(ADBResultState.Error, "Some error ocurred during connection");
 
-    const result = execSync(`adb connect ${deviceIP}`);
+    const result = execSync(`adb connect ${deviceIP}:5555`);
     // const result = execSync(`adb devices`);
-    const output = result.toLocaleString();
-    console.log("Output:", output);
+    const output: String = result.toLocaleString();
+    // console.log("Output:", output);
 
-    if (output.startsWith('already connected to')) {
+    if (output.includes('already connected to')) {
       finalResult = new ADBResult(ADBResultState.AllreadyConnected, `Allready connected to device ${this.getDeviceName(deviceIP)}`);
-    } else if (output.startsWith('connected to')) {
+    } else if (output.includes('connected to')) {
       finalResult = new ADBResult(ADBResultState.ConnectedToDevice, `Connected to device ${this.getDeviceName(deviceIP)}`);
     } else if (output.includes('(10061)')) {
       finalResult = new ADBResult(ADBResultState.ConnectionRefused, "Connection refused:\n Target machine actively refused connection.")
