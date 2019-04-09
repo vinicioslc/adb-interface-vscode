@@ -45,7 +45,7 @@ function ConnectToDevice(context) {
             placeHolder: "192.168.0.1",
             value: lastvalue,
             ignoreFocusOut: true,
-            prompt: 'Enter the IP address from your device to connect to him. (Last address will be filled in next time)'
+            prompt: 'Enter the IP address from your device to connect to him. (Last address will be filled in next time) port 5555 added automagically.'
         }).then((value) => __awaiter(this, void 0, void 0, function* () {
             connectToAdbDevice(context, value);
         }));
