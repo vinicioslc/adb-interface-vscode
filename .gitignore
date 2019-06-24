@@ -63,4 +63,5 @@ typings/
 # typescript
 
 /out/
+*/out/
 out/

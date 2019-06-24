@@ -1,59 +1,61 @@
 {
-	"name": "adb-interface-vscode",
-	"displayName": "ADB Commands for VSCode",
-	"description": "A simple adb interface to allow use adb commands inside VSCode",
-	"version": "0.2.1",
-	"publisher": "vinicioslc",
-	"repository": "https://github.com/vinicioslc/adb-interface-vscode",
-	"engines": {
-		"vscode": "^1.25.0"
-	},
-	"icon": "media/icon.jpg",
-	"galleryBanner": {
-		"color": "#000",
-		"theme": "dark"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onCommand:adbInterface.adbwificonnect",
-		"onCommand:adbInterface.adbResetPorts",
-		"onCommand:adbInterface.disconnectEverthing",
-		"onCommand:adbInterface.connectToDeviceFromList"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "adbInterface.adbResetPorts",
-				"title": "📱 ADB Interface :: Reset TCP ports from connected devices to :5555"
-			},
-			{
-				"command": "adbInterface.connectToDeviceFromList",
-				"title": "📱 ADB Interface :: Connect to device from List"
-			},
-			{
-				"command": "adbInterface.adbwificonnect",
-				"title": "📱 ADB Interface :: Connect to device IP"
-			},
-			{
-				"command": "adbInterface.disconnectEverthing",
-				"title": "📱 ADB Interface :: Disconnect from any devices"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"postinstall": "node ./node_modules/vscode/bin/install"
-	},
-	"devDependencies": {
-		"@types/node": "^8.10.25",
-		"tslint": "^5.11.0",
-		"typescript": "^2.6.1",
-		"vscode": "^1.1.30"
-	},
-	"dependencies": {}
+  "name": "adb-interface-vscode",
+  "displayName": "ADB Commands for VSCode",
+  "description": "A simple adb interface to allow use adb commands inside VSCode",
+  "version": "0.2.1",
+  "publisher": "vinicioslc",
+  "repository": "https://github.com/vinicioslc/adb-interface-vscode",
+  "engines": {
+    "vscode": "^1.25.0"
+  },
+  "icon": "media/icon.jpg",
+  "galleryBanner": {
+    "color": "#000",
+    "theme": "dark"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:adbInterface.adbwificonnect",
+    "onCommand:adbInterface.adbResetPorts",
+    "onCommand:adbInterface.disconnectEverthing",
+    "onCommand:adbInterface.connectToDeviceFromList"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "adbInterface.adbResetPorts",
+        "title": "📱 ADB Interface :: Reset TCP ports from connected devices to :5555"
+      },
+      {
+        "command": "adbInterface.connectToDeviceFromList",
+        "title": "📱 ADB Interface :: Connect to device from List"
+      },
+      {
+        "command": "adbInterface.adbwificonnect",
+        "title": "📱 ADB Interface :: Connect to device IP"
+      },
+      {
+        "command": "adbInterface.disconnectEverthing",
+        "title": "📱 ADB Interface :: Disconnect from any devices"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "devDependencies": {
+    "@types/node": "^8.10.25",
+    "tslint": "^5.11.0",
+    "typescript": "^2.6.1",
+    "vscode": "^1.1.30"
+  },
+  "dependencies": {
+    "lanscanner": "0.0.5"
+  }
 }
