@@ -3,6 +3,7 @@
 ### Attention !! ONLY TESTED IN WINDOWS !!
 
 #### Help are welcome ;)
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url">![Donation will make this tree growth](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)</a>
 
 # 0.5K Installs Thanks for everyone !! \O/`\_/ ! \o\o\o\o/o/o/o/
 
