@@ -1,6 +1,6 @@
 # ADB Wifi Code - Under construction
 
-### Attention !! ONLY TESTED IN WINDOWS !!
+### Attention !! ONLY TESTED IN WINDOWS !! (For while, you must have ADB at your Enviroment Variables)
 
 #### Help are welcome ;)
 
