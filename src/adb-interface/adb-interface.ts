@@ -67,6 +67,20 @@ export class ADBInterface {
     return result
   }
 
+  static firebaseEventsDebug({ package_name }): string {
+    const result = execSync(
+      `adb shell setprop debug.firebase.analytics.app ${package_name}`
+    ).toString()
+    return result
+  }
+
+  static disableFirebaseEventsDebug({ package_name }): string {
+    const result = execSync(
+      `adb shell setprop debug.firebase.analytics.app .none.`
+    ).toString()
+    return result
+  }
+
   static async DisconnectFromAllDevices(): Promise<ADBResult> {
     var finalResult = new ADBResult(
       ADBResultState.Error,
@@ -127,27 +141,6 @@ export class ADBInterface {
   }
 }
 
-/**
- * Is an enum of adb possible results
- */
-/**
- * Is an enum of adb possible results
- */
-/**
- * Is an enum of adb possible results
- */
-/**
- * Is an enum of adb possible results
- */
-/**
- * Is an enum of adb possible results
- */
-/**
- * Is an enum of adb possible results
- */
-/**
- * Is an enum of adb possible results
- */
 /**
  * Is an enum of adb possible results
  */
