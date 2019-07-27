@@ -154,8 +154,10 @@ export enum ADBResultState {
   Error,
   DevicesInPortMode,
   AllreadyConnected,
-  DisconnectedEverthing
+  DisconnectedEverthing,
+  Success
 }
+
 /**
  * Is an result returned by an adb connection
  */
@@ -167,6 +169,7 @@ export class ADBResult {
     this.message = message
   }
 }
+
 export class ADBNotFoundError extends Error {
   message = 'ADB Device not found in this machine'
 }
