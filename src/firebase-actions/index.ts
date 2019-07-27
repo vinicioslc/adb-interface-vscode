@@ -1,4 +1,4 @@
-import { ADBResult, ADBResultState } from '../adb-terminal'
+import { ADBResult, ADBResultState } from '../adb-actions'
 import { execSync } from 'child_process'
 
 export function enableFirebaseDebugView(appPackageID: string) {
