@@ -1,5 +1,5 @@
 import { execSync } from 'child_process'
-import { NetHelpers } from '../net-helpers'
+import { NetHelpers } from '../ip-helpers'
 import { log } from 'util'
 
 export class ADBInterface {
@@ -16,17 +16,19 @@ export class ADBInterface {
     const output: String = result.toLocaleString()
     // console.log("Output:", output);
 
+    if (output.includes('connected to')) {
+      finalResult = new ADBResult(
+        ADBResultState.ConnectedToDevice,
+        `Connected to device ${this.getDeviceName(deviceIP)}`
+      )
+    }
     if (output.includes('already connected to')) {
       finalResult = new ADBResult(
         ADBResultState.AllreadyConnected,
         `Allready connected to device ${this.getDeviceName(deviceIP)}`
       )
-    } else if (output.includes('connected to')) {
-      finalResult = new ADBResult(
-        ADBResultState.ConnectedToDevice,
-        `Connected to device ${this.getDeviceName(deviceIP)}`
-      )
-    } else if (output.includes('(10061)')) {
+    }
+    if (output.includes('(10061)')) {
       finalResult = new ADBResult(
         ADBResultState.ConnectionRefused,
         'Connection refused:\n Target machine actively refused connection.'

@@ -1,4 +1,4 @@
-import { ADBResultState, ADBInterface } from '../adb-interface/adb-interface'
+import { ADBResultState, ADBInterface } from '../adb-terminal'
 import * as vscode from 'vscode'
 
 export async function ResetPort() {
