@@ -32,6 +32,14 @@ export function activate(context: vscode.ExtensionContext) {
     {
       name: 'adbInterface.connectToDeviceFromList',
       callback: () => ConnectToDeviceFromList(context)
+    },
+    {
+      name: 'adbInterface.enableFirebaseDebug',
+      callback: () => EnableFirebaseDebugView(context)
+    },
+    {
+      name: 'adbInterface.disableFirebaseDebug',
+      callback: () => DisableFirebaseDebugView(context)
     }
   ]
 

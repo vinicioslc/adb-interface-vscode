@@ -17,29 +17,39 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:adbInterface.adbwificonnect",
     "onCommand:adbInterface.adbResetPorts",
+    "onCommand:adbInterface.connectToDeviceFromList",
+    "onCommand:adbInterface.adbwificonnect",
     "onCommand:adbInterface.disconnectEverthing",
-    "onCommand:adbInterface.connectToDeviceFromList"
+    "onCommand:adbInterface.enableFirebaseDebug",
+    "onCommand:adbInterface.disableFirebaseDebug"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "adbInterface.adbResetPorts",
-        "title": "📱 ADB Interface :: Reset TCP ports from connected devices to :5555"
+        "title": "📱 ADB :: Reset TCP ports from connected devices to :5555"
       },
       {
         "command": "adbInterface.connectToDeviceFromList",
-        "title": "📱 ADB Interface :: Connect to device from List"
+        "title": "📱 ADB :: Connect to device from List"
       },
       {
         "command": "adbInterface.adbwificonnect",
-        "title": "📱 ADB Interface :: Connect to device IP"
+        "title": "📱 ADB :: Connect to device IP"
       },
       {
         "command": "adbInterface.disconnectEverthing",
-        "title": "📱 ADB Interface :: Disconnect from any devices"
+        "title": "📱 ADB :: Disconnect from any devices"
+      },
+      {
+        "command": "adbInterface.enableFirebaseDebug",
+        "title": "🔥 ADB :: Enable Firebase debug view"
+      },
+      {
+        "command": "adbInterface.disableFirebaseDebug",
+        "title": "🔥 ADB :: Disable Firebase debug mode"
       }
     ]
   },

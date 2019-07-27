@@ -1,7 +1,6 @@
 import { ADBResultState, ADBInterface } from '../adb-actions'
 import * as FirebaseExtension from '../firebase-actions'
 import * as vscode from 'vscode'
-import { ADBResult } from './../adb-actions'
 
 export async function ResetDevicesPort() {
   vscode.window.withProgress(
