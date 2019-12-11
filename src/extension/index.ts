@@ -112,14 +112,35 @@ export async function DisconnectAnyDevice() {
 export async function ConnectToDeviceFromList(
   context: vscode.ExtensionContext
 ) {
-  const adbInterfaceResult = await ADBInterface.DisconnectFromAllDevices()
-  let items = ADBInterface.GetConnectedDevices()
-  let result = await vscode.window.showQuickPick(items, {
-    ignoreFocusOut: true,
-    placeHolder: 'Enter the IP address from your device to connect to him.'
-  })
-  connectToAdbDevice(context, ADBInterface.extractIPAddress(result))
+  let result = await vscode.window.showQuickPick( 
+    getIPAddressList(context),
+    {
+      ignoreFocusOut: true,
+      placeHolder: 'Select the IP address of the device to connect to...'
+    }
+  )
+  if ( result == null ) {
+    vscode.window.showErrorMessage('command cancelled')
+  } else {
+    const adbInterfaceResult = await ADBInterface.DisconnectFromAllDevices()
+    connectToAdbDevice(context, ADBInterface.extractIPAddress(result))
+  }
 }
+
+async function getIPAddressList(context) {
+  let items = ADBInterface.GetConnectedDevices()
+  let lastvalue = context.globalState.get(LastIPAddressKey, '')
+  if(lastvalue!=null && lastvalue != '') {
+    // remove entry and put on top
+    // don't know how to add to list without await ???
+    var items2 = await items;
+    var index=items2.indexOf(lastvalue);
+    if (index!=-1) items2.splice(index,1);
+    return [lastvalue].concat(await items2);
+  }
+  return items;
+}
+
 const allPackages = 'last_app_package_name'
 export async function EnableFirebaseDebugView(
   context: vscode.ExtensionContext
