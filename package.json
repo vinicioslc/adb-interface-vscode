@@ -20,6 +20,7 @@
     "onCommand:adbInterface.adbResetPorts",
     "onCommand:adbInterface.connectToDeviceFromList",
     "onCommand:adbInterface.adbwificonnect",
+    "onCommand:adbInterface.killserver",
     "onCommand:adbInterface.disconnectEverthing",
     "onCommand:adbInterface.enableFirebaseDebug",
     "onCommand:adbInterface.disableFirebaseDebug"
