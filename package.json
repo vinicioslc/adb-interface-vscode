@@ -44,6 +44,10 @@
         "title": "ADB:📱 Disconnect from any devices"
       },
       {
+        "command": "adbInterface.killserver",
+        "title": "ADB:⚠️ Kill ADB server"
+      },
+      {
         "command": "adbInterface.enableFirebaseDebug",
         "title": "ADB:🔥 Enable Firebase events debug mode"
       },

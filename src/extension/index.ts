@@ -120,6 +120,18 @@ export async function ConnectToDeviceFromList(
   })
   connectToAdbDevice(context, ADBInterface.extractIPAddress(result))
 }
+
+export async function KillADBServer() {
+  const adbInterfaceResult = await ADBInterface.KillADBServer()
+  if (adbInterfaceResult.state == ADBResultState.Success) {
+    vscode.window.showInformationMessage(adbInterfaceResult.message)
+  } else {
+    vscode.window.showErrorMessage(
+      'Fail to Kill ADB interface' + adbInterfaceResult.message
+    )
+  }
+}
+
 const allPackages = 'last_app_package_name'
 export async function EnableFirebaseDebugView(
   context: vscode.ExtensionContext
