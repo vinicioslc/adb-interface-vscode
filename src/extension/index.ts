@@ -1,6 +1,7 @@
 import { ADBResultState, ADBInterface } from '../adb-actions'
 import * as FirebaseExtension from '../firebase-actions'
 import * as vscode from 'vscode'
+import stateKeys from './global-state-keys'
 
 export async function ResetDevicesPort() {
   vscode.window.withProgress(
@@ -29,10 +30,8 @@ export async function ResetDevicesPort() {
   // Display a message box to the user
 }
 
-const LastIPAddressKey = 'lastIPAddress'
-
 export async function ConnectToDevice(context: vscode.ExtensionContext) {
-  let lastvalue = context.globalState.get(LastIPAddressKey, '')
+  let lastvalue = context.globalState.get(stateKeys.lastIPUsed, '')
   // The code you place here will be executed every time your command is executed
   vscode.window
     .showInputBox({
@@ -49,7 +48,7 @@ export async function ConnectToDevice(context: vscode.ExtensionContext) {
 }
 
 function connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
-  context.globalState.update(LastIPAddressKey, value)
+  context.globalState.update(stateKeys.lastIPUsed, value)
   try {
     vscode.window.withProgress(
       {
@@ -132,12 +131,11 @@ export async function KillADBServer() {
   }
 }
 
-const allPackages = 'last_app_package_name'
 export async function EnableFirebaseDebugView(
   context: vscode.ExtensionContext
 ) {
   try {
-    let lastvalue = context.globalState.get(allPackages, [])
+    let lastvalue = context.globalState.get(stateKeys.allPackages, [])
 
     let packageName = await vscode.window.showInputBox({
       placeHolder: 'com.yourapp.domain',

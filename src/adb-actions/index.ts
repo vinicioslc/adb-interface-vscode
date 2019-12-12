@@ -1,6 +1,5 @@
 import { execSync } from 'child_process'
 import { NetHelpers } from '../ip-helpers'
-import { log } from 'util'
 
 export class ADBInterface {
   static ConnectToDevice(deviceIP: string): ADBResult {
@@ -75,7 +74,7 @@ export class ADBInterface {
     return result
   }
 
-  static disableFirebaseEventsDebug({ package_name }): string {
+  static disableFirebaseEventsDebug(): string {
     const result = execSync(
       `adb shell setprop debug.firebase.analytics.app .none.`
     ).toString()
@@ -116,8 +115,8 @@ export class ADBInterface {
       const output = result.toLocaleString()
       if (output.startsWith('List of devices attached')) {
         let ips = output.split(/[\r]|[\n]/gim)
-        ips = ips.filter((ip, index, array) => this.testIP(ip))
-        ips = ips.map((ipAddress, index, array) => {
+        ips = ips.filter(ip => this.testIP(ip))
+        ips = ips.map(ipAddress => {
           let nameOfDevice = this.getDeviceName(
             this.extractIPAddress(ipAddress)
           )
