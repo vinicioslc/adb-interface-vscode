@@ -1,8 +1,16 @@
 import { execSync } from 'child_process'
 import { NetHelpers } from '../ip-helpers'
+import { IConsoleInterface } from '../console-interface/iconsole-interface'
+import { stringLiteral } from '@babel/types'
+import { log } from 'util'
+import adbCommands from './adb-shell-commands'
 
 export class ADBInterface {
-  static ConnectToDevice(deviceIP: string): ADBResult {
+  consoleInterface: IConsoleInterface
+  constructor(consoleInterface: IConsoleInterface) {
+    this.consoleInterface = consoleInterface
+  }
+  ConnectToDevice(deviceIP: string): ADBResult {
     deviceIP = this.extractIPAddress(deviceIP)
 
     var finalResult = new ADBResult(
@@ -10,7 +18,9 @@ export class ADBInterface {
       'Some error ocurred during connection'
     )
 
-    const result = execSync(`adb connect ${deviceIP}:5555`)
+    const result = this.consoleInterface.execConsoleSync(
+      `adb connect ${deviceIP}:5555`
+    )
 
     const output: String = result.toLocaleString()
 
@@ -35,13 +45,13 @@ export class ADBInterface {
 
     return finalResult
   }
-  static async ResetPorts(): Promise<ADBResult> {
+  async ResetPorts(): Promise<ADBResult> {
     var finalResult = new ADBResult(
       ADBResultState.Error,
       'Error while reset TCPIP Ports'
     )
     try {
-      const result = execSync(`adb tcpip 5555`)
+      const result = this.consoleInterface.execConsoleSync(`adb tcpip 5555`)
       const output = result.toLocaleString()
       if (output.includes('restarting in TCP mode port: 5555')) {
         finalResult = new ADBResult(
@@ -60,34 +70,36 @@ export class ADBInterface {
     return finalResult
   }
 
-  static getDeviceName(deviceIP: string): string {
-    const result = execSync(
-      `adb -s ${deviceIP} shell getprop ro.product.model`
-    ).toString()
+  getDeviceName(deviceIP: string): string {
+    const result = this.consoleInterface
+      .execConsoleSync(`adb -s ${deviceIP} shell getprop ro.product.model`)
+      .toString()
     return result
   }
 
-  static firebaseEventsDebug({ package_name }): string {
-    const result = execSync(
-      `adb shell setprop debug.firebase.analytics.app ${package_name}`
-    ).toString()
+  firebaseEventsDebug({ package_name }): string {
+    const result = this.consoleInterface
+      .execConsoleSync(
+        `adb shell setprop debug.firebase.analytics.app ${package_name}`
+      )
+      .toString()
     return result
   }
 
-  static disableFirebaseEventsDebug(): string {
-    const result = execSync(
-      `adb shell setprop debug.firebase.analytics.app .none.`
-    ).toString()
+  disableFirebaseEventsDebug(): string {
+    const result = this.consoleInterface
+      .execConsoleSync(`adb shell setprop debug.firebase.analytics.app .none.`)
+      .toString()
     return result
   }
 
-  static async DisconnectFromAllDevices(): Promise<ADBResult> {
+  async DisconnectFromAllDevices(): Promise<ADBResult> {
     var finalResult = new ADBResult(
       ADBResultState.Error,
       'Error while reset TCPIP Ports'
     )
     try {
-      const result = execSync(`adb disconnect`)
+      const result = this.consoleInterface.execConsoleSync(`adb disconnect`)
       const output = result.toLocaleString()
       if (output.includes('disconnected everything')) {
         finalResult = new ADBResult(
@@ -104,16 +116,18 @@ export class ADBInterface {
    * Returns if the ipAddress contains some ip address pattern
    * @param ipAddress string to test
    */
-  static testIP(ipAddress: string): Boolean {
+  testIP(ipAddress: string): Boolean {
     const regexIP = /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1}\.[0-9]{1,3})/gim
     return regexIP.test(ipAddress)
   }
-  static async GetConnectedDevices(): Promise<Array<string>> {
+  async GetConnectedDevices(): Promise<Array<string>> {
     var devicesArray = []
     try {
-      const result = execSync(`adb devices`)
+      const result = this.consoleInterface.execConsoleSync(
+        adbCommands.ADB_DEVICES
+      )
       const output = result.toLocaleString()
-      if (output.startsWith('List of devices attached')) {
+      if (output.includes('List of devices attached')) {
         let ips = output.split(/[\r]|[\n]/gim)
         ips = ips.filter(ip => this.testIP(ip))
         ips = ips.map(ipAddress => {
@@ -133,19 +147,23 @@ export class ADBInterface {
     return devicesArray
   }
 
-  static extractIPAddress(ipAddress: string): string {
+  extractIPAddress(ipAddress: string): string {
     const regexIP = /([\d]+\.[\d]+\.[\d]+\.[\d]+)/gim
     var matches = regexIP.exec(ipAddress) || ['']
     return matches[0]
   }
 
-  static async KillADBServer(): Promise<ADBResult> {
+  async KillADBServer(): Promise<ADBResult> {
     let returned = new ADBResult(ADBResultState.Error, 'Fail during ADB Kill')
     try {
-      const result = execSync('adb kill-server')
-      returned = new ADBResult(ADBResultState.Success, 'ADB Server killed')
+      const result = this.consoleInterface.execConsoleSync(
+        adbCommands.ADB_KILL_SERVER
+      )
+      if (result.toLocaleString() === '') {
+        returned = new ADBResult(ADBResultState.Success, 'ADB Server killed')
+      }
     } catch (e) {
-      returned.message = 'Fail during ADB Kill' + e.message
+      returned.message = 'Fail \n ' + e.message
     }
     return returned
   }

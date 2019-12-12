@@ -1,14 +1,18 @@
 import { execSync } from 'child_process'
 import { IConsoleInterface } from './iconsole-interface'
 
-export class ConsoleInterface implements IConsoleInterface {
-  _output: Buffer
+export class ConsoleInterfaceMock implements IConsoleInterface {
+  private _output: Buffer
 
-  setConsoleOutput(output: string): void {
-    this._output = Buffer.from(output, 'utf8')
+  setConsoleOutput(value: string): void {
+    if (value) {
+      this._output = Buffer.from(value, 'utf8')
+    } else {
+      this._output = Buffer.from('', 'utf8')
+    }
   }
 
-  sendConsoleSync(command: string): Buffer {
+  execConsoleSync(command: string): Buffer {
     return this._output
   }
 }

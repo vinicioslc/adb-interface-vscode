@@ -3,6 +3,9 @@ import * as FirebaseExtension from '../firebase-actions'
 import * as vscode from 'vscode'
 import stateKeys from './global-state-keys'
 
+import { ConsoleInterface } from './../console-interface/console-interface'
+const adbInterfaceInstance = new ADBInterface(new ConsoleInterface())
+
 export async function ResetDevicesPort() {
   vscode.window.withProgress(
     {
@@ -11,7 +14,7 @@ export async function ResetDevicesPort() {
     },
     async progress => {
       progress.report({ message: 'Reseting Ports to 5555', increment: 50 })
-      var adbInterfaceResult = await ADBInterface.ResetPorts()
+      var adbInterfaceResult = await adbInterfaceInstance.ResetPorts()
       progress.report({ increment: 85 })
       switch (adbInterfaceResult.state) {
         case ADBResultState.NoDevices:
@@ -57,7 +60,9 @@ function connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
       },
       async progress => {
         progress.report({ message: `Connecting to ${value}`, increment: 50 })
-        var adbInterfaceResult = await ADBInterface.ConnectToDevice(value)
+        var adbInterfaceResult = await adbInterfaceInstance.ConnectToDevice(
+          value
+        )
         progress.report({ increment: 85 })
         switch (adbInterfaceResult.state) {
           case ADBResultState.NoDevices:
@@ -89,7 +94,7 @@ function connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
 
 export async function DisconnectAnyDevice() {
   try {
-    const adbInterfaceResult = await ADBInterface.DisconnectFromAllDevices()
+    const adbInterfaceResult = await adbInterfaceInstance.DisconnectFromAllDevices()
     adbInterfaceResult.state
     switch (adbInterfaceResult.state) {
       case ADBResultState.DisconnectedEverthing:
@@ -111,17 +116,17 @@ export async function DisconnectAnyDevice() {
 export async function ConnectToDeviceFromList(
   context: vscode.ExtensionContext
 ) {
-  const adbInterfaceResult = await ADBInterface.DisconnectFromAllDevices()
-  let items = ADBInterface.GetConnectedDevices()
+  const adbInterfaceResult = await adbInterfaceInstance.DisconnectFromAllDevices()
+  let items = adbInterfaceInstance.GetConnectedDevices()
   let result = await vscode.window.showQuickPick(items, {
     ignoreFocusOut: true,
     placeHolder: 'Enter the IP address from your device to connect to him.'
   })
-  connectToAdbDevice(context, ADBInterface.extractIPAddress(result))
+  connectToAdbDevice(context, adbInterfaceInstance.extractIPAddress(result))
 }
 
 export async function KillADBServer() {
-  const adbInterfaceResult = await ADBInterface.KillADBServer()
+  const adbInterfaceResult = await adbInterfaceInstance.KillADBServer()
   if (adbInterfaceResult.state == ADBResultState.Success) {
     vscode.window.showInformationMessage(adbInterfaceResult.message)
   } else {

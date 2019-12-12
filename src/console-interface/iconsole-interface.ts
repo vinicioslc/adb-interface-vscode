@@ -1,3 +1,3 @@
 export interface IConsoleInterface {
-  sendConsoleSync(command: string): Buffer
+  execConsoleSync(command: string): Buffer
 }
