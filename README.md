@@ -10,16 +10,20 @@
 
 An simple adb extesion that makes possible to connect to an device over wifi connection without console.
 
-## Currently with following features.
+## ADB commands.
 
-- 📱 ADB | Reset TCP ports from connected devices to :5555 (Open device port to connect thought wifi)
-- 📱 ADB | Connect to device IP (need inform IP from device wanted) - will be removed ??
-- 📱 ADB | Disconnect from any devices (Disconnect everthing)
-- 📱 ADB | Connect to device from List (Show an list from devices attached to connect)
+- ADB:📱 Reset connected devices port to :5555 (Open device port to connect thought wifi)
+- ADB:📱 Connect to device IP (need inform IP from device wanted)
+- ADB:📱 Disconnect from any devices (Disconnect ever device attached)
+- ADB:📱 Connect to device from List (Show an list from devices attached to connect)
+- ADB:🔥 Enable Firebase events debug mode (Run firebase events in debug mode)
+- ADB:🔥 Disable Firebase events debug mode (Run firebase events in debug mode)
 
-> COMMING SOON
+## How to connect my phone via wifi ?
 
-- (comming) 🔥 ADB | Firebase - Enter debug mode (Run firebase events in debug mode)
-- (comming) 🔥 ADB | Firebase - Exit events debug mode (Run firebase events in debug mode)
+1. First connect your device trough USB
+2. Run `ADB:📱 Disconnect from any devices`
+3. And run `ADB:📱 Reset connected devices port to :5555`
+4. And Then `ADB:📱 Connect to device IP` enter your device (settings > status > ip address) IP address and be fine
 
 ![status bar](media/record1.gif)
