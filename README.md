@@ -1,16 +1,15 @@
 # ADB Wifi Code - Under construction
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fvinicioslc%2Fadb-interface-vscode%2Fbadge%3Fref%3Dmaster&style=for-the-badge)](https://actions-badge.atrox.dev/vinicioslc/adb-interface-vscode/goto?ref=master)
+An simple adb extesion that makes possible to connect to an device over wifi connection without console.
 
-### Attention !! ONLY TESTED IN WINDOWS !! (For while, you must have ADB at your Enviroment Variables)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fvinicioslc%2Fadb-interface-vscode%2Fbadge%3Fref%3Dmaster&style=for-the-badge)](https://actions-badge.atrox.dev/vinicioslc/adb-interface-vscode/goto?ref=master)
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url">![Donation will make this tree growth](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)</a>
+
+> #### Help are welcome ;)
 
 > 1k > Installs im so thankful who installed !! \o\o\o\o/o/o/o/
 
-#### Help are welcome ;)
-
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url">![Donation will make this tree growth](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)</a>
-
-An simple adb extesion that makes possible to connect to an device over wifi connection without console.
+`Attention !! ONLY TESTED IN WINDOWS !! (For while, you must have ADB at your Enviroment Variables)`
 
 ## ADB commands.
 
