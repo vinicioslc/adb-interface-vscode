@@ -28,3 +28,9 @@ An simple adb extesion that makes possible to connect to an device over wifi con
 4. And Then `ADB:📱 Connect to device IP` enter your device (settings > status > ip address) IP address and be fine
 
 ![status bar](media/record1.gif)
+
+# TODO
+
+- [ ] easy test and mockable terminal interface
+- [ ] unit tests in everywhere
+- [ ] more easy architecture and easy to extend features
