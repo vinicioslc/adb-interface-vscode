@@ -2,7 +2,7 @@
   "name": "adb-interface-vscode",
   "displayName": "ADB Commands for VSCode",
   "description": "A simple adb interface to allow use adb commands inside VSCode",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "publisher": "vinicioslc",
   "repository": "https://github.com/vinicioslc/adb-interface-vscode",
   "engines": {
@@ -58,21 +58,27 @@
       }
     ]
   },
+  "test": "jest",
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install"
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "pubm": "vsce publish minor",
+    "test": "npx jest --watchAll"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.23",
     "@types/node": "^8.10.59",
+    "diff": ">=3.5.0",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.2.0",
     "tslint": "^5.20.1",
     "typescript": "^2.6.1",
-    "vscode": "^1.1.36",
-    "diff": ">=3.5.0"
+    "vscode": "^1.1.36"
   },
   "dependencies": {
-    "lanscanner": "0.0.5",
-    "diff": ">=3.5.0"
+    "diff": ">=3.5.0",
+    "lanscanner": "0.0.5"
   }
 }

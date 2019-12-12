@@ -1,6 +1,10 @@
 import { ADBResultState, ADBInterface } from '../adb-actions'
 import * as FirebaseExtension from '../firebase-actions'
 import * as vscode from 'vscode'
+import stateKeys from './global-state-keys'
+
+import { ConsoleInterface } from './../console-interface/console-interface'
+const adbInterfaceInstance = new ADBInterface(new ConsoleInterface())
 
 export async function ResetDevicesPort() {
   vscode.window.withProgress(
@@ -10,7 +14,7 @@ export async function ResetDevicesPort() {
     },
     async progress => {
       progress.report({ message: 'Reseting Ports to 5555', increment: 50 })
-      var adbInterfaceResult = await ADBInterface.ResetPorts()
+      var adbInterfaceResult = await adbInterfaceInstance.ResetPorts()
       progress.report({ increment: 85 })
       switch (adbInterfaceResult.state) {
         case ADBResultState.NoDevices:
@@ -29,10 +33,8 @@ export async function ResetDevicesPort() {
   // Display a message box to the user
 }
 
-const LastIPAddressKey = 'lastIPAddress'
-
 export async function ConnectToDevice(context: vscode.ExtensionContext) {
-  let lastvalue = context.globalState.get(LastIPAddressKey, '')
+  let lastvalue = context.globalState.get(stateKeys.lastIPUsed, '')
   // The code you place here will be executed every time your command is executed
   vscode.window
     .showInputBox({
@@ -49,7 +51,7 @@ export async function ConnectToDevice(context: vscode.ExtensionContext) {
 }
 
 function connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
-  context.globalState.update(LastIPAddressKey, value)
+  context.globalState.update(stateKeys.lastIPUsed, value)
   try {
     vscode.window.withProgress(
       {
@@ -58,7 +60,9 @@ function connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
       },
       async progress => {
         progress.report({ message: `Connecting to ${value}`, increment: 50 })
-        var adbInterfaceResult = await ADBInterface.ConnectToDevice(value)
+        var adbInterfaceResult = await adbInterfaceInstance.ConnectToDevice(
+          value
+        )
         progress.report({ increment: 85 })
         switch (adbInterfaceResult.state) {
           case ADBResultState.NoDevices:
@@ -90,7 +94,7 @@ function connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
 
 export async function DisconnectAnyDevice() {
   try {
-    const adbInterfaceResult = await ADBInterface.DisconnectFromAllDevices()
+    const adbInterfaceResult = await adbInterfaceInstance.DisconnectFromAllDevices()
     adbInterfaceResult.state
     switch (adbInterfaceResult.state) {
       case ADBResultState.DisconnectedEverthing:
@@ -112,17 +116,17 @@ export async function DisconnectAnyDevice() {
 export async function ConnectToDeviceFromList(
   context: vscode.ExtensionContext
 ) {
-  const adbInterfaceResult = await ADBInterface.DisconnectFromAllDevices()
-  let items = ADBInterface.GetConnectedDevices()
+  const adbInterfaceResult = await adbInterfaceInstance.DisconnectFromAllDevices()
+  let items = adbInterfaceInstance.GetConnectedDevices()
   let result = await vscode.window.showQuickPick(items, {
     ignoreFocusOut: true,
     placeHolder: 'Enter the IP address from your device to connect to him.'
   })
-  connectToAdbDevice(context, ADBInterface.extractIPAddress(result))
+  connectToAdbDevice(context, adbInterfaceInstance.extractIPAddress(result))
 }
 
 export async function KillADBServer() {
-  const adbInterfaceResult = await ADBInterface.KillADBServer()
+  const adbInterfaceResult = await adbInterfaceInstance.KillADBServer()
   if (adbInterfaceResult.state == ADBResultState.Success) {
     vscode.window.showInformationMessage(adbInterfaceResult.message)
   } else {
@@ -132,12 +136,11 @@ export async function KillADBServer() {
   }
 }
 
-const allPackages = 'last_app_package_name'
 export async function EnableFirebaseDebugView(
   context: vscode.ExtensionContext
 ) {
   try {
-    let lastvalue = context.globalState.get(allPackages, [])
+    let lastvalue = context.globalState.get(stateKeys.allPackages, [])
 
     let packageName = await vscode.window.showInputBox({
       placeHolder: 'com.yourapp.domain',
