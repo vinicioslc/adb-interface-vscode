@@ -144,8 +144,6 @@ export class ADBInterface {
     let returned = new ADBResult(ADBResultState.Error, 'Fail during ADB Kill')
     try {
       const result = execSync('adb kill-server')
-      console.log('adb kill-server')
-      console.log(result.toLocaleString())
       returned = new ADBResult(ADBResultState.Success, 'ADB Server killed')
     } catch (e) {
       returned.message = 'Fail during ADB Kill' + e.message
@@ -178,6 +176,7 @@ export class ADBResult {
   constructor(resultState: ADBResultState, message: string) {
     this.state = resultState
     this.message = message
+    return this
   }
 }
 
