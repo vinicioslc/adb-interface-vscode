@@ -1,5 +1,5 @@
 import { execSync } from 'child_process'
-import { NetHelpers } from '../ip-helpers'
+const find = require('local-devices')
 
 export class ADBInterface {
   static ConnectToDevice(deviceIP: string): ADBResult {
@@ -122,11 +122,9 @@ export class ADBInterface {
           )
           return `${ipAddress} | ${nameOfDevice}`
         })
-        console.log('ips', ips)
-        let moreips = await NetHelpers.getAllLanIPs()
-        console.log('moreips', moreips)
-        for (const variable of moreips) {
-          ips.push(variable)
+        const foundedIPS = await find()
+        for (const foundIP of foundedIPS.map(fdevice => fdevice.ip)) {
+          ips.push(foundIP)
         }
         return ips
       }

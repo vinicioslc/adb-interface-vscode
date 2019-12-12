@@ -73,7 +73,7 @@
     "diff": ">=3.5.0"
   },
   "dependencies": {
-    "lanscanner": "0.0.5",
-    "diff": ">=3.5.0"
+    "diff": ">=3.5.0",
+    "local-devices": "^3.0.0"
   }
 }
