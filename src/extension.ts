@@ -20,7 +20,7 @@ export function activate(context: vscode.ExtensionContext) {
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with registerCommand
   // The commandId parameter must match the command field in package.json
-  const registrar = [
+  const commands = [
     {
       name: 'adbInterface.adbwificonnect',
       callback: () => ConnectToDevice(context)
@@ -48,13 +48,10 @@ export function activate(context: vscode.ExtensionContext) {
     }
   ]
 
-  for (const register of registrar) {
-    let subscription = vscode.commands.registerCommand(
-      register.name,
-      register.callback
-    )
+  commands.forEach(cmd => {
+    let subscription = vscode.commands.registerCommand(cmd.name, cmd.callback)
     context.subscriptions.push(subscription)
-  }
+  })
 }
 
 // this method is called when your extension is deactivated

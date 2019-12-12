@@ -1,34 +1,36 @@
-import { ADBResult, ADBResultState } from '../ADB-Interface'
-import { execSync } from 'child_process'
+import { ADBResult, ADBResultState } from '../adb-manager'
 import { ConsoleChannel } from '../console-channel'
+import firebaseCommands from './firebase-commands'
 
-export class ADBFirebaseInterface extends ConsoleChannel {}
+export class FirebaseManagerChannel extends ConsoleChannel {
+  enableFirebaseDebugView(appPackageID: string) {
+    let finalResult = new ADBResult(ADBResultState.Error, 'Error ocurred')
 
-export function enableFirebaseDebugView(appPackageID: string) {
-  var finalResult = new ADBResult(ADBResultState.Error, 'Invalid package Name')
+    const output = this.consoleInterface
+      .execConsoleSync(
+        firebaseCommands.SHELL_SETPROP_FIREBASE_ANALYTICS(appPackageID)
+      )
+      .toLocaleString()
+    if (output == '') {
+      finalResult = new ADBResult(
+        ADBResultState.Success,
+        `Connected to device ${appPackageID}`
+      )
+    }
 
-  const output: String = execSync(
-    `adb shell setprop debug.firebase.analytics.app ${appPackageID}`
-  ).toLocaleString()
-
-  finalResult = new ADBResult(
-    ADBResultState.Success,
-    `Connected to device ${appPackageID}`
-  )
-
-  return finalResult
-}
-
-export function disableFirebaseDebugView() {
-  var finalResult = new ADBResult(ADBResultState.Error, 'Some Error Ocurred')
-
-  const output: String = execSync(
-    `adb shell setprop debug.firebase.analytics.app .none.`
-  ).toLocaleString()
-
-  if (output.includes('connected to')) {
-    finalResult = new ADBResult(ADBResultState.Success, `Disabled debug mode`)
+    return finalResult
   }
+  disableFirebaseDebugView() {
+    let finalResult = new ADBResult(ADBResultState.Error, 'Some Error Ocurred')
 
-  return finalResult
+    const output: String = this.consoleInterface
+      .execConsoleSync(firebaseCommands.DISABLE_FIREBASE_ANALYTICS())
+      .toLocaleString()
+
+    if (output == '') {
+      finalResult = new ADBResult(ADBResultState.Success, `Disabled debug mode`)
+    }
+
+    return finalResult
+  }
 }

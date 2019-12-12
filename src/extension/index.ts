@@ -1,10 +1,13 @@
-import { ADBResultState, ADBChannel } from '../ADB-Interface'
-import * as FirebaseExtension from '../firebase-actions'
+import { ADBResultState, ADBChannel as ADBManagerChannel } from '../adb-manager'
+import { FirebaseManagerChannel } from '../firebase-actions'
 import * as vscode from 'vscode'
 import stateKeys from './global-state-keys'
 
 import { ConsoleInterface } from '../console-interface'
-const adbInstance = new ADBChannel(new ConsoleInterface())
+const cInterface = new ConsoleInterface()
+
+const firebaseInstance = new FirebaseManagerChannel(cInterface)
+const adbInstance = new ADBManagerChannel(cInterface)
 
 export async function ResetDevicesPort() {
   vscode.window.withProgress(
@@ -114,12 +117,12 @@ export async function DisconnectAnyDevice() {
 export async function ConnectToDeviceFromList(
   context: vscode.ExtensionContext
 ) {
-  const adbInterfaceResult = await adbInstance.DisconnectFromAllDevices()
   let items = adbInstance.GetConnectedDevices()
   let result = await vscode.window.showQuickPick(items, {
     ignoreFocusOut: true,
     placeHolder: 'Enter the IP address from your device to connect to him.'
   })
+  await adbInstance.DisconnectFromAllDevices()
   connectToAdbDevice(context, adbInstance.extractIPAddress(result))
 }
 
@@ -154,7 +157,7 @@ export async function EnableFirebaseDebugView(
         'Enter the "PACKAGE.NAME" from your APP to enable. (Last name will be filled in next time, make sure your device is connected)'
     })
 
-    let adbInterfaceResult = FirebaseExtension.enableFirebaseDebugView(
+    let adbInterfaceResult = firebaseInstance.enableFirebaseDebugView(
       packageName
     )
     switch (adbInterfaceResult.state) {
@@ -176,7 +179,7 @@ export async function DisableFirebaseDebugView(
   context: vscode.ExtensionContext
 ) {
   try {
-    let adbInterfaceResult = FirebaseExtension.disableFirebaseDebugView()
+    let adbInterfaceResult = firebaseInstance.disableFirebaseDebugView()
     switch (adbInterfaceResult.state) {
       case ADBResultState.Success:
         vscode.window.showInformationMessage(adbInterfaceResult.message)

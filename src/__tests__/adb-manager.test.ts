@@ -1,4 +1,4 @@
-import { ADBChannel, ADBResultState, ADBResult } from '../ADB-Interface'
+import { ADBChannel, ADBResultState, ADBResult } from '../adb-manager'
 import { ConsoleInterfaceMock } from '../console-interface/console-interface-mock'
 // import { ConsoleInterface } from './../console-interface/console-interface'
 
@@ -8,9 +8,9 @@ const adbInterfaceInstance = new ADBChannel(cimock)
 
 test('Test ADB Server has killed', async () => {
   cimock.setConsoleOutput('')
-  let result = await adbInterfaceInstance.KillADBServer()
+  const result = await adbInterfaceInstance.KillADBServer()
 
-  let expected = await new ADBResult(
+  const expected = await new ADBResult(
     ADBResultState.Success,
     'ADB Server killed'
   )
@@ -19,13 +19,12 @@ test('Test ADB Server has killed', async () => {
 })
 
 test('Test ADB Listed Devices', async () => {
-  const str = `* daemon not running; starting now at tcp:5037
+  cimock.setConsoleOutput(`* daemon not running; starting now at tcp:5037
 * daemon started successfully
 List of devices attached
 
-`
-  cimock.setConsoleOutput(str)
-  let result = await adbInterfaceInstance.GetConnectedDevices()
+`)
+  const result = await adbInterfaceInstance.GetConnectedDevices()
 
   expect(typeof result).toStrictEqual(typeof Array())
 })
