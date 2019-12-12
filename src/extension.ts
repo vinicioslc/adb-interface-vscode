@@ -7,7 +7,8 @@ import {
   ConnectToDevice,
   ConnectToDeviceFromList,
   EnableFirebaseDebugView,
-  DisableFirebaseDebugView
+  DisableFirebaseDebugView,
+  KillADBServer
 } from './extension/index'
 
 // this method is called when your extension is activated
@@ -40,6 +41,10 @@ export function activate(context: vscode.ExtensionContext) {
     {
       name: 'adbInterface.disableFirebaseDebug',
       callback: () => DisableFirebaseDebugView(context)
+    },
+    {
+      name: 'adbInterface.killserver',
+      callback: () => KillADBServer()
     }
   ]
 

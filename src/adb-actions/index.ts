@@ -12,9 +12,8 @@ export class ADBInterface {
     )
 
     const result = execSync(`adb connect ${deviceIP}:5555`)
-    // const result = execSync(`adb devices`);
+
     const output: String = result.toLocaleString()
-    // console.log("Output:", output);
 
     if (output.includes('connected to')) {
       finalResult = new ADBResult(
@@ -140,6 +139,19 @@ export class ADBInterface {
     const regexIP = /([\d]+\.[\d]+\.[\d]+\.[\d]+)/gim
     var matches = regexIP.exec(ipAddress) || ['']
     return matches[0]
+  }
+
+  static async KillADBServer(): Promise<ADBResult> {
+    let returned = new ADBResult(ADBResultState.Error, 'Fail during ADB Kill')
+    try {
+      const result = execSync('adb kill-server')
+      console.log('adb kill-server')
+      console.log(result.toLocaleString())
+      returned = new ADBResult(ADBResultState.Success, 'ADB Server killed')
+    } catch (e) {
+      returned.message = 'Fail during ADB Kill' + e.message
+    }
+    return returned
   }
 }
 
