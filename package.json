@@ -8,7 +8,7 @@
   "engines": {
     "vscode": "^1.25.0"
   },
-  "icon": "media/icon.jpg",
+  "icon": "https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/media/icon.jpg",
   "galleryBanner": {
     "color": "#000",
     "theme": "dark"
@@ -60,6 +60,7 @@
   },
   "test": "jest",
   "scripts": {
+    "setup": "npm install",
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",

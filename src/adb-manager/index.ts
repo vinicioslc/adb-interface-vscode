@@ -1,13 +1,11 @@
 import { NetHelpers } from '../ip-helpers'
-import { IConsoleInterface } from '../console-interface/iconsole-interface'
 
-import adbCommands from './adb-shell-commands'
+import adbCommands from './adb-commands'
+import { ConsoleChannel } from '../console-channel'
+import adbReturns from './adb-returns'
+import adbMessages from './adb-messages'
 
-export class ADBInterface {
-  consoleInterface: IConsoleInterface
-  constructor(consoleInterface: IConsoleInterface) {
-    this.consoleInterface = consoleInterface
-  }
+export class ADBChannel extends ConsoleChannel {
   ConnectToDevice(deviceIP: string): ADBResult {
     deviceIP = this.extractIPAddress(deviceIP)
 
@@ -16,8 +14,8 @@ export class ADBInterface {
       'Some error ocurred during connection'
     )
 
-    const result = this.consoleInterface.execConsoleSync(
-      `adb connect ${deviceIP}:5555`
+    const result = super.consoleInterface.execConsoleSync(
+      adbCommands.CONNECT_IP_AND_PORT(deviceIP)
     )
 
     const output: String = result.toLocaleString()
@@ -49,46 +47,33 @@ export class ADBInterface {
       'Error while reset TCPIP Ports'
     )
     try {
-      const result = this.consoleInterface.execConsoleSync(`adb tcpip 5555`)
+      const result = this.consoleInterface.execConsoleSync(
+        adbCommands.RESET_PORTS()
+      )
       const output = result.toLocaleString()
-      if (output.includes('restarting in TCP mode port: 5555')) {
+      if (output.includes(adbReturns.RESTARTING_PORT())) {
         finalResult = new ADBResult(
           ADBResultState.DevicesInPortMode,
-          'Devices in TCP mode port: 5555'
+          adbMessages.DEVICES_IN_TCP_MODE()
         )
       }
     } catch (e) {
       if (e.message.includes('no devices/emulators found')) {
         finalResult = new ADBResult(
           ADBResultState.NoDevices,
-          'No devices found or conected'
+          adbMessages.NO_DEVICES_FOUND()
         )
-      } else finalResult = new ADBResult(ADBResultState.Error, e.message)
+      } else {
+        finalResult = new ADBResult(ADBResultState.Error, 'Error: ' + e.message)
+      }
     }
     return finalResult
   }
 
   getDeviceName(deviceIP: string): string {
-    const result = this.consoleInterface
-      .execConsoleSync(`adb -s ${deviceIP} shell getprop ro.product.model`)
+    return this.consoleInterface
+      .execConsoleSync(adbCommands.SHELL_GETPROP_ROPRODUCTMODEL(deviceIP))
       .toString()
-    return result
-  }
-
-  firebaseEventsDebug({ package_name }): string {
-    const result = this.consoleInterface
-      .execConsoleSync(
-        `adb shell setprop debug.firebase.analytics.app ${package_name}`
-      )
-      .toString()
-    return result
-  }
-
-  disableFirebaseEventsDebug(): string {
-    const result = this.consoleInterface
-      .execConsoleSync(`adb shell setprop debug.firebase.analytics.app .none.`)
-      .toString()
-    return result
   }
 
   async DisconnectFromAllDevices(): Promise<ADBResult> {
@@ -97,7 +82,9 @@ export class ADBInterface {
       'Error while reset TCPIP Ports'
     )
     try {
-      const result = this.consoleInterface.execConsoleSync(`adb disconnect`)
+      const result = this.consoleInterface.execConsoleSync(
+        adbCommands.ADB_DISCONNECT_ALL()
+      )
       const output = result.toLocaleString()
       if (output.includes('disconnected everything')) {
         finalResult = new ADBResult(
@@ -122,7 +109,7 @@ export class ADBInterface {
     var devicesArray = []
     try {
       const result = this.consoleInterface.execConsoleSync(
-        adbCommands.ADB_DEVICES
+        adbCommands.ADB_DEVICES()
       )
       const output = result.toLocaleString()
       if (output.includes('List of devices attached')) {
@@ -155,7 +142,7 @@ export class ADBInterface {
     let returned = new ADBResult(ADBResultState.Error, 'Fail during ADB Kill')
     try {
       const result = this.consoleInterface.execConsoleSync(
-        adbCommands.ADB_KILL_SERVER
+        adbCommands.ADB_KILL_SERVER()
       )
       if (result.toLocaleString() === '') {
         returned = new ADBResult(ADBResultState.Success, 'ADB Server killed')
@@ -196,5 +183,5 @@ export class ADBResult {
 }
 
 export class ADBNotFoundError extends Error {
-  message = 'ADB Device not found in this machine'
+  message = adbMessages.ADB_DEVICE_NOT_FOUND()
 }
