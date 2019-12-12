@@ -1,10 +1,10 @@
-import { ADBInterface, ADBResultState, ADBResult } from './../adb-actions'
+import { ADBChannel, ADBResultState, ADBResult } from '../ADB-Interface'
 import { ConsoleInterfaceMock } from '../console-interface/console-interface-mock'
 // import { ConsoleInterface } from './../console-interface/console-interface'
 
 // Mocked ConsoleInterface
 const cimock = new ConsoleInterfaceMock()
-const adbInterfaceInstance = new ADBInterface(cimock)
+const adbInterfaceInstance = new ADBChannel(cimock)
 
 test('Test ADB Server has killed', async () => {
   cimock.setConsoleOutput('')

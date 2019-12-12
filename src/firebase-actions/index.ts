@@ -1,5 +1,8 @@
-import { ADBResult, ADBResultState } from '../adb-actions'
+import { ADBResult, ADBResultState } from '../ADB-Interface'
 import { execSync } from 'child_process'
+import { ConsoleChannel } from '../console-channel'
+
+export class ADBFirebaseInterface extends ConsoleChannel {}
 
 export function enableFirebaseDebugView(appPackageID: string) {
   var finalResult = new ADBResult(ADBResultState.Error, 'Invalid package Name')
