@@ -122,9 +122,8 @@ export class ADBInterface {
           )
           return `${ipAddress} | ${nameOfDevice}`
         })
-        console.log('ips', ips)
+        // found devices on lan
         let moreips = await NetHelpers.getAllLanIPs()
-        console.log('moreips', moreips)
         for (const variable of moreips) {
           ips.push(variable)
         }
