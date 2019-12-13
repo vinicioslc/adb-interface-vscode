@@ -8,7 +8,7 @@ on:
   pull_request:
     branches:
       - master
-        -
+      - release/*
 jobs:
   test:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
