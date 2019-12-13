@@ -1,4 +1,4 @@
-# ADB Wifi Code - Under construction
+# ADB Interface For VS Code
 
 An simple adb extesion that makes possible to connect to an device over wifi connection without console.
 
