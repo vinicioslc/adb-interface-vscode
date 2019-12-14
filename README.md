@@ -13,7 +13,7 @@ An simple adb extesion that makes possible to connect to an device over wifi con
 
 > 1k > Installs im so thankful who installed !! \o\o\o\o/o/o/o/
 
-`Attention !! ONLY TESTED IN WINDOWS !! (For while, you must have ADB at your Enviroment Variables)`
+`⚠️ Attention !! ONLY TESTED IN WINDOWS !! (For while, you must have ADB at your Enviroment Variables)`
 
 ## ADB commands.
 
@@ -36,6 +36,7 @@ An simple adb extesion that makes possible to connect to an device over wifi con
 
 # TODO
 
-- [ ] easy test and mockable terminal interface
-- [ ] unit tests in everywhere
+- [x] easy test and mockable terminal interface
+- [ ] unit tests in everywhere 100% Code Coverage
 - [ ] more easy architecture and easy to extend features
+- [ ] clean arquitecture for every module
