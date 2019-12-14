@@ -4,6 +4,7 @@ import * as vscode from 'vscode'
 import stateKeys from './global-state-keys'
 
 import { ConsoleInterface } from '../console-interface'
+import globalStateKeys from './global-state-keys'
 const cInterface = new ConsoleInterface()
 
 const firebaseInstance = new FirebaseManagerChannel(cInterface)
@@ -113,19 +114,6 @@ export async function DisconnectAnyDevice() {
     )
   }
 }
-
-export async function ConnectToDeviceFromList(
-  context: vscode.ExtensionContext
-) {
-  let items = adbInstance.GetConnectedDevices()
-  let result = await vscode.window.showQuickPick(items, {
-    ignoreFocusOut: true,
-    placeHolder: 'Enter the IP address from your device to connect to him.'
-  })
-  await adbInstance.DisconnectFromAllDevices()
-  connectToAdbDevice(context, adbInstance.extractIPAddress(result))
-}
-
 export async function KillADBServer() {
   const adbInterfaceResult = await adbInstance.KillADBServer()
   if (adbInterfaceResult.state == ADBResultState.Success) {
@@ -137,6 +125,35 @@ export async function KillADBServer() {
   }
 }
 
+export async function ConnectToDeviceFromList(
+  context: vscode.ExtensionContext
+) {
+  const ipAddresses = await getIPAddressList(context)
+  const ipSelected = await vscode.window.showQuickPick(ipAddresses, {
+    ignoreFocusOut: true,
+    placeHolder: 'Select the IP address of the device to connect to...'
+  })
+  if (ipSelected == null) {
+    vscode.window.showErrorMessage('Device IP Address not selected.')
+  } else {
+    // wait disconnect from adb device
+    await adbInstance.DisconnectFromAllDevices()
+    connectToAdbDevice(context, adbInstance.extractIPAddress(ipSelected))
+  }
+}
+
+async function getIPAddressList(context) {
+  const connectedDevices = await adbInstance.GetConnectedDevices()
+  const lastIPSelected = await context.globalState.get(
+    globalStateKeys.lastIPUsed,
+    ''
+  )
+  if (lastIPSelected != null && lastIPSelected != '') {
+    // add last selected ip to begining of array
+    connectedDevices.unshift(lastIPSelected)
+  }
+  return connectedDevices
+}
 export async function EnableFirebaseDebugView(
   context: vscode.ExtensionContext
 ) {
