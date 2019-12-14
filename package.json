@@ -76,7 +76,7 @@
     "jest": "^24.9.0",
     "ts-jest": "^24.2.0",
     "tslint": "^5.20.1",
-    "typescript": "^2.6.1",
+    "typescript": "^3.7.3",
     "vscode": "^1.1.36"
   },
   "dependencies": {
