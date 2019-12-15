@@ -3,7 +3,7 @@ export default {
   /**
    * Shows an list of devices attached to adb and restart adb server if it as killed before
    */
-  ADB_DEVICES: () => 'adb devices',
+  LIST_ADB_DEVICES: () => 'adb devices',
   /**
    * Kills ADB Server needing some command to restart
    */

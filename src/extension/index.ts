@@ -5,7 +5,7 @@ import stateKeys from './global-state-keys'
 
 import { ConsoleInterface } from '../console-interface'
 import globalStateKeys from './global-state-keys'
-import helpers from '../adb-manager/helpers'
+import { IPHelpers } from './../adb-manager/helpers'
 
 const cInterface = new ConsoleInterface()
 
@@ -140,7 +140,7 @@ export async function ConnectToDeviceFromList(
   } else {
     // wait disconnect from adb device
     await adbInstance.DisconnectFromAllDevices()
-    connectToAdbDevice(context, helpers.extractIPRegex(ipSelected))
+    connectToAdbDevice(context, IPHelpers.extractIPRegex(ipSelected))
   }
 }
 
@@ -194,9 +194,7 @@ export async function EnableFirebaseDebugView(
   }
 }
 
-export async function DisableFirebaseDebugView(
-  context: vscode.ExtensionContext
-) {
+export async function DisableFirebaseDebugView() {
   try {
     let adbInterfaceResult = firebaseInstance.disableFirebaseDebugView()
     switch (adbInterfaceResult.state) {
