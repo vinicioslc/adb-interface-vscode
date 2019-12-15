@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 export default {
   SHELL_SETPROP_FIREBASE_ANALYTICS: (package_name = '') =>
     `adb shell setprop debug.firebase.analytics.app ${package_name}`,

@@ -34,3 +34,11 @@ test('Disable firebase debugview', async () => {
 
   expect(result.state).toStrictEqual(ADBResultState.Success)
 })
+
+test('Enable firebase debugview success', async () => {
+  cimock.setConsoleOutput('')
+  const result = await adbInterfaceInstance.enableFirebaseDebugView(
+    'com.package'
+  )
+  expect(result.state).toStrictEqual(ADBResultState.Success)
+})

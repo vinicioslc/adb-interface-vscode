@@ -4,32 +4,38 @@ import adbCommands from './adb-commands'
 import { ConsoleChannel } from '../console-channel'
 import adbReturns from './adb-returns'
 import adbMessages from './adb-messages'
+import helpers from './helpers'
 
 export class ADBChannel extends ConsoleChannel {
-  ConnectToDevice(deviceIP: string): ADBResult {
-    deviceIP = this.extractIPAddress(deviceIP)
+  /**
+   *  connect to a given ip address
+   * @param deviceIPAddress "192.168.1.100"
+   */
+  ConnectToDevice(deviceIPAddress: string): ADBResult {
+    deviceIPAddress = helpers.extractIPRegex(deviceIPAddress)
 
-    var finalResult = new ADBResult(
+    let finalResult = new ADBResult(
       ADBResultState.Error,
       'Some error ocurred during connection'
     )
 
-    const result = super.consoleInterface.execConsoleSync(
-      adbCommands.CONNECT_IP_AND_PORT(deviceIP)
+    const result = this.consoleInterface.execConsoleSync(
+      adbCommands.CONNECT_IP_AND_PORT(deviceIPAddress)
     )
+    const output: string = result.toLocaleString()
 
-    const output: String = result.toLocaleString()
+    const deviceName = this.getDeviceName(deviceIPAddress)
 
     if (output.includes('connected to')) {
       finalResult = new ADBResult(
         ADBResultState.ConnectedToDevice,
-        `Connected to device ${this.getDeviceName(deviceIP)}`
+        `Connected to: ${deviceName}`
       )
     }
     if (output.includes('already connected to')) {
       finalResult = new ADBResult(
         ADBResultState.AllreadyConnected,
-        `Allready connected to device ${this.getDeviceName(deviceIP)}`
+        `Allready connected to device ${deviceName}`
       )
     }
     if (output.includes('(10061)')) {
@@ -116,8 +122,8 @@ export class ADBChannel extends ConsoleChannel {
         let ips = output.split(/[\r]|[\n]/gim)
         ips = ips.filter(ip => this.testIP(ip))
         ips = ips.map(ipAddress => {
-          let nameOfDevice = this.getDeviceName(
-            this.extractIPAddress(ipAddress)
+          const nameOfDevice = this.getDeviceName(
+            helpers.extractIPRegex(ipAddress)
           )
           return `${ipAddress} | ${nameOfDevice}`
         })
@@ -130,12 +136,6 @@ export class ADBChannel extends ConsoleChannel {
       }
     } catch (e) {}
     return devicesArray
-  }
-
-  extractIPAddress(ipAddress: string): string {
-    const regexIP = /([\d]+\.[\d]+\.[\d]+\.[\d]+)/gim
-    var matches = regexIP.exec(ipAddress) || ['']
-    return matches[0]
   }
 
   async KillADBServer(): Promise<ADBResult> {
