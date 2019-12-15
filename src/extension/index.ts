@@ -5,6 +5,8 @@ import stateKeys from './global-state-keys'
 
 import { ConsoleInterface } from '../console-interface'
 import globalStateKeys from './global-state-keys'
+import helpers from '../adb-manager/helpers'
+
 const cInterface = new ConsoleInterface()
 
 const firebaseInstance = new FirebaseManagerChannel(cInterface)
@@ -138,7 +140,7 @@ export async function ConnectToDeviceFromList(
   } else {
     // wait disconnect from adb device
     await adbInstance.DisconnectFromAllDevices()
-    connectToAdbDevice(context, adbInstance.extractIPAddress(ipSelected))
+    connectToAdbDevice(context, helpers.extractIPRegex(ipSelected))
   }
 }
 
