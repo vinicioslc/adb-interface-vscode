@@ -1,13 +1,13 @@
 import { execSync } from 'child_process'
 import { IConsoleInterface } from './iconsole-interface'
 
-interface consoleCallback {
+interface ConsoleCallback {
   (myArgument: string): Buffer
 }
 
 export class ConsoleInterfaceMock implements IConsoleInterface {
   private _output: Buffer
-  private _callback: consoleCallback
+  private _callback: ConsoleCallback
 
   constructor() {
     this._output = Buffer.from('')
@@ -22,12 +22,12 @@ export class ConsoleInterfaceMock implements IConsoleInterface {
     }
   }
 
-  setCallbackMock(callback: consoleCallback): void {
+  setCallbackMock(callback: ConsoleCallback): void {
     this._callback = callback
   }
 
   execConsoleSync(command: string): Buffer {
-    if (this._callback) {
+    if (this._callback != null) {
       return this._callback(command)
     }
     return this._output

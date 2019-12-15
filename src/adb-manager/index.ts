@@ -4,15 +4,15 @@ import adbCommands from './adb-commands'
 import { ConsoleChannel } from '../console-channel'
 import adbReturns from './adb-returns'
 import adbMessages from './adb-messages'
-import helpers from './helpers'
+import * as helpers from './helpers'
 
 export class ADBChannel extends ConsoleChannel {
   /**
    *  connect to a given ip address
-   * @param deviceIPAddress "192.168.1.100"
+   * @param ipAddress "192.168.1.100"
    */
-  ConnectToDevice(deviceIPAddress: string): ADBResult {
-    deviceIPAddress = helpers.extractIPRegex(deviceIPAddress)
+  ConnectToDevice(ipAddress: string): ADBResult {
+    const deviceIP = helpers.extractIPRegex(ipAddress)
 
     let finalResult = new ADBResult(
       ADBResultState.Error,
@@ -20,11 +20,11 @@ export class ADBChannel extends ConsoleChannel {
     )
 
     const result = this.consoleInterface.execConsoleSync(
-      adbCommands.CONNECT_IP_AND_PORT(deviceIPAddress)
+      adbCommands.CONNECT_IP_AND_PORT(deviceIP)
     )
-    const output: string = result.toLocaleString()
+    const output = result.toLocaleString()
 
-    const deviceName = this.getDeviceName(deviceIPAddress)
+    const deviceName = this.getDeviceName(deviceIP)
 
     if (output.includes('connected to')) {
       finalResult = new ADBResult(
@@ -35,7 +35,7 @@ export class ADBChannel extends ConsoleChannel {
     if (output.includes('already connected to')) {
       finalResult = new ADBResult(
         ADBResultState.AllreadyConnected,
-        `Allready connected to device ${deviceName}`
+        `Allready connected to: ${deviceName}`
       )
     }
     if (output.includes('(10061)')) {
@@ -103,14 +103,6 @@ export class ADBChannel extends ConsoleChannel {
     }
     return finalResult
   }
-  /**
-   * Returns if the ipAddress contains some ip address pattern
-   * @param ipAddress string to test
-   */
-  testIP(ipAddress: string): Boolean {
-    const regexIP = /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1}\.[0-9]{1,3})/gim
-    return regexIP.test(ipAddress)
-  }
   async GetConnectedDevices(): Promise<Array<string>> {
     var devicesArray = []
     try {
@@ -120,7 +112,7 @@ export class ADBChannel extends ConsoleChannel {
       const output = result.toLocaleString()
       if (output.includes('List of devices attached')) {
         let ips = output.split(/[\r]|[\n]/gim)
-        ips = ips.filter(ip => this.testIP(ip))
+        ips = ips.filter(ip => helpers.isAnIPAddress(ip))
         ips = ips.map(ipAddress => {
           const nameOfDevice = this.getDeviceName(
             helpers.extractIPRegex(ipAddress)
