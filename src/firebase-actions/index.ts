@@ -6,7 +6,7 @@ export class FirebaseManagerChannel extends ConsoleChannel {
   enableFirebaseDebugView(appPackageID: string) {
     let finalResult = new ADBResult(ADBResultState.Error, 'Error ocurred')
 
-    const output = this.consoleInterface
+    const output = this.consoleInstance
       .execConsoleSync(
         firebaseCommands.SHELL_SETPROP_FIREBASE_ANALYTICS(appPackageID)
       )
@@ -23,7 +23,7 @@ export class FirebaseManagerChannel extends ConsoleChannel {
   disableFirebaseDebugView() {
     let finalResult = new ADBResult(ADBResultState.Error, 'Some Error Ocurred')
 
-    const output: String = this.consoleInterface
+    const output: String = this.consoleInstance
       .execConsoleSync(firebaseCommands.DISABLE_FIREBASE_ANALYTICS())
       .toLocaleString()
 

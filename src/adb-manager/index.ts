@@ -4,7 +4,7 @@ import adbCommands from './adb-commands'
 import { ConsoleChannel } from '../console-channel'
 import adbReturns from './adb-returns'
 import adbMessages from './adb-messages'
-import { IPHelpers } from './helpers'
+import { IPHelpers, DeviceHelpers } from './helpers'
 
 export class ADBChannel extends ConsoleChannel {
   /**
@@ -19,11 +19,14 @@ export class ADBChannel extends ConsoleChannel {
       'Some error ocurred during connection'
     )
 
-    const result = this.consoleInterface.execConsoleSync(
+    const result = this.consoleInstance.execConsoleSync(
       adbCommands.CONNECT_IP_AND_PORT(deviceIP)
     )
     const output = result.toLocaleString()
-    const deviceName = this.queryDeviceName(deviceIP)
+    const deviceName = DeviceHelpers.getDeviceModel(
+      this.consoleInstance,
+      deviceIP
+    )
 
     if (output.includes(adbReturns.CONNECTED_TO())) {
       finalResult = new ADBResult(
@@ -58,7 +61,7 @@ export class ADBChannel extends ConsoleChannel {
       'Error while reset TCP IP Ports'
     )
     try {
-      const result = this.consoleInterface.execConsoleSync(
+      const result = this.consoleInstance.execConsoleSync(
         adbCommands.RESET_PORTS()
       )
       const output = result.toLocaleString()
@@ -81,19 +84,13 @@ export class ADBChannel extends ConsoleChannel {
     return finalResult
   }
 
-  queryDeviceName(deviceIP: string): string {
-    return this.consoleInterface
-      .execConsoleSync(adbCommands.SHELL_GETPROP_ROPRODUCTMODEL(deviceIP))
-      .toLocaleString()
-  }
-
   async DisconnectFromAllDevices(): Promise<ADBResult> {
     var finalResult = new ADBResult(
       ADBResultState.Error,
       'Error while reset TCPIP Ports'
     )
     try {
-      const result = this.consoleInterface.execConsoleSync(
+      const result = this.consoleInstance.execConsoleSync(
         adbCommands.ADB_DISCONNECT_ALL()
       )
       const output = result.toLocaleString()
@@ -108,10 +105,10 @@ export class ADBChannel extends ConsoleChannel {
     }
     return finalResult
   }
-  async GetConnectedDevices(): Promise<Array<string>> {
+  async FindConnectedDevices(): Promise<Array<string>> {
     var devicesArray = []
     try {
-      const result = this.consoleInterface.execConsoleSync(
+      const result = this.consoleInstance.execConsoleSync(
         adbCommands.LIST_ADB_DEVICES()
       )
       const output = result.toLocaleString()
@@ -120,7 +117,10 @@ export class ADBChannel extends ConsoleChannel {
         ips = ips.filter(ip => IPHelpers.isAnIPAddress(ip))
         ips = ips.map(ipAddress => {
           let deviceIP = IPHelpers.extractIPRegex(ipAddress)
-          let nameOfDevice = this.queryDeviceName(deviceIP)
+          let nameOfDevice = DeviceHelpers.getDeviceModel(
+            this.consoleInstance,
+            deviceIP
+          )
           return `${deviceIP} | ${nameOfDevice}`
         })
         // found devices on lan
@@ -137,11 +137,13 @@ export class ADBChannel extends ConsoleChannel {
   async KillADBServer(): Promise<ADBResult> {
     let returned = new ADBResult(ADBResultState.Error, 'Fail during ADB Kill')
     try {
-      const result = this.consoleInterface.execConsoleSync(
+      const result = this.consoleInstance.execConsoleSync(
         adbCommands.ADB_KILL_SERVER()
       )
-      if (result.toLocaleString() == '') {
+      if (result.toLocaleString() == adbReturns.ADB_KILLED_SUCCESS_RETURN()) {
         returned = new ADBResult(ADBResultState.Success, 'ADB Server killed')
+      } else {
+        throw Error('Internal error ocurred')
       }
     } catch (e) {
       returned.message = 'Fail \n ' + e.message

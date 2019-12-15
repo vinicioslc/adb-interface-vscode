@@ -37,6 +37,7 @@ An simple adb extesion that makes possible to connect to an device over wifi con
 # TODO
 
 - [x] easy test and mockable terminal interface
-- [ ] unit tests in everywhere 100% Code Coverage
+- [ ] add exceptions instead ADBResultState.Error
+- [ ] unit tests in everywhere 100% Code Coverage currently 76.8%
 - [ ] more easy architecture and easy to extend features
 - [ ] clean arquitecture for every module

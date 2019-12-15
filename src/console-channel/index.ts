@@ -1,11 +1,11 @@
 import { IConsoleInterface } from '../console-interface/iconsole-interface'
 
 export class ConsoleChannel {
-  consoleInterface: IConsoleInterface
+  consoleInstance: IConsoleInterface
   constructor(CiInstance: IConsoleInterface) {
-    this.consoleInterface = CiInstance
+    this.consoleInstance = CiInstance
   }
   sendCommandSync(consoleCommand: string): Buffer {
-    return this.consoleInterface.execConsoleSync(consoleCommand)
+    return this.consoleInstance.execConsoleSync(consoleCommand)
   }
 }

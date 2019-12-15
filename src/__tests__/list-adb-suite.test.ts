@@ -12,7 +12,7 @@ test('Test ADB Listed Devices', async () => {
   List of devices attached
   
   `)
-  const result = await adbInterfaceInstance.GetConnectedDevices()
+  const result = await adbInterfaceInstance.FindConnectedDevices()
 
   expect(typeof result).toStrictEqual(typeof Array())
 })

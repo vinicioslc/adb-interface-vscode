@@ -40,7 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
     },
     {
       name: 'adbInterface.disableFirebaseDebug',
-      callback: () => DisableFirebaseDebugView(context)
+      callback: () => DisableFirebaseDebugView()
     },
     {
       name: 'adbInterface.killserver',

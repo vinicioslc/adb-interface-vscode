@@ -145,7 +145,7 @@ export async function ConnectToDeviceFromList(
 }
 
 async function getIPAddressList(context) {
-  const connectedDevices = await adbInstance.GetConnectedDevices()
+  const connectedDevices = await adbInstance.FindConnectedDevices()
   const lastIPSelected = await context.globalState.get(
     globalStateKeys.lastIPUsed,
     ''
