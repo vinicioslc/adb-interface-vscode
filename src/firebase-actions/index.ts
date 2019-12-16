@@ -10,7 +10,7 @@ export class FirebaseManagerChannel extends ConsoleChannel {
       .execConsoleSync(
         firebaseCommands.SHELL_SETPROP_FIREBASE_ANALYTICS(appPackageID)
       )
-      .toLocaleString()
+      .toString()
     if (output == '') {
       finalResult = new ADBResult(
         ADBResultState.Success,
@@ -25,7 +25,7 @@ export class FirebaseManagerChannel extends ConsoleChannel {
 
     const output: String = this.consoleInstance
       .execConsoleSync(firebaseCommands.DISABLE_FIREBASE_ANALYTICS())
-      .toLocaleString()
+      .toString()
 
     if (output == '') {
       finalResult = new ADBResult(ADBResultState.Success, `Disabled debug mode`)

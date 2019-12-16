@@ -22,7 +22,7 @@ export class ADBChannel extends ConsoleChannel {
     const result = this.consoleInstance.execConsoleSync(
       adbCommands.CONNECT_IP_AND_PORT(deviceIP)
     )
-    const output = result.toLocaleString()
+    const output = result.toString()
     const deviceName = DeviceHelpers.getDeviceModel(
       this.consoleInstance,
       deviceIP
@@ -56,7 +56,7 @@ export class ADBChannel extends ConsoleChannel {
     return finalResult
   }
   async ResetPorts(): Promise<ADBResult> {
-    var finalResult = new ADBResult(
+    let finalResult = new ADBResult(
       ADBResultState.Error,
       'Error while reset TCP IP Ports'
     )
@@ -64,7 +64,7 @@ export class ADBChannel extends ConsoleChannel {
       const result = this.consoleInstance.execConsoleSync(
         adbCommands.RESET_PORTS()
       )
-      const output = result.toLocaleString()
+      const output = result.toString()
       if (output.includes(adbReturns.RESTARTING_PORT())) {
         finalResult = new ADBResult(
           ADBResultState.DevicesInPortMode,
@@ -72,6 +72,7 @@ export class ADBChannel extends ConsoleChannel {
         )
       }
     } catch (e) {
+      console.log()
       if (e.message.includes(adbReturns.NO_DEVICES_FOUND())) {
         finalResult = new ADBResult(
           ADBResultState.NoDevices,
@@ -93,7 +94,7 @@ export class ADBChannel extends ConsoleChannel {
       const result = this.consoleInstance.execConsoleSync(
         adbCommands.ADB_DISCONNECT_ALL()
       )
-      const output = result.toLocaleString()
+      const output = result.toString()
       if (output.includes(adbReturns.DISCONNECTED_EVERTHING())) {
         finalResult = new ADBResult(
           ADBResultState.DisconnectedEverthing,
@@ -111,7 +112,7 @@ export class ADBChannel extends ConsoleChannel {
       const result = this.consoleInstance.execConsoleSync(
         adbCommands.LIST_ADB_DEVICES()
       )
-      const output = result.toLocaleString()
+      const output = result.toString()
       if (output.includes(adbReturns.LISTING_DEVICES())) {
         let ips = output.split(/[\r]|[\n]/gim)
         ips = ips.filter(ip => IPHelpers.isAnIPAddress(ip))
@@ -140,7 +141,7 @@ export class ADBChannel extends ConsoleChannel {
       const result = this.consoleInstance.execConsoleSync(
         adbCommands.ADB_KILL_SERVER()
       )
-      if (result.toLocaleString() == adbReturns.ADB_KILLED_SUCCESS_RETURN()) {
+      if (result.toString() == adbReturns.ADB_KILLED_SUCCESS_RETURN()) {
         returned = new ADBResult(ADBResultState.Success, 'ADB Server killed')
       } else {
         throw Error('Internal error ocurred')

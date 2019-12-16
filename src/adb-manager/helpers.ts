@@ -36,7 +36,7 @@ export class DeviceHelpers {
   ): string {
     return ConsoleInstance.execConsoleSync(
       adbCommands.GET_DEVICE_MODEL(ipAddress)
-    ).toLocaleString()
+    ).toString()
   }
 
   static getDeviceModel(
@@ -45,6 +45,6 @@ export class DeviceHelpers {
   ): string {
     return ConsoleInstance.execConsoleSync(
       adbCommands.GET_DEVICE_MODEL(deviceIP)
-    ).toLocaleString()
+    ).toString()
   }
 }
