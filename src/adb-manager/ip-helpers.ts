@@ -1,3 +1,6 @@
+/**
+ * Helpers for manipulate IP String Addresses
+ */
 export class IPHelpers {  
   static ipv4Regex = /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})/gim
   static minimumAcceptableMatches = 0

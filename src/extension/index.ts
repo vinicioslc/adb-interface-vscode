@@ -1,4 +1,8 @@
-import { ADBResultState, ADBChannel as ADBManagerChannel } from '../adb-manager'
+import {
+  ADBResultState,
+  ADBChannel as ADBManagerChannel,
+  ADBInterfaceException
+} from '../adb-manager'
 import { FirebaseManagerChannel } from '../firebase-actions'
 import * as vscode from 'vscode'
 
@@ -18,21 +22,25 @@ export async function ResetDevicesPort() {
       title: 'Starting ADB'
     },
     async progress => {
-      progress.report({ message: 'Reseting Ports to 5555', increment: 50 })
-      var adbInterfaceResult = await adbInstance.ResetPorts()
-      progress.report({ increment: 85 })
-      switch (adbInterfaceResult.state) {
-        case ADBResultState.NoDevices:
-          vscode.window.showWarningMessage(adbInterfaceResult.message)
-          break
-        case ADBResultState.DevicesInPortMode:
-          vscode.window.showInformationMessage(adbInterfaceResult.message)
-          break
-        default:
-          vscode.window.showErrorMessage(adbInterfaceResult.message)
-          break
+      try {
+        progress.report({ message: 'Reseting ports to 5555', increment: 50 })
+        var adbInterfaceResult = await adbInstance.ResetPorts()
+        progress.report({ increment: 85 })
+        switch (adbInterfaceResult.state) {
+          case ADBResultState.NoDevices:
+            vscode.window.showWarningMessage(adbInterfaceResult.message)
+            break
+          case ADBResultState.DevicesInPortMode:
+            vscode.window.showInformationMessage(adbInterfaceResult.message)
+            break
+          default:
+            vscode.window.showErrorMessage(adbInterfaceResult.message)
+            break
+        }
+        return async () => {}
+      } catch (e) {
+        vscode.window.showErrorMessage('ADB Interface: ' + e.message)
       }
-      return async () => {}
     }
   )
   // Display a message box to the user
@@ -71,14 +79,8 @@ function connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
           case ADBResultState.NoDevices:
             vscode.window.showWarningMessage(adbInterfaceResult.message)
             break
-          case ADBResultState.ConnectionRefused:
-            vscode.window.showWarningMessage(adbInterfaceResult.message)
-            break
           case ADBResultState.AllreadyConnected:
             vscode.window.showWarningMessage(adbInterfaceResult.message)
-            break
-          case ADBResultState.Error:
-            vscode.window.showErrorMessage(adbInterfaceResult.message)
             break
           case ADBResultState.ConnectedToDevice:
             vscode.window.showInformationMessage(adbInterfaceResult.message)
@@ -91,7 +93,11 @@ function connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
       }
     )
   } catch (e) {
-    vscode.window.showErrorMessage('Fail to connect to device\n' + e.message)
+    if (e instanceof ADBInterfaceException) {
+      vscode.window.showWarningMessage(e.message)
+    } else {
+      vscode.window.showErrorMessage('Error:' + e.message)
+    }
   }
 }
 

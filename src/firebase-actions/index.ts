@@ -1,10 +1,11 @@
 import { ADBResult, ADBResultState } from '../adb-manager'
 import { ConsoleChannel } from '../console-channel'
 import * as FIREBASE_COMMANDS from './firebase-commands'
+import { ADBInterfaceError } from './../adb-manager'
 
 export class FirebaseManagerChannel extends ConsoleChannel {
-  public enableFirebaseDebugView(appPackageID: string) : ADBResult {
-    let finalResult : ADBResult = new ADBResult(ADBResultState.Error, 'Error ocurred')
+  public enableFirebaseDebugView(appPackageID: string): ADBResult {
+    let finalResult: ADBResult = null
 
     const output = this.consoleInstance
       .execConsoleSync(
@@ -18,10 +19,13 @@ export class FirebaseManagerChannel extends ConsoleChannel {
       )
     }
 
+    if (!finalResult) {
+      throw new ADBInterfaceError('Some Error Ocurred')
+    }
     return finalResult
   }
-  public disableFirebaseDebugView() : ADBResult{
-    let finalResult : ADBResult = new ADBResult(ADBResultState.Error, 'Some Error Ocurred')
+  public disableFirebaseDebugView(): ADBResult {
+    let finalResult: ADBResult = null
 
     const output: string = this.consoleInstance
       .execConsoleSync(FIREBASE_COMMANDS.DISABLE_FIREBASE_ANALYTICS())
@@ -31,6 +35,9 @@ export class FirebaseManagerChannel extends ConsoleChannel {
       finalResult = new ADBResult(ADBResultState.Success, `Disabled debug mode`)
     }
 
+    if (!finalResult) {
+      throw new ADBInterfaceError('Some Error Ocurred')
+    }
     return finalResult
   }
 }

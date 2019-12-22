@@ -1,9 +1,8 @@
-import { NetHelpers } from '../ip-helpers'
-
 import adbCommands from './adb-commands'
 import { ConsoleChannel } from '../console-channel'
 import adbReturns from './adb-returns'
 import adbMessages from './adb-messages'
+import { NetHelpers } from '../net-helpers'
 import { IPHelpers } from './ip-helpers'
 import { DeviceHelpers } from './device-helpers'
 
@@ -13,13 +12,9 @@ export class ADBChannel extends ConsoleChannel {
    * @param ipAddress "192.168.1.100"
    */
   public ConnectToDevice(ipAddress: string): ADBResult {
+    let finalResult = null
+
     const deviceIP = IPHelpers.extractIPRegex(ipAddress)
-
-    let finalResult = new ADBResult(
-      ADBResultState.Error,
-      'Some error ocurred during connection'
-    )
-
     const result = this.consoleInstance.execConsoleSync(
       adbCommands.CONNECT_IP_AND_PORT(deviceIP)
     )
@@ -36,31 +31,24 @@ export class ADBChannel extends ConsoleChannel {
       )
     }
     if (output.includes(adbReturns.ALLREADY_CONNECTED_TO())) {
-      finalResult = new ADBResult(
-        ADBResultState.AllreadyConnected,
-        `Allready connected to: ${deviceName}`
-      )
+      throw new ADBInterfaceException(`Allready connected to: ${deviceName}`)
     }
     if (output.includes(adbReturns.CONNECTION_REFUSED(deviceIP))) {
-      finalResult = new ADBResult(
-        ADBResultState.ConnectionRefused,
+      throw new ADBInterfaceException(
         'Connection refused:\n Target machine actively refused connection.'
       )
     }
     if (output.includes(adbReturns.MISSING_PORT(deviceIP))) {
-      finalResult = new ADBResult(
-        ADBResultState.Error,
-        'ADB Fail : Port is missing fail to connect in ADB.'
-      )
+      throw new ADBInterfaceException('Port is missing fail to connect in ADB.')
     }
 
+    if (finalResult == null) {
+      throw new ADBInterfaceError('Some error ocurred during connection.')
+    }
     return finalResult
   }
   public async ResetPorts(): Promise<ADBResult> {
-    let finalResult = new ADBResult(
-      ADBResultState.Error,
-      'Error while reset TCP IP Ports'
-    )
+    let finalResult = null
     try {
       const result = this.consoleInstance.execConsoleSync(
         adbCommands.RESET_PORTS()
@@ -73,24 +61,23 @@ export class ADBChannel extends ConsoleChannel {
         )
       }
     } catch (e) {
-      console.log()
       if (e.message.includes(adbReturns.NO_DEVICES_FOUND())) {
         finalResult = new ADBResult(
           ADBResultState.NoDevices,
           adbMessages.NO_DEVICES_FOUND()
         )
       } else {
-        finalResult = new ADBResult(ADBResultState.Error, 'Error: ' + e.message)
+        throw new ADBInterfaceError('Error:' + e.message)
       }
+    }
+    if (finalResult == null) {
+      throw new ADBInterfaceException('Error while reset TCP IP Ports')
     }
     return finalResult
   }
 
   public async DisconnectFromAllDevices(): Promise<ADBResult> {
-    var finalResult = new ADBResult(
-      ADBResultState.Error,
-      'Error while reset TCPIP Ports'
-    )
+    let finalResult = null
     try {
       const result = this.consoleInstance.execConsoleSync(
         adbCommands.ADB_DISCONNECT_ALL()
@@ -103,12 +90,15 @@ export class ADBChannel extends ConsoleChannel {
         )
       }
     } catch (e) {
-      finalResult = new ADBResult(ADBResultState.Error, e.message)
+      throw new ADBInterfaceError(e.message)
+    }
+    if (finalResult == null) {
+      throw new ADBInterfaceException('Error while reset TCPIP Ports')
     }
     return finalResult
   }
   public async FindConnectedDevices(): Promise<Array<string>> {
-    var devicesArray = []
+    let devicesArray = []
     try {
       const result = this.consoleInstance.execConsoleSync(
         adbCommands.LIST_ADB_DEVICES()
@@ -132,12 +122,17 @@ export class ADBChannel extends ConsoleChannel {
         }
         return ips
       }
-    } catch (e) {}
+    } catch (e) {
+      throw new ADBInterfaceException(e.message)
+    }
+    if (devicesArray.length <= 0) {
+      throw new ADBInterfaceException('List from devices are empty.')
+    }
     return devicesArray
   }
 
   public async KillADBServer(): Promise<ADBResult> {
-    let returned = new ADBResult(ADBResultState.Error, 'Fail during ADB Kill')
+    let returned = null
     try {
       const result = this.consoleInstance.execConsoleSync(
         adbCommands.ADB_KILL_SERVER()
@@ -148,7 +143,10 @@ export class ADBChannel extends ConsoleChannel {
         throw Error('Internal error ocurred')
       }
     } catch (e) {
-      returned.message = 'Fail \n ' + e.message
+      throw new ADBInterfaceException(e.message)
+    }
+    if (returned == null) {
+      throw new ADBInterfaceError('Fail during ADB Kill')
     }
     return returned
   }
@@ -159,10 +157,8 @@ export class ADBChannel extends ConsoleChannel {
  */
 export enum ADBResultState {
   ConnectedToDevice,
-  ConnectionRefused,
   NotFound,
   NoDevices,
-  Error,
   DevicesInPortMode,
   AllreadyConnected,
   DisconnectedEverthing,
@@ -182,6 +178,9 @@ export class ADBResult {
   }
 }
 
-class ADBNotFoundError extends Error {
-  message = adbMessages.ADB_DEVICE_NOT_FOUND()
+export class ADBInterfaceError extends Error {
+  public message = adbMessages.ADB_INTERFACE_ERROR_DEFAULT()
+}
+export class ADBInterfaceException extends Error {
+  public message = adbMessages.ADB_INTERFACE_EXCEPTION_DEFAULT()
 }
