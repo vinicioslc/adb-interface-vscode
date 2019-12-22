@@ -7,7 +7,7 @@ let cimock = new ConsoleInterfaceMock()
 let adbInterfaceInstance = new ADBChannel(cimock)
 
 test('Connect to device', async () => {
-  let connectDeviceIp = '192.168.1.100'
+  const connectDeviceIp = '192.168.1.100'
   const connectExistingDeviceMock = (input: string) => {
     if (input == `adb -s ${connectDeviceIp} shell getprop ro.product.model`) {
       return Buffer.from('PEAR_PHONE')
@@ -18,14 +18,14 @@ test('Connect to device', async () => {
     }
   }
   cimock.setCallbackMock(connectExistingDeviceMock)
-  let result = await adbInterfaceInstance.ConnectToDevice(connectDeviceIp)
+  const result = await adbInterfaceInstance.ConnectToDevice(connectDeviceIp)
 
   expect(result.message).toStrictEqual(`Connected to: PEAR_PHONE`)
 })
 
 test('Allready connected to ip', async () => {
-  let allreadyConnectedIP = '192.168.1.102'
-  let allreadyConnectedPhoneName = 'DEVICE_NAME'
+  const allreadyConnectedIP = '192.168.1.102'
+  const allreadyConnectedPhoneName = 'DEVICE_NAME'
   const allreadyConnectedCallback = (input: string) => {
     if (input == `adb -s 192.168.1.102 shell getprop ro.product.model`) {
       return Buffer.from(allreadyConnectedPhoneName)

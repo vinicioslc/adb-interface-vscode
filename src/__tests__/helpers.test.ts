@@ -1,4 +1,4 @@
-import { IPHelpers } from '../adb-manager/helpers'
+import { IPHelpers } from '../adb-manager/ip-helpers'
 
 test('IP empty when invalid', async () => {
   // success result

@@ -4,14 +4,15 @@ import adbCommands from './adb-commands'
 import { ConsoleChannel } from '../console-channel'
 import adbReturns from './adb-returns'
 import adbMessages from './adb-messages'
-import { IPHelpers, DeviceHelpers } from './helpers'
+import { IPHelpers } from './ip-helpers'
+import { DeviceHelpers } from './device-helpers'
 
 export class ADBChannel extends ConsoleChannel {
   /**
    *  connect to a given ip address
    * @param ipAddress "192.168.1.100"
    */
-  ConnectToDevice(ipAddress: string): ADBResult {
+  public ConnectToDevice(ipAddress: string): ADBResult {
     const deviceIP = IPHelpers.extractIPRegex(ipAddress)
 
     let finalResult = new ADBResult(
@@ -55,7 +56,7 @@ export class ADBChannel extends ConsoleChannel {
 
     return finalResult
   }
-  async ResetPorts(): Promise<ADBResult> {
+  public async ResetPorts(): Promise<ADBResult> {
     let finalResult = new ADBResult(
       ADBResultState.Error,
       'Error while reset TCP IP Ports'
@@ -85,7 +86,7 @@ export class ADBChannel extends ConsoleChannel {
     return finalResult
   }
 
-  async DisconnectFromAllDevices(): Promise<ADBResult> {
+  public async DisconnectFromAllDevices(): Promise<ADBResult> {
     var finalResult = new ADBResult(
       ADBResultState.Error,
       'Error while reset TCPIP Ports'
@@ -106,7 +107,7 @@ export class ADBChannel extends ConsoleChannel {
     }
     return finalResult
   }
-  async FindConnectedDevices(): Promise<Array<string>> {
+  public async FindConnectedDevices(): Promise<Array<string>> {
     var devicesArray = []
     try {
       const result = this.consoleInstance.execConsoleSync(
@@ -118,15 +119,15 @@ export class ADBChannel extends ConsoleChannel {
         ips = ips.filter(ip => IPHelpers.isAnIPAddress(ip))
         ips = ips.map(ipAddress => {
           let deviceIP = IPHelpers.extractIPRegex(ipAddress)
-          let nameOfDevice = DeviceHelpers.getDeviceModel(
+          const nameOfDevice = DeviceHelpers.getDeviceModel(
             this.consoleInstance,
             deviceIP
           )
           return `${deviceIP} | ${nameOfDevice}`
         })
         // found devices on lan
-        let moreips = await NetHelpers.getAllLanIPs()
-        for (const variable of moreips) {
+        const foundedLanIps = await NetHelpers.getAllLanIPs()
+        for (const variable of foundedLanIps) {
           ips.push(variable)
         }
         return ips
@@ -135,7 +136,7 @@ export class ADBChannel extends ConsoleChannel {
     return devicesArray
   }
 
-  async KillADBServer(): Promise<ADBResult> {
+  public async KillADBServer(): Promise<ADBResult> {
     let returned = new ADBResult(ADBResultState.Error, 'Fail during ADB Kill')
     try {
       const result = this.consoleInstance.execConsoleSync(
@@ -181,6 +182,6 @@ export class ADBResult {
   }
 }
 
-export class ADBNotFoundError extends Error {
+class ADBNotFoundError extends Error {
   message = adbMessages.ADB_DEVICE_NOT_FOUND()
 }

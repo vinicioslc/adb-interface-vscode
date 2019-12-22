@@ -1,14 +1,14 @@
 import { ADBResult, ADBResultState } from '../adb-manager'
 import { ConsoleChannel } from '../console-channel'
-import firebaseCommands from './firebase-commands'
+import * as FIREBASE_COMMANDS from './firebase-commands'
 
 export class FirebaseManagerChannel extends ConsoleChannel {
-  enableFirebaseDebugView(appPackageID: string) {
-    let finalResult = new ADBResult(ADBResultState.Error, 'Error ocurred')
+  public enableFirebaseDebugView(appPackageID: string) : ADBResult {
+    let finalResult : ADBResult = new ADBResult(ADBResultState.Error, 'Error ocurred')
 
     const output = this.consoleInstance
       .execConsoleSync(
-        firebaseCommands.SHELL_SETPROP_FIREBASE_ANALYTICS(appPackageID)
+        FIREBASE_COMMANDS.SHELL_SETPROP_FIREBASE_ANALYTICS(appPackageID)
       )
       .toString()
     if (output == '') {
@@ -20,11 +20,11 @@ export class FirebaseManagerChannel extends ConsoleChannel {
 
     return finalResult
   }
-  disableFirebaseDebugView() {
-    let finalResult = new ADBResult(ADBResultState.Error, 'Some Error Ocurred')
+  public disableFirebaseDebugView() : ADBResult{
+    let finalResult : ADBResult = new ADBResult(ADBResultState.Error, 'Some Error Ocurred')
 
-    const output: String = this.consoleInstance
-      .execConsoleSync(firebaseCommands.DISABLE_FIREBASE_ANALYTICS())
+    const output: string = this.consoleInstance
+      .execConsoleSync(FIREBASE_COMMANDS.DISABLE_FIREBASE_ANALYTICS())
       .toString()
 
     if (output == '') {

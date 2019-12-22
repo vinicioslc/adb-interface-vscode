@@ -1,11 +1,10 @@
 import { ADBResultState, ADBChannel as ADBManagerChannel } from '../adb-manager'
 import { FirebaseManagerChannel } from '../firebase-actions'
 import * as vscode from 'vscode'
-import stateKeys from './global-state-keys'
 
 import { ConsoleInterface } from '../console-interface'
-import globalStateKeys from './global-state-keys'
-import { IPHelpers } from './../adb-manager/helpers'
+import * as appStateKeys from './global-state-keys'
+import { IPHelpers } from '../adb-manager/ip-helpers'
 
 const cInterface = new ConsoleInterface()
 
@@ -40,7 +39,7 @@ export async function ResetDevicesPort() {
 }
 
 export async function ConnectToDevice(context: vscode.ExtensionContext) {
-  let lastvalue = context.globalState.get(stateKeys.lastIPUsed, '')
+  let lastvalue = context.globalState.get(appStateKeys.lastIPUsed(), '')
   // The code you place here will be executed every time your command is executed
   vscode.window
     .showInputBox({
@@ -57,7 +56,7 @@ export async function ConnectToDevice(context: vscode.ExtensionContext) {
 }
 
 function connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
-  context.globalState.update(stateKeys.lastIPUsed, value)
+  context.globalState.update(appStateKeys.lastIPUsed(), value)
   try {
     vscode.window.withProgress(
       {
@@ -147,7 +146,7 @@ export async function ConnectToDeviceFromList(
 async function getIPAddressList(context) {
   const connectedDevices = await adbInstance.FindConnectedDevices()
   const lastIPSelected = await context.globalState.get(
-    globalStateKeys.lastIPUsed,
+    appStateKeys.lastIPUsed,
     ''
   )
   if (lastIPSelected != null && lastIPSelected != '') {
@@ -160,7 +159,7 @@ export async function EnableFirebaseDebugView(
   context: vscode.ExtensionContext
 ) {
   try {
-    let lastvalue = context.globalState.get(stateKeys.allPackages, [])
+    let lastvalue = context.globalState.get(appStateKeys.allPackages(), [])
 
     let packageName = await vscode.window.showInputBox({
       placeHolder: 'com.yourapp.domain',
