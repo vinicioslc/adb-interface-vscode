@@ -41,3 +41,10 @@ An simple adb extesion that makes possible to connect to an device over wifi con
 - [ ] unit tests in everywhere 100% Code Coverage currently 76.8%
 - [ ] more easy architecture and easy to extend features
 - [ ] clean arquitecture for every module
+
+### Library Jest Health Summary
+
+![coverage-branches](./.badges/badge-branches.svg)
+![coverage-function](./.badges/badge-functions.svg)
+![coverage-lines](./.badges/badge-lines.svg)
+![coverage-statements](./.badges/badge-statements.svg)
