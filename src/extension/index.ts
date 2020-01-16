@@ -15,7 +15,7 @@ const cInterface = new ConsoleInterface()
 const firebaseInstance = new FirebaseManagerChannel(cInterface)
 const adbInstance = new ADBManagerChannel(cInterface)
 
-export async function ResetDevicesPort() {
+export async function ResetDevicesPort(context: vscode.ExtensionContext) {
   vscode.window.withProgress(
     {
       location: vscode.ProgressLocation.Notification,
@@ -101,7 +101,7 @@ function connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
   }
 }
 
-export async function DisconnectAnyDevice() {
+export async function DisconnectAnyDevice(context: vscode.ExtensionContext) {
   try {
     const adbInterfaceResult = await adbInstance.DisconnectFromAllDevices()
     adbInterfaceResult.state
@@ -121,7 +121,7 @@ export async function DisconnectAnyDevice() {
     )
   }
 }
-export async function KillADBServer() {
+export async function KillADBServer(context: vscode.ExtensionContext) {
   const adbInterfaceResult = await adbInstance.KillADBServer()
   if (adbInterfaceResult.state == ADBResultState.Success) {
     vscode.window.showInformationMessage(adbInterfaceResult.message)
@@ -199,7 +199,9 @@ export async function EnableFirebaseDebugView(
   }
 }
 
-export async function DisableFirebaseDebugView() {
+export async function DisableFirebaseDebugView(
+  context: vscode.ExtensionContext
+) {
   try {
     let adbInterfaceResult = firebaseInstance.disableFirebaseDebugView()
     switch (adbInterfaceResult.state) {

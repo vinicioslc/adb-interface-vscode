@@ -23,35 +23,55 @@ export function activate(context: vscode.ExtensionContext) {
   const commands = [
     {
       name: 'adbInterface.adbwificonnect',
-      callback: () => ConnectToDevice(context)
+      callback: () => {
+        return ConnectToDevice(context)
+      }
     },
-    { name: 'adbInterface.adbResetPorts', callback: () => ResetDevicesPort() },
+    {
+      name: 'adbInterface.adbResetPorts',
+      callback: () => {
+        return ResetDevicesPort(context)
+      }
+    },
     {
       name: 'adbInterface.disconnectEverthing',
-      callback: () => DisconnectAnyDevice()
+      callback: () => {
+        return DisconnectAnyDevice(context)
+      }
     },
     {
       name: 'adbInterface.connectToDeviceFromList',
-      callback: () => ConnectToDeviceFromList(context)
+      callback: () => {
+        return ConnectToDeviceFromList(context)
+      }
     },
     {
       name: 'adbInterface.enableFirebaseDebug',
-      callback: () => EnableFirebaseDebugView(context)
+      callback: () => {
+        return EnableFirebaseDebugView(context)
+      }
     },
     {
       name: 'adbInterface.disableFirebaseDebug',
-      callback: () => DisableFirebaseDebugView()
+      callback: () => {
+        return DisableFirebaseDebugView(context)
+      }
     },
     {
       name: 'adbInterface.killserver',
-      callback: () => KillADBServer()
+      callback: () => {
+        return KillADBServer(context)
+      }
     }
   ]
-
-  commands.forEach(cmd => {
-    let subscription = vscode.commands.registerCommand(cmd.name, cmd.callback)
+  for (const command of commands) {
+    let subscription = vscode.commands.registerCommand(
+      command.name,
+      command.callback
+    )
     context.subscriptions.push(subscription)
-  })
+  }
+  return
 }
 
 // this method is called when your extension is deactivated
