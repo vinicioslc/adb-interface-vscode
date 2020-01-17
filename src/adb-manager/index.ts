@@ -6,6 +6,19 @@ import { NetHelpers } from '../net-helpers'
 import { IPHelpers } from './ip-helpers'
 import { DeviceHelpers } from './device-helpers'
 
+const mapIPToDeviceName = (ipAddress: string): string => {
+  let extractedIP = IPHelpers.extractIPRegex(ipAddress)
+  try {
+    const nameOfDevice = DeviceHelpers.getDeviceModel(
+      this.consoleInstance,
+      extractedIP
+    )
+    return `${extractedIP} | ${nameOfDevice}`
+  } catch (e) {
+    console.log(e)
+    return `${extractedIP} | NO DEVICE INFO`
+  }
+}
 export class ADBChannel extends ConsoleChannel {
   /**
    *  connect to a given ip address
@@ -107,19 +120,14 @@ export class ADBChannel extends ConsoleChannel {
       if (output.includes(adbReturns.LISTING_DEVICES())) {
         let ips = output.split(/[\r]|[\n]/gim)
         ips = ips.filter(ip => IPHelpers.isAnIPAddress(ip))
-        ips = ips.map(ipAddress => {
-          let deviceIP = IPHelpers.extractIPRegex(ipAddress)
-          const nameOfDevice = DeviceHelpers.getDeviceModel(
-            this.consoleInstance,
-            deviceIP
-          )
-          return `${deviceIP} | ${nameOfDevice}`
-        })
         // found devices on lan
-        const foundedLanIps = await NetHelpers.getAllLanIPs()
+        const foundedLanIps = await NetHelpers.FindLanDevices()
         for (const variable of foundedLanIps) {
           ips.push(variable)
         }
+
+        // try to get device name trought adb
+        ips = ips.map(mapIPToDeviceName)
         return ips
       }
     } catch (e) {

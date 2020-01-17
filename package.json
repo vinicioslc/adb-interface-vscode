@@ -72,7 +72,7 @@
   },
   "dependencies": {
     "diff": ">=3.5.0",
-    "lanscanner": "0.0.5"
+    "local-devices": "^3.0.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
