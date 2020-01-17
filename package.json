@@ -61,11 +61,11 @@
   "test": "jest",
   "scripts": {
     "setup": "npm install",
-    "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run setup && npm run compile",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "pubm": "vsce publish minor",
+    "watch": "tsc -watch -p ./",
     "test": "jest --coverage",
     "test-watch": "npx jest --watchAll",
     "test:make-badges": "npm run test && jest-badge-generator"
