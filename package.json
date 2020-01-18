@@ -68,7 +68,7 @@
     "watch": "tsc -watch -p ./",
     "test": "jest --coverage",
     "test-watch": "npx jest --watchAll",
-    "test:make-badges": "npm run test && jest-badge-generator"
+    "test:make-badges": "npm run test && jest-badge-generator --type \"png\""
   },
   "dependencies": {
     "diff": ">=3.5.0",
@@ -79,7 +79,7 @@
     "@types/node": "^8.10.59",
     "diff": ">=3.5.0",
     "jest": "^24.9.0",
-    "jest-badge-generator": "^1.0.3",
+    "jest-badge-generator": "^1.1.5",
     "ts-jest": "^24.2.0",
     "tslint": "^5.20.1",
     "typescript": "^3.7.3",
