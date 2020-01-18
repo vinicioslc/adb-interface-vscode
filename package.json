@@ -64,7 +64,7 @@
     "compile": "tsc -p ./",
     "vscode:prepublish": "npm run setup && npm run compile",
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "pubm": "vsce publish minor",
+    "publish": "vsce publish minor",
     "watch": "tsc -watch -p ./",
     "test": "jest --coverage",
     "test-watch": "npx jest --watchAll",
