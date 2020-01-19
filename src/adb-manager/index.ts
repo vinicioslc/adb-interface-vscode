@@ -1,5 +1,5 @@
 import adbCommands from './adb-commands'
-import { ConsoleChannel } from '../console-channel'
+import { ConsoleChannel, consoleReturnAre } from '../console-channel'
 import adbReturns from './adb-returns'
 import adbMessages from './adb-messages'
 import { NetHelpers } from '../net-helpers'
@@ -15,7 +15,6 @@ const mapIPToDeviceName = (ipAddress: string): string => {
     )
     return `${extractedIP} | ${nameOfDevice}`
   } catch (e) {
-    console.log(e)
     return `${extractedIP} | NO DEVICE INFO`
   }
 }
@@ -37,21 +36,21 @@ export class ADBChannel extends ConsoleChannel {
       deviceIP
     )
 
-    if (output.includes(adbReturns.CONNECTED_TO())) {
+    if (consoleReturnAre(output, adbReturns.CONNECTED_TO())) {
       finalResult = new ADBResult(
         ADBResultState.ConnectedToDevice,
         `Connected to: ${deviceName}`
       )
     }
-    if (output.includes(adbReturns.ALLREADY_CONNECTED_TO())) {
+    if (consoleReturnAre(output, adbReturns.ALLREADY_CONNECTED_TO())) {
       throw new ADBInterfaceException(`Allready connected to: ${deviceName}`)
     }
-    if (output.includes(adbReturns.CONNECTION_REFUSED(deviceIP))) {
+    if (consoleReturnAre(output, adbReturns.CONNECTION_REFUSED(deviceIP))) {
       throw new ADBInterfaceException(
         'Connection refused:\n Target machine actively refused connection.'
       )
     }
-    if (output.includes(adbReturns.MISSING_PORT(deviceIP))) {
+    if (consoleReturnAre(output, adbReturns.MISSING_PORT(deviceIP))) {
       throw new ADBInterfaceException('Port is missing fail to connect in ADB.')
     }
 
@@ -67,7 +66,7 @@ export class ADBChannel extends ConsoleChannel {
         adbCommands.RESET_PORTS()
       )
       const output = result.toString()
-      if (output.includes(adbReturns.RESTARTING_PORT())) {
+      if (consoleReturnAre(output, adbReturns.RESTARTING_PORT())) {
         finalResult = new ADBResult(
           ADBResultState.DevicesInPortMode,
           adbMessages.DEVICES_IN_TCP_MODE()
@@ -96,7 +95,7 @@ export class ADBChannel extends ConsoleChannel {
         adbCommands.ADB_DISCONNECT_ALL()
       )
       const output = result.toString()
-      if (output.includes(adbReturns.DISCONNECTED_EVERTHING())) {
+      if (consoleReturnAre(output, adbReturns.DISCONNECTED_EVERTHING())) {
         finalResult = new ADBResult(
           ADBResultState.DisconnectedEverthing,
           'Disconnected from all devices'
@@ -117,7 +116,7 @@ export class ADBChannel extends ConsoleChannel {
         adbCommands.LIST_ADB_DEVICES()
       )
       const output = result.toString()
-      if (output.includes(adbReturns.LISTING_DEVICES())) {
+      if (consoleReturnAre(output, adbReturns.LISTING_DEVICES())) {
         let ips = output.split(/[\r]|[\n]/gim)
         ips = ips.filter(ip => IPHelpers.isAnIPAddress(ip))
         // found devices on lan

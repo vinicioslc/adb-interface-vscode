@@ -9,3 +9,6 @@ export class ConsoleChannel {
     return this.consoleInstance.execConsoleSync(consoleCommand)
   }
 }
+export function consoleReturnAre(output: string, expected: string): boolean {
+  return output.includes(expected)
+}
