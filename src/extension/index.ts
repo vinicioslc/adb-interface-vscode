@@ -69,24 +69,29 @@ function connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
     vscode.window.withProgress(
       {
         location: vscode.ProgressLocation.Notification,
-        title: 'Starting ADB'
+        title: 'Connecting ADB IP'
       },
       async progress => {
-        progress.report({ message: `Connecting to ${value}`, increment: 50 })
+        await progress.report({
+          message: `Connecting to ${value}`,
+          increment: 50
+        })
         var adbInterfaceResult = await adbInstance.ConnectToDevice(value)
-        progress.report({ increment: 85 })
+        await progress.report({ increment: 85 })
         switch (adbInterfaceResult.state) {
           case ADBResultState.NoDevices:
-            vscode.window.showWarningMessage(adbInterfaceResult.message)
+            await vscode.window.showWarningMessage(adbInterfaceResult.message)
             break
           case ADBResultState.AllreadyConnected:
-            vscode.window.showWarningMessage(adbInterfaceResult.message)
+            await vscode.window.showWarningMessage(adbInterfaceResult.message)
             break
           case ADBResultState.ConnectedToDevice:
-            vscode.window.showInformationMessage(adbInterfaceResult.message)
+            await vscode.window.showInformationMessage(
+              adbInterfaceResult.message
+            )
             break
           default:
-            vscode.window.showWarningMessage(adbInterfaceResult.message)
+            await vscode.window.showWarningMessage(adbInterfaceResult.message)
             break
         }
         return async () => {}
