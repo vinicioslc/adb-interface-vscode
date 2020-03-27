@@ -72,29 +72,38 @@ function connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
         title: 'Connecting ADB IP'
       },
       async progress => {
-        await progress.report({
-          message: `Connecting to ${value}`,
-          increment: 50
-        })
-        var adbInterfaceResult = await adbInstance.ConnectToDevice(value)
-        await progress.report({ increment: 85 })
-        switch (adbInterfaceResult.state) {
-          case ADBResultState.NoDevices:
-            await vscode.window.showWarningMessage(adbInterfaceResult.message)
-            break
-          case ADBResultState.AllreadyConnected:
-            await vscode.window.showWarningMessage(adbInterfaceResult.message)
-            break
-          case ADBResultState.ConnectedToDevice:
-            await vscode.window.showInformationMessage(
-              adbInterfaceResult.message
-            )
-            break
-          default:
-            await vscode.window.showWarningMessage(adbInterfaceResult.message)
-            break
+        try {
+          await progress.report({
+            message: `Connecting to ${value}`,
+            increment: 50
+          })
+          var adbInterfaceResult = await adbInstance.ConnectToDevice(value)
+          await progress.report({ increment: 85 })
+          switch (adbInterfaceResult.state) {
+            case ADBResultState.NoDevices:
+              await vscode.window.showWarningMessage(adbInterfaceResult.message)
+              break
+            case ADBResultState.AllreadyConnected:
+              await vscode.window.showWarningMessage(adbInterfaceResult.message)
+              break
+            case ADBResultState.ConnectedToDevice:
+              await vscode.window.showInformationMessage(
+                adbInterfaceResult.message
+              )
+              break
+            default:
+              await vscode.window.showWarningMessage(adbInterfaceResult.message)
+              break
+          }
+          return async () => {}
+        } catch (e) {
+          await progress.report({
+            message: `Failed conecting to ${e}`,
+            increment: 100
+          })
+          vscode.window.showErrorMessage('Error:' + e.message)
+          throw e
         }
-        return async () => {}
       }
     )
   } catch (e) {
