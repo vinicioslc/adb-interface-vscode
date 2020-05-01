@@ -2,6 +2,6 @@
 **/tsconfig.json
 !file.ts
 .github
-.badges
-.vscode
-coverage
+/.badges
+/.vscode
+/coverage
