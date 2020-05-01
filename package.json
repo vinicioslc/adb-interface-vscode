@@ -81,6 +81,7 @@
     "diff": ">=3.5.0",
     "jest": "^24.9.0",
     "jest-badge-generator": "^1.1.5",
+    "minimist": ">=1.2.3",
     "ts-jest": "^24.2.0",
     "tslint": "^5.20.1",
     "typescript": "^3.7.3",
