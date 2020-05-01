@@ -20,7 +20,7 @@ export class FirebaseManagerChannel extends ConsoleChannel {
     }
 
     if (!finalResult) {
-      throw new ADBInterfaceError('Some Error Ocurred')
+      throw new ADBInterfaceError('Error cause: ' + output)
     }
     return finalResult
   }
@@ -36,7 +36,7 @@ export class FirebaseManagerChannel extends ConsoleChannel {
     }
 
     if (!finalResult) {
-      throw new ADBInterfaceError('Some Error Ocurred')
+      throw new ADBInterfaceError('Error cause: ' + output)
     }
     return finalResult
   }

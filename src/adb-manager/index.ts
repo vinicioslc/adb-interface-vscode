@@ -28,7 +28,7 @@ export class ADBChannel extends ConsoleChannel {
 
     const deviceIP = IPHelpers.extractIPRegex(ipAddress)
     const result = this.consoleInstance.execConsoleSync(
-      adbCommands.CONNECT_IP_AND_PORT(deviceIP)
+      adbCommands.CONNECT_IP_AND_PORT(deviceIP, '5555')
     )
     const output = result.toString()
     const deviceName = DeviceHelpers.getDeviceModel(
@@ -79,7 +79,7 @@ export class ADBChannel extends ConsoleChannel {
           adbMessages.NO_DEVICES_FOUND()
         )
       } else {
-        throw new ADBInterfaceError('Error:' + e.message)
+        throw new ADBInterfaceException(e.message)
       }
     }
     if (finalResult == null) {
@@ -102,7 +102,7 @@ export class ADBChannel extends ConsoleChannel {
         )
       }
     } catch (e) {
-      throw new ADBInterfaceError(e.message)
+      throw new ADBInterfaceError(e.toString())
     }
     if (finalResult == null) {
       throw new ADBInterfaceException('Error while reset TCPIP Ports')
@@ -186,8 +186,12 @@ export class ADBResult {
 }
 
 export class ADBInterfaceError extends Error {
-  public message = adbMessages.ADB_INTERFACE_ERROR_DEFAULT()
+  AdbINterFaceError(message: string) {
+    this.message = adbMessages.ADB_INTERFACE_ERROR_DEFAULT()
+  }
 }
 export class ADBInterfaceException extends Error {
-  public message = adbMessages.ADB_INTERFACE_EXCEPTION_DEFAULT()
+  ADBInterfaceException(message: string) {
+    this.message = message ?? adbMessages.ADB_INTERFACE_EXCEPTION_DEFAULT()
+  }
 }

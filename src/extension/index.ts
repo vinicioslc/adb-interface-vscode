@@ -1,7 +1,8 @@
 import {
   ADBResultState,
   ADBChannel as ADBManagerChannel,
-  ADBInterfaceException
+  ADBInterfaceException,
+  ADBResult
 } from '../adb-manager'
 import { FirebaseManagerChannel } from '../firebase-actions'
 import * as vscode from 'vscode'
@@ -24,8 +25,7 @@ export async function ResetDevicesPort(context: vscode.ExtensionContext) {
     async progress => {
       try {
         progress.report({ message: 'Reseting ports to 5555', increment: 50 })
-        var adbInterfaceResult = await adbInstance.ResetPorts()
-        progress.report({ increment: 85 })
+        let adbInterfaceResult = await adbInstance.ResetPorts()
         switch (adbInterfaceResult.state) {
           case ADBResultState.NoDevices:
             vscode.window.showWarningMessage(adbInterfaceResult.message)
@@ -39,7 +39,7 @@ export async function ResetDevicesPort(context: vscode.ExtensionContext) {
         }
         return async () => {}
       } catch (e) {
-        vscode.window.showErrorMessage('ADB Interface: ' + e.message)
+        vscode.window.showErrorMessage(e.message)
       }
     }
   )
@@ -58,54 +58,35 @@ export async function ConnectToDevice(context: vscode.ExtensionContext) {
         'Enter the IP address from your device to connect to him. (Last address will be filled in next time) port 5555 added automagically.'
     })
     .then(async value => {
-      connectToAdbDevice(context, value)
+      await connectToAdbDevice(context, value)
     })
   // Display a message box to the user
 }
 
-function connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
+async function connectToAdbDevice(
+  context: vscode.ExtensionContext,
+  value: string
+) {
   context.globalState.update(appStateKeys.lastIPUsed(), value)
   try {
-    vscode.window.withProgress(
-      {
-        location: vscode.ProgressLocation.Notification,
-        title: 'Connecting ADB IP'
-      },
-      async progress => {
-        try {
-          await progress.report({
-            message: `Connecting to ${value}`,
-            increment: 50
-          })
-          var adbInterfaceResult = await adbInstance.ConnectToDevice(value)
-          await progress.report({ increment: 85 })
-          switch (adbInterfaceResult.state) {
-            case ADBResultState.NoDevices:
-              await vscode.window.showWarningMessage(adbInterfaceResult.message)
-              break
-            case ADBResultState.AllreadyConnected:
-              await vscode.window.showWarningMessage(adbInterfaceResult.message)
-              break
-            case ADBResultState.ConnectedToDevice:
-              await vscode.window.showInformationMessage(
-                adbInterfaceResult.message
-              )
-              break
-            default:
-              await vscode.window.showWarningMessage(adbInterfaceResult.message)
-              break
-          }
-          return async () => {}
-        } catch (e) {
-          await progress.report({
-            message: `Failed conecting to ${e}`,
-            increment: 100
-          })
-          vscode.window.showErrorMessage('Error:' + e.message)
-          throw e
-        }
-      }
-    )
+    await vscode.window.showInformationMessage('Connecting throught IP')
+    await vscode.window.showInformationMessage(`Connecting to ${value}`)
+    let adbInterfaceResult = await adbInstance.ConnectToDevice(value)
+
+    switch (adbInterfaceResult.state) {
+      case ADBResultState.NoDevices:
+        await vscode.window.showWarningMessage(adbInterfaceResult.message)
+        break
+      case ADBResultState.AllreadyConnected:
+        await vscode.window.showWarningMessage(adbInterfaceResult.message)
+        break
+      case ADBResultState.ConnectedToDevice:
+        await vscode.window.showInformationMessage(adbInterfaceResult.message)
+        break
+      default:
+        await vscode.window.showWarningMessage(adbInterfaceResult.message)
+        break
+    }
   } catch (e) {
     if (e instanceof ADBInterfaceException) {
       vscode.window.showWarningMessage(e.message)
@@ -159,7 +140,7 @@ export async function ConnectToDeviceFromList(
   } else {
     // wait disconnect from adb device
     await adbInstance.DisconnectFromAllDevices()
-    connectToAdbDevice(context, IPHelpers.extractIPRegex(ipSelected))
+    await connectToAdbDevice(context, IPHelpers.extractIPRegex(ipSelected))
   }
 }
 
