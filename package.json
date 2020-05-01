@@ -2,7 +2,7 @@
   "name": "adb-interface-vscode",
   "displayName": "ADB Interface for VSCode",
   "description": "A simple interface to allow use common ADB commands inside VSCode without console.",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "publisher": "vinicioslc",
   "repository": "https://github.com/vinicioslc/adb-interface-vscode",
   "engines": {
@@ -64,7 +64,7 @@
     "compile": "tsc -p ./",
     "vscode:prepublish": "npm run setup && npm run compile",
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "publish": "vsce publish minor",
+    "publish": "vsce publish",
     "watch": "tsc -watch -p ./",
     "test": "jest --coverage",
     "test-watch": "npx jest --watchAll",
