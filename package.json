@@ -78,6 +78,7 @@
   "devDependencies": {
     "@types/jest": "^24.0.23",
     "@types/node": "^8.10.59",
+    "acorn": ">=5.7.4",
     "diff": ">=3.5.0",
     "jest": "^24.9.0",
     "jest-badge-generator": "^1.1.5",
