@@ -1,17 +1,12 @@
-name: CI
+name: Automated Deploy
 
 on:
   push:
     branches:
       - master
-      - release/*
-  pull_request:
-    branches:
-      - master
-      - release/*
 jobs:
-  test:
-    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+  publish:
+    name: Publishing using node ${{ matrix.node_version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -25,8 +20,8 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
 
-      - name: npm install, build and test
+      - name: npm install, test and publish
         run: |
           npm install
-          npm run build --if-present
           npm test
+          npm run publish
