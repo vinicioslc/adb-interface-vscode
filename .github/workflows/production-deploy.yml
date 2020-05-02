@@ -1,5 +1,7 @@
 name: Deploy
 
+env:
+  VSCE_DEPLOY_TOKEN: ${{ secrets.VSCE_DEPLOY_TOKEN }}
 on:
   push:
     branches:
@@ -20,7 +22,7 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
 
-      - name: npm install, test and publish
+      - name: npm install and publish
         run: |
           npm install
-          npx vsce publish -p $VSCE_DEPLOY_TOKEN
+          npm run publish
