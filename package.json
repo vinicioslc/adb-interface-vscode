@@ -2,7 +2,7 @@
   "name": "adb-interface-vscode",
   "displayName": "ADB Interface for VSCode",
   "description": "A simple interface to allow use common ADB commands inside VSCode without console.",
-  "version": "0.16.11",
+  "version": "0.17.0",
   "publisher": "vinicioslc",
   "repository": "https://github.com/vinicioslc/adb-interface-vscode",
   "engines": {
@@ -16,6 +16,38 @@
   "categories": [
     "Other"
   ],
+  "main": "./out/extension.js",
+  "test": "jest",
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "setup": "npm install",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "vscode:prepublish": "npm run setup && npm run compile",
+    "publish": "vsce publish -p $VSCE_DEPLOY_TOKEN",
+    "pp": "vsce package && vsce publish",
+    "test": "jest --coverage",
+    "test-watch": "npx jest --watchAll",
+    "test-makebadges": "npm run test && jest-badge-generator --type \"png\"",
+    "badges": "npm run test-makebadges && npm run test-makebadges"
+  },
+  "dependencies": {
+    "diff": ">=3.5.0",
+    "local-devices": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@types/node": "^8.10.59",
+    "acorn": ">=5.7.4",
+    "diff": ">=3.5.0",
+    "jest": "^24.9.0",
+    "jest-badge-generator": "^1.1.5",
+    "minimist": ">=1.2.3",
+    "ts-jest": "^24.2.0",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.3",
+    "vscode": "^1.1.36"
+  },
   "activationEvents": [
     "onCommand:adbInterface.adbResetPorts",
     "onCommand:adbInterface.connectToDeviceFromList",
@@ -25,7 +57,6 @@
     "onCommand:adbInterface.enableFirebaseDebug",
     "onCommand:adbInterface.disableFirebaseDebug"
   ],
-  "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
@@ -57,35 +88,5 @@
         "title": "ADB:🔥 Disable Firebase events debug mode"
       }
     ]
-  },
-  "test": "jest",
-  "scripts": {
-    "setup": "npm install",
-    "compile": "tsc -p ./",
-    "vscode:prepublish": "npm run setup && npm run compile",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "publish": "vsce publish",
-    "watch": "tsc -watch -p ./",
-    "test": "jest --coverage",
-    "test-watch": "npx jest --watchAll",
-    "test-makebadges": "npm run test && jest-badge-generator --type \"png\"",
-    "badges": "npm run test-makebadges && npm run test-makebadges"
-  },
-  "dependencies": {
-    "diff": ">=3.5.0",
-    "local-devices": "^3.0.0"
-  },
-  "devDependencies": {
-    "@types/jest": "^24.0.23",
-    "@types/node": "^8.10.59",
-    "acorn": ">=5.7.4",
-    "diff": ">=3.5.0",
-    "jest": "^24.9.0",
-    "jest-badge-generator": "^1.1.5",
-    "minimist": ">=1.2.3",
-    "ts-jest": "^24.2.0",
-    "tslint": "^5.20.1",
-    "typescript": "^3.7.3",
-    "vscode": "^1.1.36"
   }
 }
