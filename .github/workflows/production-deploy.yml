@@ -1,4 +1,4 @@
-name: Automated Deploy
+name: Deploy
 
 on:
   push:
@@ -23,5 +23,4 @@ jobs:
       - name: npm install, test and publish
         run: |
           npm install
-          npm test
           npm run publish
