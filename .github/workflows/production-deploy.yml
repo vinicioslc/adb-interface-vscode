@@ -23,4 +23,4 @@ jobs:
       - name: npm install, test and publish
         run: |
           npm install
-          npm run publish
+          npx vsce publish -p $VSCE_DEPLOY_TOKEN
