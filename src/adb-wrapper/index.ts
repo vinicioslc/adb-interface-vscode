@@ -1,5 +1,5 @@
 import adbCommands from './adb-commands'
-import { ConsoleChannel, consoleReturnAre } from '../console-channel'
+import { ConsoleChannel, consoleReturnAre } from '../console/console-channel'
 import adbReturns from './adb-returns'
 import adbMessages from './adb-messages'
 import { NetHelpers } from '../net-helpers'

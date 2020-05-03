@@ -3,13 +3,13 @@ import {
   ADBChannel as ADBManagerChannel,
   ADBInterfaceException,
   ADBResult
-} from '../adb-manager'
+} from '../adb-wrapper'
 import { FirebaseManagerChannel } from '../firebase-actions'
 import * as vscode from 'vscode'
 
-import { ConsoleInterface } from '../console-interface'
+import { ConsoleInterface } from '../console/console-interface'
 import * as appStateKeys from './global-state-keys'
-import { IPHelpers } from '../adb-manager/ip-helpers'
+import { IPHelpers } from '../adb-wrapper/ip-helpers'
 
 const cInterface = new ConsoleInterface()
 

@@ -1,12 +1,12 @@
-import { ADBChannel, ADBInterfaceException } from '../adb-manager'
-import { ConsoleInterfaceMock } from '../console-interface/console-interface-mock'
-import adbCommands from '../adb-manager/adb-commands'
+import { ADBChannel, ADBInterfaceException } from '../adb-wrapper'
+import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
+import adbCommands from '../adb-wrapper/adb-commands'
 
 // Mocked ConsoleInterface
 let cimock = new ConsoleInterfaceMock()
 let adbInterfaceInstance = new ADBChannel(cimock)
 
-it('will connect to device seamless', async () => {
+test('will connect to device seamless', async () => {
   const connectDeviceIp = '192.168.1.100'
   const connectExistingDeviceMock = (input: string) => {
     if (input == `adb -s ${connectDeviceIp} shell getprop ro.product.model`) {

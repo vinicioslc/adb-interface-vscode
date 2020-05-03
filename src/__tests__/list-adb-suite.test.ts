@@ -1,5 +1,5 @@
-import { ADBChannel, ADBResultState, ADBResult } from '../adb-manager'
-import { ConsoleInterfaceMock } from '../console-interface/console-interface-mock'
+import { ADBChannel, ADBResultState, ADBResult } from '../adb-wrapper'
+import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
 // import { ConsoleInterface } from './../console-interface/console-interface'
 
 // Mocked ConsoleInterface

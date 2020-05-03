@@ -4,8 +4,8 @@ import {
   ADBResult,
   ADBInterfaceError,
   ADBInterfaceException
-} from '../adb-manager'
-import { ConsoleInterfaceMock } from '../console-interface/console-interface-mock'
+} from '../adb-wrapper'
+import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
 // import { ConsoleInterface } from './../console-interface/console-interface'
 import { FirebaseManagerChannel } from './../firebase-actions/index'
 
