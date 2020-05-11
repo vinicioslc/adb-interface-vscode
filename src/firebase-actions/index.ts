@@ -1,7 +1,7 @@
-import { ADBResult, ADBResultState } from '../adb-manager'
-import { ConsoleChannel } from '../console-channel'
+import { ADBResult, ADBResultState } from '../adb-wrapper'
+import { ConsoleChannel } from '../console/console-channel'
 import * as FIREBASE_COMMANDS from './firebase-commands'
-import { ADBInterfaceError } from './../adb-manager'
+import { ADBInterfaceError } from '../adb-wrapper'
 
 export class FirebaseManagerChannel extends ConsoleChannel {
   public enableFirebaseDebugView(appPackageID: string): ADBResult {

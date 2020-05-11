@@ -3,13 +3,13 @@ import {
   ADBChannel as ADBManagerChannel,
   ADBInterfaceException,
   ADBResult
-} from '../adb-manager'
+} from '../adb-wrapper'
 import { FirebaseManagerChannel } from '../firebase-actions'
 import * as vscode from 'vscode'
 
-import { ConsoleInterface } from '../console-interface'
+import { ConsoleInterface } from '../console/console-interface'
 import * as appStateKeys from './global-state-keys'
-import { IPHelpers } from '../adb-manager/ip-helpers'
+import { IPHelpers } from '../adb-wrapper/ip-helpers'
 
 const cInterface = new ConsoleInterface()
 
@@ -69,22 +69,22 @@ async function connectToAdbDevice(
 ) {
   context.globalState.update(appStateKeys.lastIPUsed(), value)
   try {
-    await vscode.window.showInformationMessage('Connecting throught IP')
-    await vscode.window.showInformationMessage(`Connecting to ${value}`)
+    vscode.window.showInformationMessage('Connecting throught IP')
+    vscode.window.showInformationMessage(`Connecting to ${value}`)
     let adbInterfaceResult = await adbInstance.ConnectToDevice(value)
 
     switch (adbInterfaceResult.state) {
       case ADBResultState.NoDevices:
-        await vscode.window.showWarningMessage(adbInterfaceResult.message)
+        vscode.window.showWarningMessage(adbInterfaceResult.message)
         break
       case ADBResultState.AllreadyConnected:
-        await vscode.window.showWarningMessage(adbInterfaceResult.message)
+        vscode.window.showWarningMessage(adbInterfaceResult.message)
         break
       case ADBResultState.ConnectedToDevice:
-        await vscode.window.showInformationMessage(adbInterfaceResult.message)
+        vscode.window.showInformationMessage(adbInterfaceResult.message)
         break
       default:
-        await vscode.window.showWarningMessage(adbInterfaceResult.message)
+        vscode.window.showWarningMessage(adbInterfaceResult.message)
         break
     }
   } catch (e) {

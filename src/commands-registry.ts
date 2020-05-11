@@ -1,3 +1,5 @@
+import * as vscode from 'vscode'
+
 import {
   ResetDevicesPort,
   DisconnectAnyDevice,
@@ -7,7 +9,6 @@ import {
   DisableFirebaseDebugView,
   KillADBServer
 } from './extension/index'
-import * as vscode from 'vscode'
 
 export function commandsRegistry(vscodeContext: vscode.ExtensionContext) {
   return [
