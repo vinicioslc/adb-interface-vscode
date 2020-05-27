@@ -28,7 +28,7 @@
     "pp": "npx vsce package && npx vsce publish",
     "test": "npx jest --coverage",
     "test-watch": "npx jest --watchAll",
-    "test-makebadges": "npm run test && jest-badge-generator --type \"png\"",
+    "test-makebadges": "npm run test && jest-badge-generator --type png",
     "badges": "npm run test-makebadges && npm run test-makebadges"
   },
   "dependencies": {
