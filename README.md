@@ -3,7 +3,8 @@
 ![GitHub](https://img.shields.io/github/license/vinicioslc/adb-interface-vscode?style=flat-square)
 ![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/vinicioslc.adb-interface-vscode?style=flat-square)
 ![Visual Studio Marketplace Rating (Stars)](https://img.shields.io/visual-studio-marketplace/stars/vinicioslc.adb-interface-vscode?style=flat-square)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/308ff6c762d14642bdeb903dd7bfa552)](https://www.codacy.com/manual/vinicioslc/adb-interface-vscode?utm_source=github.com&utm_medium=referral&utm_content=vinicioslc/adb-interface-vscode&utm_campaign=Badge_Grade)
+<a href="https://codeclimate.com/github/vinicioslc/adb-interface-vscode/maintainability">
+<img src="https://api.codeclimate.com/v1/badges/b9fd814b1bdf974a1d16/maintainability" /></a>
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url">paypal</a>
 
 # ADB Interface for VSCode
