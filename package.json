@@ -32,6 +32,7 @@
     "badges": "npm run test-makebadges && npm run test-makebadges"
   },
   "dependencies": {
+    "adm-zip": "^0.4.14",
     "diff": ">=3.5.0",
     "local-devices": "^3.0.0"
   },

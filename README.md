@@ -4,15 +4,16 @@
 ![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/vinicioslc.adb-interface-vscode?style=flat-square)
 ![Visual Studio Marketplace Rating (Stars)](https://img.shields.io/visual-studio-marketplace/stars/vinicioslc.adb-interface-vscode?style=flat-square)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/308ff6c762d14642bdeb903dd7bfa552)](https://www.codacy.com/manual/vinicioslc/adb-interface-vscode?utm_source=github.com&utm_medium=referral&utm_content=vinicioslc/adb-interface-vscode&utm_campaign=Badge_Grade)
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url">paypal</a>
 
 # ADB Interface for VSCode
 
-Im am a simple adb extesion that makes possible to connect to an device over wifi connection without console.
+⚠️ WARN !! ONLY TESTED IN WINDOWS !! (For while, you must have ADB at your Enviroment Variables)
 
-`Help are welcome ;)`
+Help are welcome ;)
 
-`⚠️ WARN !! ONLY TESTED IN WINDOWS !! (For while, you must have ADB at your Enviroment Variables)`
+You can contribute with [Code](https://github.com/) or [Energy](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url)
+
+This are an simple ADB-Wrapper that makes possible to connect to an device over wifi connection without console use.
 
 ## ADB commands
 
@@ -23,6 +24,20 @@ Im am a simple adb extesion that makes possible to connect to an device over wif
 -   ADB:🔥 Enable Firebase events debug mode (Run firebase events in debug mode)
 -   ADB:🔥 Disable Firebase events debug mode (Run firebase events in debug mode)
 -   ADB:⚠️ Kill ADB server (Kill ADB Server runing `adb kill-server`)
+
+## Features Todo/Done
+
+-   ☒ Kill ADB server
+
+    ☒ Kills the adb server and all current connections
+
+-   ☐ ADB Resolver
+
+    ☒ Use default `ADB` in Enviroment Variable
+
+    ☐ Try Find Android Studio `ADB` in `platform-tools` folder
+
+    ☐ When not founded `ADB` download `platform-tools` to `Android Studio` default folder
 
 ## How to connect my phone via wifi
 
