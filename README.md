@@ -15,16 +15,6 @@ You can contribute with [Code](https://github.com/) or [Energy](https://www.payp
 
 This are an simple ADB-Wrapper that makes possible to connect to an device over wifi connection without console use.
 
-## ADB commands
-
--   ADB:📱 Reset connected devices port to :5555 (Open device port with `adb tcpip 5555`)
--   ADB:📱 Connect to device IP (need inform IP from device wanted `adb connect ${user_ip}:5555`)
--   ADB:📱 Disconnect from any devices (Disconnect ever device attached `adb disconnect`)
--   ADB:📱 Connect to device from List (Show an list from devices attached to connect)
--   ADB:🔥 Enable Firebase events debug mode (Run firebase events in debug mode)
--   ADB:🔥 Disable Firebase events debug mode (Run firebase events in debug mode)
--   ADB:⚠️ Kill ADB server (Kill ADB Server runing `adb kill-server`)
-
 ## Features Todo/Done
 
 -   ☒ Kill ADB server
@@ -56,3 +46,13 @@ This are an simple ADB-Wrapper that makes possible to connect to an device over 
 ![coverage-function](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-functions.png)
 ![coverage-lines](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-lines.png)
 ![coverage-statements](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-statements.png)
+
+## Available Commands
+
+-   ADB:📱 Reset connected devices port to :5555 (Open device port with `adb tcpip 5555`)
+-   ADB:📱 Connect to device IP (need inform IP from device wanted `adb connect ${user_ip}:5555`)
+-   ADB:📱 Disconnect from any devices (Disconnect ever device attached `adb disconnect`)
+-   ADB:📱 Connect to device from List (Show an list from devices attached to connect)
+-   ADB:🔥 Enable Firebase events debug mode (Run firebase events in debug mode)
+-   ADB:🔥 Disable Firebase events debug mode (Run firebase events in debug mode)
+-   ADB:⚠️ Kill ADB server (Kill ADB Server runing `adb kill-server`)
