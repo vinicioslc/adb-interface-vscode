@@ -1,5 +1,6 @@
 import { execSync } from 'child_process'
 import { IConsoleInterface } from './iconsole-interface'
+import { isArray } from 'util'
 
 interface ConsoleCallback {
   (myArgument: string): Buffer
@@ -8,6 +9,8 @@ interface ConsoleCallback {
 export class ConsoleInterfaceMock implements IConsoleInterface {
   private _output: Buffer
   private _callback: ConsoleCallback
+  private _returnStack: Array<Buffer> = []
+  public returnInfinity: boolean = true
 
   constructor() {
     this._output = Buffer.from('')
@@ -15,10 +18,18 @@ export class ConsoleInterfaceMock implements IConsoleInterface {
   }
 
   setConsoleOutput(value: string): void {
-    if (value) {
-      this._output = Buffer.from(value, 'utf8')
+    return this.pushToReturnStack(
+      value ? Buffer.from(value, 'utf8') : Buffer.from('', 'utf8')
+    )
+  }
+
+  pushToReturnStack(toReturn: Array<Buffer> | Buffer) {
+    if (isArray(toReturn)) {
+      toReturn.forEach(element => {
+        this._returnStack.push(element)
+      })
     } else {
-      this._output = Buffer.from('', 'utf8')
+      this._returnStack.push(toReturn)
     }
   }
 
@@ -30,6 +41,8 @@ export class ConsoleInterfaceMock implements IConsoleInterface {
     if (this._callback != null) {
       return this._callback(command)
     }
-    return this._output
+    if (this.returnInfinity)
+      return this._returnStack[this._returnStack.length - 1]
+    else return this._returnStack.shift()
   }
 }
