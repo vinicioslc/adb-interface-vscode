@@ -7,13 +7,14 @@ interface ConsoleCallback {
 }
 
 export class ConsoleInterfaceMock implements IConsoleInterface {
-  private _output: Buffer
+  public interceptor = (input, output) => {
+    return output
+  }
   private _callback: ConsoleCallback
   private _returnStack: Array<Buffer> = []
   public returnInfinity: boolean = true
 
   constructor() {
-    this._output = Buffer.from('')
     this._callback = null
   }
 
@@ -24,12 +25,12 @@ export class ConsoleInterfaceMock implements IConsoleInterface {
   }
 
   pushToReturnStack(toReturn: Array<Buffer> | Buffer) {
-    if (isArray(toReturn)) {
+    if (toReturn instanceof Buffer) {
+      this._returnStack.push(toReturn)
+    } else {
       toReturn.forEach(element => {
         this._returnStack.push(element)
       })
-    } else {
-      this._returnStack.push(toReturn)
     }
   }
 
@@ -38,11 +39,20 @@ export class ConsoleInterfaceMock implements IConsoleInterface {
   }
 
   execConsoleSync(command: string): Buffer {
+    let toRet = Buffer.from('')
+
+    this._callback
     if (this._callback != null) {
-      return this._callback(command)
+      toRet = this._callback(command)
+    } else {
+      if (this._returnStack.length == 1 && this.returnInfinity) {
+        toRet = this._returnStack[this._returnStack.length - 1]
+      } else {
+        toRet = this._returnStack.shift()
+      }
     }
-    if (this.returnInfinity)
-      return this._returnStack[this._returnStack.length - 1]
-    else return this._returnStack.shift()
+    if (this.interceptor) {
+      return this.interceptor(command, toRet)
+    } else return toRet
   }
 }

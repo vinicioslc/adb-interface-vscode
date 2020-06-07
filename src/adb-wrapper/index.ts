@@ -1,3 +1,4 @@
+import * as os from 'os'
 import adbCommands from './adb-commands'
 import { ConsoleChannel, consoleReturnAre } from '../console/console-channel'
 import adbReturns from './adb-returns'
@@ -5,52 +6,50 @@ import adbMessages from './adb-messages'
 import { NetHelpers } from '../net-helpers'
 import { IPHelpers } from './ip-helpers'
 import { DeviceHelpers } from './device-helpers'
+import { ADBResolver } from '../adb-resolver'
+import { IConsoleInterface } from '../console/console-interface/iconsole-interface'
+import { log } from 'util'
 
-const mapIPToDeviceName = (ipAddress: string): string => {
-  let extractedIP = IPHelpers.extractIPRegex(ipAddress)
-  try {
-    const nameOfDevice = DeviceHelpers.getDeviceModel(
-      this.consoleInstance,
-      extractedIP
-    )
-    return `${extractedIP} | ${nameOfDevice}`
-  } catch (e) {
-    return `${extractedIP} | NO DEVICE INFO`
+export class ADBConnection extends ConsoleChannel {
+  private resolverInstance: ADBResolver
+  constructor(ciInstance: IConsoleInterface) {
+    super(ciInstance)
+    this.resolverInstance = new ADBResolver(os.homedir(), os.type(), ciInstance)
   }
-}
-export class ADBChannel extends ConsoleChannel {
   /**
    *  connect to a given ip address
    * @param ipAddress "192.168.1.100"
    */
-  public ConnectToDevice(ipAddress: string): ADBResult {
+  public async ConnectToDevice(ipAddress: string): Promise<ADBResult> {
     let finalResult = null
 
     const deviceIP = IPHelpers.extractIPRegex(ipAddress)
-    const result = this.consoleInstance.execConsoleSync(
+    const result = await this.resolverInstance.sendADBCommand(
       adbCommands.CONNECT_IP_AND_PORT(deviceIP, '5555')
     )
-    const output = result.toString()
+    const resultString = result.toString()
     const deviceName = DeviceHelpers.getDeviceModel(
       this.consoleInstance,
       deviceIP
     )
 
-    if (consoleReturnAre(output, adbReturns.CONNECTED_TO())) {
+    if (consoleReturnAre(resultString, adbReturns.CONNECTED_TO())) {
       finalResult = new ADBResult(
         ADBResultState.ConnectedToDevice,
         `Connected to: ${deviceName}`
       )
     }
-    if (consoleReturnAre(output, adbReturns.ALLREADY_CONNECTED_TO())) {
+    if (consoleReturnAre(resultString, adbReturns.ALLREADY_CONNECTED_TO())) {
       throw new ADBInterfaceException(`Allready connected to: ${deviceName}`)
     }
-    if (consoleReturnAre(output, adbReturns.CONNECTION_REFUSED(deviceIP))) {
+    if (
+      consoleReturnAre(resultString, adbReturns.CONNECTION_REFUSED(deviceIP))
+    ) {
       throw new ADBInterfaceException(
         'Connection refused:\n Target machine actively refused connection.'
       )
     }
-    if (consoleReturnAre(output, adbReturns.MISSING_PORT(deviceIP))) {
+    if (consoleReturnAre(resultString, adbReturns.MISSING_PORT(deviceIP))) {
       throw new ADBInterfaceException('Port is missing fail to connect in ADB.')
     }
 
@@ -62,7 +61,7 @@ export class ADBChannel extends ConsoleChannel {
   public async ResetPorts(): Promise<ADBResult> {
     let finalResult = null
     try {
-      const result = this.consoleInstance.execConsoleSync(
+      const result = this.resolverInstance.sendADBCommand(
         adbCommands.RESET_PORTS()
       )
       const output = result.toString()
@@ -91,7 +90,7 @@ export class ADBChannel extends ConsoleChannel {
   public async DisconnectFromAllDevices(): Promise<ADBResult> {
     let finalResult = null
     try {
-      const result = this.consoleInstance.execConsoleSync(
+      const result = this.resolverInstance.sendADBCommand(
         adbCommands.ADB_DISCONNECT_ALL()
       )
       const output = result.toString()
@@ -112,7 +111,7 @@ export class ADBChannel extends ConsoleChannel {
   public async FindConnectedDevices(): Promise<Array<string>> {
     let devicesArray = []
     try {
-      const result = this.consoleInstance.execConsoleSync(
+      const result = await this.resolverInstance.sendADBCommand(
         adbCommands.LIST_ADB_DEVICES()
       )
       const output = result.toString()
@@ -126,7 +125,19 @@ export class ADBChannel extends ConsoleChannel {
         }
 
         // try to get device name trought adb
-        ips = ips.map(mapIPToDeviceName)
+        ips = ips.map((ipAddress: string): string => {
+          let extractedIP = IPHelpers.extractIPRegex(ipAddress)
+          try {
+            const nameOfDevice = DeviceHelpers.getDeviceModel(
+              this.consoleInstance,
+              extractedIP
+            )
+            return `${extractedIP} | ${nameOfDevice}`
+          } catch (e) {
+            return `${extractedIP} | NO DEVICE INFO`
+          }
+        })
+
         return ips
       }
     } catch (e) {
@@ -141,16 +152,20 @@ export class ADBChannel extends ConsoleChannel {
   public async KillADBServer(): Promise<ADBResult> {
     let returned = null
     try {
-      const result = this.consoleInstance.execConsoleSync(
+      const result = await this.resolverInstance.sendADBCommand(
         adbCommands.ADB_KILL_SERVER()
       )
       if (result.toString() == adbReturns.ADB_KILLED_SUCCESS_RETURN()) {
         returned = new ADBResult(ADBResultState.Success, 'ADB Server killed')
       } else {
-        throw Error('Internal error ocurred')
+        throw new ADBInterfaceError('ADB Server not killed')
       }
     } catch (e) {
-      throw new ADBInterfaceException(e.message)
+      if (e instanceof ADBInterfaceError) {
+        throw e
+      } else {
+        throw new ADBInterfaceException(e.message)
+      }
     }
     if (returned == null) {
       throw new ADBInterfaceError('Fail during ADB Kill')
@@ -187,7 +202,7 @@ export class ADBResult {
 
 export class ADBInterfaceError extends Error {
   AdbINterFaceError(message: string) {
-    this.message = adbMessages.ADB_INTERFACE_ERROR_DEFAULT()
+    this.message = message ?? adbMessages.ADB_INTERFACE_ERROR_DEFAULT()
   }
 }
 export class ADBInterfaceException extends Error {

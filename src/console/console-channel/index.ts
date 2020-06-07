@@ -1,3 +1,4 @@
+import { ExecSyncOptions } from 'child_process'
 import { IConsoleInterface } from '../console-interface/iconsole-interface'
 
 export class ConsoleChannel {
@@ -5,8 +6,11 @@ export class ConsoleChannel {
   constructor(CiInstance: IConsoleInterface) {
     this.consoleInstance = CiInstance
   }
-  sendCommandSync(consoleCommand: string): Buffer {
-    return this.consoleInstance.execConsoleSync(consoleCommand)
+  sendCommandSync(
+    consoleCommand: string,
+    options: ExecSyncOptions = null
+  ): Buffer {
+    return this.consoleInstance.execConsoleSync(consoleCommand, options)
   }
 }
 

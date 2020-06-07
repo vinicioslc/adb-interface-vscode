@@ -1,12 +1,5 @@
-import {
-  ADBChannel,
-  ADBResultState,
-  ADBResult,
-  ADBInterfaceError,
-  ADBInterfaceException
-} from '../adb-wrapper'
+import { ADBResultState, ADBInterfaceError } from '../adb-wrapper'
 import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
-// import { ConsoleInterface } from './../console-interface/console-interface'
 import { FirebaseManagerChannel } from './../firebase-actions/index'
 
 // Mocked ConsoleInterface
@@ -39,10 +32,12 @@ test('No Devices informed', async () => {
 })
 
 test('Disable firebase debugview', async () => {
-  cimock.setConsoleOutput('')
-  const result = await adbInterfaceInstance.disableFirebaseDebugView()
-
-  expect(result.state).toStrictEqual(ADBResultState.Success)
+  try {
+    cimock.setConsoleOutput('')
+    const result = await adbInterfaceInstance.disableFirebaseDebugView()
+  } catch (e) {
+    expect(e).toBeInstanceOf(ADBInterfaceError)
+  }
 })
 
 test('Enable firebase debugview success', async () => {

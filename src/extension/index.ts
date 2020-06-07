@@ -1,6 +1,6 @@
 import {
   ADBResultState,
-  ADBChannel as ADBManagerChannel,
+  ADBConnection,
   ADBInterfaceException,
   ADBResult
 } from '../adb-wrapper'
@@ -9,41 +9,52 @@ import * as vscode from 'vscode'
 
 import { ConsoleInterface } from '../console/console-interface'
 import * as appStateKeys from './global-state-keys'
+import * as os from 'os'
 import { IPHelpers } from '../adb-wrapper/ip-helpers'
+import { ADBResolver, ADBNotFoundError } from '../adb-resolver'
 
-const cInterface = new ConsoleInterface()
-
-const firebaseInstance = new FirebaseManagerChannel(cInterface)
-const adbInstance = new ADBManagerChannel(cInterface)
-
+const consoleInstance = new ConsoleInterface()
+const firebaseInstance = new FirebaseManagerChannel(consoleInstance)
+const adbInstance = new ADBConnection(consoleInstance)
+function genericErrorReturn(e: Error) {
+  if (e instanceof ADBInterfaceException) {
+    vscode.window.showWarningMessage(e.message)
+  } else {
+    vscode.window.showErrorMessage('Error:' + e.message)
+  }
+}
 export async function ResetDevicesPort(context: vscode.ExtensionContext) {
-  vscode.window.withProgress(
-    {
-      location: vscode.ProgressLocation.Notification,
-      title: 'Starting ADB'
-    },
-    async progress => {
-      try {
-        progress.report({ message: 'Reseting ports to 5555', increment: 50 })
-        let adbInterfaceResult = await adbInstance.ResetPorts()
-        switch (adbInterfaceResult.state) {
-          case ADBResultState.NoDevices:
-            vscode.window.showWarningMessage(adbInterfaceResult.message)
-            break
-          case ADBResultState.DevicesInPortMode:
-            vscode.window.showInformationMessage(adbInterfaceResult.message)
-            break
-          default:
-            vscode.window.showErrorMessage(adbInterfaceResult.message)
-            break
+  try {
+    vscode.window.withProgress(
+      {
+        location: vscode.ProgressLocation.Notification,
+        title: 'Starting ADB'
+      },
+      async progress => {
+        try {
+          progress.report({ message: 'Reseting ports to 5555', increment: 50 })
+          let adbInterfaceResult = await adbInstance.ResetPorts()
+          switch (adbInterfaceResult.state) {
+            case ADBResultState.NoDevices:
+              vscode.window.showWarningMessage(adbInterfaceResult.message)
+              break
+            case ADBResultState.DevicesInPortMode:
+              vscode.window.showInformationMessage(adbInterfaceResult.message)
+              break
+            default:
+              vscode.window.showErrorMessage(adbInterfaceResult.message)
+              break
+          }
+          return async () => {}
+        } catch (e) {
+          genericErrorReturn(e)
         }
-        return async () => {}
-      } catch (e) {
-        vscode.window.showErrorMessage(e.message)
       }
-    }
-  )
-  // Display a message box to the user
+    )
+    // Display a message box to the user
+  } catch (e) {
+    genericErrorReturn(e)
+  }
 }
 
 export async function ConnectToDevice(context: vscode.ExtensionContext) {
@@ -88,11 +99,7 @@ async function connectToAdbDevice(
         break
     }
   } catch (e) {
-    if (e instanceof ADBInterfaceException) {
-      vscode.window.showWarningMessage(e.message)
-    } else {
-      vscode.window.showErrorMessage('Error:' + e.message)
-    }
+    genericErrorReturn(e)
   }
 }
 
@@ -111,50 +118,60 @@ export async function DisconnectAnyDevice(context: vscode.ExtensionContext) {
         break
     }
   } catch (e) {
-    vscode.window.showErrorMessage(
-      'Fail to disconnect all devices\n' + e.message
-    )
+    genericErrorReturn(e)
   }
 }
 export async function KillADBServer(context: vscode.ExtensionContext) {
-  const adbInterfaceResult = await adbInstance.KillADBServer()
-  if (adbInterfaceResult.state == ADBResultState.Success) {
-    vscode.window.showInformationMessage(adbInterfaceResult.message)
-  } else {
-    vscode.window.showErrorMessage(
-      'Fail to Kill ADB interface' + adbInterfaceResult.message
-    )
+  try {
+    const adbInterfaceResult = await adbInstance.KillADBServer()
+    if (adbInterfaceResult.state == ADBResultState.Success) {
+      vscode.window.showInformationMessage(adbInterfaceResult.message)
+    } else {
+      vscode.window.showErrorMessage(
+        'Fail to Kill ADB interface' + adbInterfaceResult.message
+      )
+    }
+  } catch (e) {
+    genericErrorReturn(e)
   }
 }
 
 export async function ConnectToDeviceFromList(
   context: vscode.ExtensionContext
 ) {
-  const ipAddresses = await getIPAddressList(context)
-  const ipSelected = await vscode.window.showQuickPick(ipAddresses, {
-    ignoreFocusOut: true,
-    placeHolder: 'Select the IP address of the device to connect to...'
-  })
-  if (ipSelected == null) {
-    vscode.window.showErrorMessage('Device IP Address not selected.')
-  } else {
-    // wait disconnect from adb device
-    await adbInstance.DisconnectFromAllDevices()
-    await connectToAdbDevice(context, IPHelpers.extractIPRegex(ipSelected))
+  try {
+    const ipAddresses = await getIPAddressList(context)
+    const ipSelected = await vscode.window.showQuickPick(ipAddresses, {
+      ignoreFocusOut: true,
+      placeHolder: 'Select the IP address of the device to connect to...'
+    })
+    if (ipSelected == null) {
+      throw new Error('Device IP Address not selected.')
+    } else {
+      // wait disconnect from adb device
+      await adbInstance.DisconnectFromAllDevices()
+      await connectToAdbDevice(context, IPHelpers.extractIPRegex(ipSelected))
+    }
+  } catch (error) {
+    genericErrorReturn(error)
   }
 }
 
 async function getIPAddressList(context) {
-  const connectedDevices = await adbInstance.FindConnectedDevices()
-  const lastIPSelected = await context.globalState.get(
-    appStateKeys.lastIPUsed,
-    ''
-  )
-  if (lastIPSelected != null && lastIPSelected != '') {
-    // add last selected ip to begining of array
-    connectedDevices.unshift(lastIPSelected)
+  try {
+    const connectedDevices = await adbInstance.FindConnectedDevices()
+    const lastIPSelected = await context.globalState.get(
+      appStateKeys.lastIPUsed,
+      ''
+    )
+    if (lastIPSelected != null && lastIPSelected != '') {
+      // add last selected ip to begining of array
+      connectedDevices.unshift(lastIPSelected)
+    }
+    return connectedDevices
+  } catch (e) {
+    genericErrorReturn(e)
   }
-  return connectedDevices
 }
 export async function EnableFirebaseDebugView(
   context: vscode.ExtensionContext
@@ -190,7 +207,7 @@ export async function EnableFirebaseDebugView(
         break
     }
   } catch (e) {
-    vscode.window.showErrorMessage('Fail to connect to device \n' + e.message)
+    genericErrorReturn(e)
   }
 }
 
@@ -210,6 +227,6 @@ export async function DisableFirebaseDebugView(
         break
     }
   } catch (e) {
-    vscode.window.showErrorMessage('Fail to connect to device \n' + e.message)
+    genericErrorReturn(e)
   }
 }

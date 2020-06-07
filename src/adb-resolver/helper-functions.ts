@@ -1,19 +1,23 @@
 import * as os from 'os'
-// TODO Verificar e executar comandos adb na pasta indicada.
-const getAndroidStudioPath = ({ osType, homeDir }) => {
+import * as path from 'path'
+
+export const getAndroidStudioPath = ({ osType, homeDir }) => {
   switch (osType) {
     case 'Windows_NT':
-      return `${homeDir}/AppData/Local/Android/Sdk/platform-tools`
+      return path.win32.join(
+        homeDir,
+        '/AppData/Local/Android/Sdk/platform-tools'
+      )
     case 'Darwin':
-      return `${homeDir}/Library/Android/sdk/platform-tools`
+      return path.posix.join(homeDir, '/Library/Android/sdk/platform-tools')
     case 'Linux':
-      return `${homeDir}/Android/Sdk`
+      return path.posix.join(homeDir, '/Android/Sdk')
     default:
       throw new TypeError('Android Path Error: Invalid Platform')
   }
 }
 
-const getDownloadADBUrl = ({ osType }) => {
+export const getDownloadADBUrl = ({ osType }) => {
   switch (osType) {
     case 'Windows_NT':
       return 'https://dl.google.com/android/repository/platform-tools-latest-windows.zip'

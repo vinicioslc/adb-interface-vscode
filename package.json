@@ -6,7 +6,7 @@
   "publisher": "vinicioslc",
   "repository": "https://github.com/vinicioslc/adb-interface-vscode",
   "engines": {
-    "vscode": "^1.25.0"
+    "vscode": "^1.26.0"
   },
   "icon": "media/icon.png",
   "galleryBanner": {

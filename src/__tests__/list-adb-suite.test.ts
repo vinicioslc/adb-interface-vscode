@@ -1,18 +1,19 @@
-import { ADBChannel, ADBResultState, ADBResult } from '../adb-wrapper'
+import { ADBConnection } from '../adb-wrapper'
 import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
-// import { ConsoleInterface } from './../console-interface/console-interface'
-
-// Mocked ConsoleInterface
-const cimock = new ConsoleInterfaceMock()
-const adbInterfaceInstance = new ADBChannel(cimock)
 
 test('Test ADB Listed Devices', async () => {
-  cimock.setConsoleOutput(`* daemon not running; starting now at tcp:5037
+  let cimock = new ConsoleInterfaceMock()
+  let adbInterfaceInstance = new ADBConnection(cimock)
+  cimock.setConsoleOutput(`Android Debug Bridge`)
+  cimock.setConsoleOutput(`* starting now at tcp:5037
   * daemon started successfully
-  List of devices attached
-  
+  List of devices attached    
+  2ab7dcd77d04    unauthorized
   `)
-  const result = await adbInterfaceInstance.FindConnectedDevices()
+  cimock.setConsoleOutput(`PEAR_PHONE`)
+  cimock.returnInfinity = true
 
-  expect(typeof result).toStrictEqual(typeof Array())
-})
+  let result = await adbInterfaceInstance.FindConnectedDevices()
+
+  expect(result instanceof Array).toBe(true)
+}, 12000)
