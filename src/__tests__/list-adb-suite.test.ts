@@ -1,7 +1,7 @@
 import { ADBConnection } from '../adb-wrapper'
 import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
 
-test('Test ADB Listed Devices', async () => {
+test('list all devices returning empty array', async () => {
   let cimock = new ConsoleInterfaceMock()
   let adbInterfaceInstance = new ADBConnection(cimock)
   cimock.setConsoleOutput(`Android Debug Bridge`)
