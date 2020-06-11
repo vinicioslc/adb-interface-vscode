@@ -1,4 +1,4 @@
-import { ADBConnection } from '../adb-wrapper'
+import { ADBConnection } from '.'
 import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
 
 test('list all devices returning empty array', async () => {

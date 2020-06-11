@@ -1,4 +1,4 @@
-import { ADBConnection, ADBInterfaceError } from '../adb-wrapper'
+import { ADBConnection, ADBInterfaceError } from '.'
 import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
 // import { ConsoleInterface } from './../console-interface/console-interface'
 

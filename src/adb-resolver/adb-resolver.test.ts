@@ -12,7 +12,7 @@ test('Should return current home dir when path is present', async () => {
   expect(await adbResolver.getDefaultADBPath()).toBe('c:/Android/Sdk')
 })
 
-test('Throw error when nothing found', () => {
+test('ADB Not founded in system Exception', () => {
   try {
     const cimock = new ConsoleInterfaceMock()
     cimock.setConsoleOutput(`Invalid Return`)

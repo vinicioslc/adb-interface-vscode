@@ -1,6 +1,6 @@
 import { ADBInterfaceError } from '../adb-wrapper'
 import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
-import { FirebaseManagerChannel } from '../firebase-channel/index'
+import { FirebaseManagerChannel } from './index'
 
 // Mocked ConsoleInterface
 const missingArgumentsMessage = `usage: setprop NAME VALUE
