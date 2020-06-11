@@ -1,10 +1,8 @@
-import { ADBResultState, ADBInterfaceError } from '../adb-wrapper'
+import { ADBInterfaceError } from '../adb-wrapper'
 import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
-import { FirebaseManagerChannel } from './../firebase-actions/index'
+import { FirebaseManagerChannel } from '../firebase-channel/index'
 
 // Mocked ConsoleInterface
-const cimock = new ConsoleInterfaceMock()
-const adbInterfaceInstance = new FirebaseManagerChannel(cimock)
 const missingArgumentsMessage = `usage: setprop NAME VALUE
 
 Sets an Android system property.
@@ -15,8 +13,11 @@ const noDevicesFoundMessage = `error: no devices/emulators found`
 
 test('No devices attached', async () => {
   try {
-    cimock.setConsoleOutput(noDevicesFoundMessage)
-    adbInterfaceInstance.enableFirebaseDebugView('com.package')
+    const cimock = new ConsoleInterfaceMock()
+    const adbInterfaceInstance = new FirebaseManagerChannel(cimock)
+    cimock.setConsoleOutput('List of devices attached')
+    await cimock.setConsoleOutput(noDevicesFoundMessage)
+    await adbInterfaceInstance.enableFirebaseDebugView('com.package')
   } catch (e) {
     expect(e).toBeInstanceOf(ADBInterfaceError)
   }
@@ -24,8 +25,11 @@ test('No devices attached', async () => {
 
 test('No Devices informed', async () => {
   try {
+    const cimock = new ConsoleInterfaceMock()
+    const adbInterfaceInstance = new FirebaseManagerChannel(cimock)
+    cimock.setConsoleOutput('List of devices attached')
     cimock.setConsoleOutput(missingArgumentsMessage)
-    adbInterfaceInstance.enableFirebaseDebugView('com.package')
+    adbInterfaceInstance.enableFirebaseDebugView('')
   } catch (e) {
     expect(e).toBeInstanceOf(ADBInterfaceError)
   }
@@ -33,17 +37,25 @@ test('No Devices informed', async () => {
 
 test('Disable firebase debugview', async () => {
   try {
+    const cimock = new ConsoleInterfaceMock()
+    const adbInterfaceInstance = new FirebaseManagerChannel(cimock)
+    cimock.setConsoleOutput('List of devices attached')
     cimock.setConsoleOutput('')
-    const result = await adbInterfaceInstance.disableFirebaseDebugView()
+    await adbInterfaceInstance.disableFirebaseDebugView()
   } catch (e) {
     expect(e).toBeInstanceOf(ADBInterfaceError)
   }
 })
 
 test('Enable firebase debugview success', async () => {
-  cimock.setConsoleOutput('')
+  const cimock = new ConsoleInterfaceMock()
+  cimock.setConsoleOutput('List of devices attached')
+  cimock.setConsoleOutput(' ')
+  const adbInterfaceInstance = new FirebaseManagerChannel(cimock)
   const result = await adbInterfaceInstance.enableFirebaseDebugView(
     'com.package'
   )
-  expect(result.state).toStrictEqual(ADBResultState.Success)
+  expect(result).toStrictEqual(
+    `Setted firebase debug mode to [com.package] app`
+  )
 })

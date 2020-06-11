@@ -12,18 +12,20 @@ import { log } from 'util'
 
 export class ADBConnection extends ConsoleChannel {
   private resolverInstance: ADBResolver
+
   constructor(ciInstance: IConsoleInterface) {
     super(ciInstance)
     this.resolverInstance = new ADBResolver(os.homedir(), os.type(), ciInstance)
   }
+
   /**
    *  connect to a given ip address
-   * @param ipAddress "192.168.1.100"
+   * @param ip "192.168.1.100"
    */
-  public async ConnectToDevice(ipAddress: string): Promise<ADBResult> {
+  public async ConnectToDevice(ip: string): Promise<string> {
     let finalResult = null
 
-    const deviceIP = IPHelpers.extractIPRegex(ipAddress)
+    const deviceIP = IPHelpers.extractIPRegex(ip)
     const result = await this.resolverInstance.sendADBCommand(
       adbCommands.CONNECT_IP_AND_PORT(deviceIP, '5555')
     )
@@ -34,10 +36,7 @@ export class ADBConnection extends ConsoleChannel {
     )
 
     if (consoleReturnAre(resultString, adbReturns.CONNECTED_TO())) {
-      finalResult = new ADBResult(
-        ADBResultState.ConnectedToDevice,
-        `Connected to: ${deviceName}`
-      )
+      finalResult = `Connected to: ${deviceName}`
     }
     if (consoleReturnAre(resultString, adbReturns.ALLREADY_CONNECTED_TO())) {
       throw new ADBInterfaceException(`Allready connected to: ${deviceName}`)
@@ -53,30 +52,24 @@ export class ADBConnection extends ConsoleChannel {
       throw new ADBInterfaceException('Port is missing fail to connect in ADB.')
     }
 
-    if (finalResult == null) {
-      throw new ADBInterfaceError('Some error ocurred during connection.')
+    if (finalResult === null) {
+      throw new ADBInterfaceException('ADB returned null value')
     }
     return finalResult
   }
-  public async ResetPorts(): Promise<ADBResult> {
+  public async ResetPorts(): Promise<string> {
     let finalResult = null
     try {
-      const result = this.resolverInstance.sendADBCommand(
+      const result = await this.resolverInstance.sendADBCommand(
         adbCommands.RESET_PORTS()
       )
       const output = result.toString()
       if (consoleReturnAre(output, adbReturns.RESTARTING_PORT())) {
-        finalResult = new ADBResult(
-          ADBResultState.DevicesInPortMode,
-          adbMessages.DEVICES_IN_TCP_MODE()
-        )
+        finalResult = adbMessages.DEVICES_IN_TCP_MODE()
       }
     } catch (e) {
       if (e.message.includes(adbReturns.NO_DEVICES_FOUND())) {
-        finalResult = new ADBResult(
-          ADBResultState.NoDevices,
-          adbMessages.NO_DEVICES_FOUND()
-        )
+        finalResult = adbMessages.NO_DEVICES_FOUND()
       } else {
         throw new ADBInterfaceException(e.message)
       }
@@ -87,18 +80,15 @@ export class ADBConnection extends ConsoleChannel {
     return finalResult
   }
 
-  public async DisconnectFromAllDevices(): Promise<ADBResult> {
+  public async DisconnectFromAllDevices(): Promise<string> {
     let finalResult = null
     try {
-      const result = this.resolverInstance.sendADBCommand(
+      const result = await this.resolverInstance.sendADBCommand(
         adbCommands.ADB_DISCONNECT_ALL()
       )
       const output = result.toString()
       if (consoleReturnAre(output, adbReturns.DISCONNECTED_EVERTHING())) {
-        finalResult = new ADBResult(
-          ADBResultState.DisconnectedEverthing,
-          'Disconnected from all devices'
-        )
+        finalResult = 'Disconnected from all devices'
       }
     } catch (e) {
       throw new ADBInterfaceError(e.toString())
@@ -149,14 +139,14 @@ export class ADBConnection extends ConsoleChannel {
     return devicesArray
   }
 
-  public async KillADBServer(): Promise<ADBResult> {
+  public async KillADBServer(): Promise<string> {
     let returned = null
     try {
       const result = await this.resolverInstance.sendADBCommand(
         adbCommands.ADB_KILL_SERVER()
       )
       if (result.toString() == adbReturns.ADB_KILLED_SUCCESS_RETURN()) {
-        returned = new ADBResult(ADBResultState.Success, 'ADB Server killed')
+        returned = 'ADB Server killed'
       } else {
         throw new ADBInterfaceError('ADB Server not killed')
       }
@@ -174,39 +164,15 @@ export class ADBConnection extends ConsoleChannel {
   }
 }
 
-/**
- * Is an enum of adb possible results
- */
-export enum ADBResultState {
-  ConnectedToDevice,
-  NotFound,
-  NoDevices,
-  DevicesInPortMode,
-  AllreadyConnected,
-  DisconnectedEverthing,
-  Success
-}
-
-/**
- * Is an result returned by an adb connection
- */
-export class ADBResult {
-  state: ADBResultState
-  message: string
-  constructor(resultState: ADBResultState, message: string) {
-    this.state = resultState
-    this.message = message
-    return this
-  }
-}
-
 export class ADBInterfaceError extends Error {
-  AdbINterFaceError(message: string) {
-    this.message = message ?? adbMessages.ADB_INTERFACE_ERROR_DEFAULT()
+  constructor(message: string = adbMessages.ADB_INTERFACE_ERROR_DEFAULT()) {
+    super(message)
+    this.name = 'ADBInterfaceError'
   }
 }
 export class ADBInterfaceException extends Error {
-  ADBInterfaceException(message: string) {
-    this.message = message ?? adbMessages.ADB_INTERFACE_EXCEPTION_DEFAULT()
+  constructor(message: string = adbMessages.ADB_INTERFACE_EXCEPTION_DEFAULT()) {
+    super(message)
+    this.name = 'ADBInterfaceException'
   }
 }

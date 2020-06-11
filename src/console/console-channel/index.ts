@@ -3,8 +3,8 @@ import { IConsoleInterface } from '../console-interface/iconsole-interface'
 
 export class ConsoleChannel {
   consoleInstance: IConsoleInterface
-  constructor(CiInstance: IConsoleInterface) {
-    this.consoleInstance = CiInstance
+  constructor(instance: IConsoleInterface) {
+    this.consoleInstance = instance
   }
   sendCommandSync(
     consoleCommand: string,

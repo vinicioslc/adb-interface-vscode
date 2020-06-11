@@ -3,6 +3,7 @@ import { IConsoleInterface } from './iconsole-interface'
 
 export class ConsoleInterface implements IConsoleInterface {
   execConsoleSync(command: string, options: ExecSyncOptions = null): Buffer {
+    console.log('Executed ', command)
     return execSync(command, options)
   }
 }

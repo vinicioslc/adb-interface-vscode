@@ -1,14 +1,14 @@
-import * as path from 'path'
 import * as os from 'os'
 import { ConsoleInterface } from '../console/console-interface'
 import * as helperFunctions from './helper-functions'
 
 export class ADBResolver {
-  homeDir: string
   osType: string
+  homeDir: string
   consoleInterface: ConsoleInterface
 
-  private readonly successADBReturn = 'Android Debug Bridge'
+  private readonly validADBReturn = 'List of devices'
+  private readonly adbTestCommand = 'adb devices'
 
   constructor(
     homeDir: string,
@@ -21,35 +21,57 @@ export class ADBResolver {
   }
 
   private async hasAndroidInEnv(): Promise<boolean> {
-    const result = await this.consoleInterface.execConsoleSync('adb')
-    return result.toLocaleString().includes(this.successADBReturn)
+    try {
+      const consoleString = await this.consoleInterface.execConsoleSync(
+        this.adbTestCommand
+      )
+      return consoleString.toString().includes(this.validADBReturn)
+    } catch (e) {
+      console.error('[LOG] Not founded in default env', e)
+      return false
+    }
   }
   private returnDefaultADBPath(): string {
-    return helperFunctions.getAndroidStudioPath({
+    const path = helperFunctions.getAndroidStudioPath({
       osType: this.osType,
       homeDir: this.homeDir
     })
+    return path
   }
 
   private async hasPlatformToolsDefaultFolder(): Promise<boolean> {
-    const result = await this.consoleInterface.execConsoleSync('adb', {
-      cwd: this.returnDefaultADBPath()
-    })
-    return result.toLocaleString().includes(this.successADBReturn)
+    try {
+      let adbFolder = this.returnDefaultADBPath()
+      const consoleString = await this.consoleInterface.execConsoleSync(
+        this.adbTestCommand,
+        {
+          cwd: adbFolder
+        }
+      )
+      return consoleString.toString().includes(this.validADBReturn)
+    } catch (e) {
+      console.error('[LOG] Not founded in common folder', e)
+      return false
+    }
   }
 
   public async getDefaultADBPath() {
-    if (await this.hasAndroidInEnv()) {
-      return os.homedir()
-    } else if (await this.hasPlatformToolsDefaultFolder()) {
+    let isEnv = await this.hasAndroidInEnv()
+    if (isEnv) {
+      return this.homeDir
+    }
+    let isFolder = await this.hasPlatformToolsDefaultFolder()
+    if (isFolder) {
       return this.returnDefaultADBPath()
     }
+
     throw new ADBNotFoundError()
   }
 
   public async sendADBCommand(command: string): Promise<Buffer> {
+    const adbPath = await this.getDefaultADBPath()
     return this.consoleInterface.execConsoleSync(command, {
-      cwd: await this.getDefaultADBPath()
+      cwd: adbPath
     })
   }
 }

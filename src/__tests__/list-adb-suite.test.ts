@@ -4,7 +4,7 @@ import { ConsoleInterfaceMock } from '../console/console-interface/console-inter
 test('list all devices returning empty array', async () => {
   let cimock = new ConsoleInterfaceMock()
   let adbInterfaceInstance = new ADBConnection(cimock)
-  cimock.setConsoleOutput(`Android Debug Bridge`)
+  cimock.setConsoleOutput('List of devices')
   cimock.setConsoleOutput(`* starting now at tcp:5037
   * daemon started successfully
   List of devices attached    

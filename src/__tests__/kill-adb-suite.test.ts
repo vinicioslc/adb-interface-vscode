@@ -1,9 +1,4 @@
-import {
-  ADBConnection,
-  ADBResultState,
-  ADBResult,
-  ADBInterfaceError
-} from '../adb-wrapper'
+import { ADBConnection, ADBInterfaceError } from '../adb-wrapper'
 import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
 // import { ConsoleInterface } from './../console-interface/console-interface'
 
@@ -12,13 +7,14 @@ const cimock = new ConsoleInterfaceMock()
 const adbInterfaceInstance = new ADBConnection(cimock)
 
 test('Test ADB Server has killed', async () => {
-  const expected = new ADBResult(ADBResultState.Success, 'ADB Server killed')
+  const expected = 'ADB Server killed'
   try {
+    cimock.setConsoleOutput('List of devices')
     cimock.setConsoleOutput('')
-    cimock.setConsoleOutput(`Android Debug Bridge`)
+    cimock.setConsoleOutput('List of devices')
 
     const result = await adbInterfaceInstance.KillADBServer()
-    expect(JSON.stringify(result)).toBe(JSON.stringify(expected))
+    expect(result).toBe(expected)
   } catch (e) {
     expect(e).toBeInstanceOf(ADBInterfaceError)
   }
