@@ -26,7 +26,6 @@ export function activate(context: vscode.ExtensionContext) {
     firebaseManagerChannel
   )
   const adbCmdController = new ADBCommandsController(context, adbInstance)
-  adbCmdController
 }
 
 // this method is called when your extension is deactivated

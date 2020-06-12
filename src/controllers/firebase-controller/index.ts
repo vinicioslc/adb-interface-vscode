@@ -2,9 +2,9 @@ import * as vscode from 'vscode'
 import { ADBInterfaceException, ADBConnection } from '../../adb-wrapper'
 import * as appStateKeys from '../../extension/global-state-keys'
 import { FirebaseManagerChannel } from '../../firebase-channel/index'
-import { ExtController } from '../../Infraestructure/ExtensionController'
+import { ADBController } from './../../Infraestructure/ADBController'
 
-export class FirebaseController extends ExtController {
+export class FirebaseController extends ADBController {
   private firebaseInstance: FirebaseManagerChannel
   appStateKeys: typeof appStateKeys
 
@@ -17,19 +17,15 @@ export class FirebaseController extends ExtController {
     this.appStateKeys = appStateKeys
   }
 
-  onInit(): void {
-    this.registerCommand(
+  async onInit() {
+    await this.registerCommand(
       'adbInterface.enableFirebaseDebug',
       this.EnableFirebaseDebugView
     )
-    this.registerCommand(
+    await this.registerCommand(
       'adbInterface.disableFirebaseDebug',
       this.DisableFirebaseDebugView
     )
-  }
-
-  async deRegisterController() {
-    this.dispose()
   }
 
   genericErrorReturn(e: Error) {
@@ -62,7 +58,7 @@ export class FirebaseController extends ExtController {
       })
 
       vscode.window.showInformationMessage(
-        this.firebaseInstance.enableFirebaseDebugView(packageName)
+        await this.firebaseInstance.enableFirebaseDebugView(packageName)
       )
     } catch (e) {
       this.genericErrorReturn(e)
@@ -71,7 +67,7 @@ export class FirebaseController extends ExtController {
   async DisableFirebaseDebugView() {
     try {
       vscode.window.showInformationMessage(
-        this.firebaseInstance.disableFirebaseDebugView()
+        await this.firebaseInstance.disableFirebaseDebugView()
       )
     } catch (e) {
       this.genericErrorReturn(e)

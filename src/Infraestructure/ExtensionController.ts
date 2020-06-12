@@ -1,4 +1,4 @@
-import { ExtensionContext, commands, Disposable, Command } from 'vscode'
+import { ExtensionContext, commands, Disposable } from 'vscode'
 
 import { IExtController } from './IExtController'
 
@@ -22,7 +22,6 @@ export class ExtController implements IExtController, Disposable {
       this.registerCommand(name, callback)
     }
   }
-
   async registerCommand(name: string, callback: (...args: any[]) => any) {
     let subscription = commands.registerCommand(name, callback)
     this.context.subscriptions.push(subscription)

@@ -1,11 +1,10 @@
 import * as vscode from 'vscode'
-import { ADBInterfaceException, ADBConnection } from '../../adb-wrapper'
+import { ADBConnection } from '../../adb-wrapper'
 import * as appStateKeys from '../../extension/global-state-keys'
 import { IPHelpers } from '../../adb-wrapper/ip-helpers'
-import { FirebaseManagerChannel } from '../../firebase-channel/index'
-import { ExtController } from '../../Infraestructure/ExtensionController'
+import { ADBController } from '../../Infraestructure/ADBController'
 
-export class ADBCommandsController extends ExtController {
+export class ADBCommandsController extends ADBController {
   private adbInstance: ADBConnection
   private appStateKeys: typeof appStateKeys
 
@@ -32,14 +31,6 @@ export class ADBCommandsController extends ExtController {
       this.ConnectToDeviceFromList
     )
     await this.registerCommand('adbInterface.killserver', this.KillADBServer)
-  }
-
-  genericErrorReturn(e: Error) {
-    if (e instanceof ADBInterfaceException) {
-      vscode.window.showWarningMessage(e.message)
-    } else {
-      vscode.window.showErrorMessage('Error:' + e.message)
-    }
   }
 
   async ResetDevicesPort() {
