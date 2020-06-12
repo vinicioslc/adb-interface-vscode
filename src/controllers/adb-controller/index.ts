@@ -2,9 +2,9 @@ import * as vscode from 'vscode'
 import { ADBConnection } from '../../adb-wrapper'
 import * as appStateKeys from '../../extension/global-state-keys'
 import { IPHelpers } from '../../adb-wrapper/ip-helpers'
-import { ADBController } from '../../Infraestructure/ADBController'
+import { ADBBaseController } from '../../Infraestructure/ADBBaseController'
 
-export class ADBCommandsController extends ADBController {
+export class ADBCommandsController extends ADBBaseController {
   private adbInstance: ADBConnection
   private appStateKeys: typeof appStateKeys
 
@@ -55,7 +55,7 @@ export class ADBCommandsController extends ADBController {
     )
   }
 
-  async ConnectToDevice(context: vscode.ExtensionContext) {
+  async ConnectToDevice() {
     let lastvalue = context.globalState.get(appStateKeys.lastIPUsed(), '')
     // The code you place here will be executed every time your command is executed
     vscode.window
@@ -85,7 +85,7 @@ export class ADBCommandsController extends ADBController {
     }
   }
 
-  async DisconnectAnyDevice(context: vscode.ExtensionContext) {
+  async DisconnectAnyDevice() {
     try {
       vscode.window.showInformationMessage(
         await this.adbInstance.DisconnectFromAllDevices()
@@ -94,7 +94,7 @@ export class ADBCommandsController extends ADBController {
       this.genericErrorReturn(e)
     }
   }
-  async KillADBServer(context: vscode.ExtensionContext) {
+  async KillADBServer() {
     try {
       const adbInterfaceResult = await this.adbInstance.KillADBServer()
       if (adbInterfaceResult) {
