@@ -1,8 +1,8 @@
 {
   "name": "adb-interface-vscode",
   "displayName": "ADB Interface for VSCode",
-  "description": "A simple interface to allow use common ADB commands inside VSCode without console.",
-  "version": "0.17.2",
+  "description": "A simple interface to allow use common ADB commands inside VSCode without console need.",
+  "version": "0.18.0",
   "publisher": "vinicioslc",
   "repository": "https://github.com/vinicioslc/adb-interface-vscode",
   "engines": {
@@ -24,14 +24,15 @@
     "vscode:prepublish": "npm run setup && npm run compile",
     "setup": "npm install",
     "compile": "tsc -p ./",
-    "publish": "npx vsce publish -p $VSCE_DEPLOY_TOKEN",
+    "publish": "npx vsce publish -p $VSCE_DEPLOY_TOKEN && git push origin --tags",
     "pp": "npx vsce package && npx vsce publish",
     "test": "npx jest --coverage",
-    "test-watch": "npx jest --watchAll",
-    "test-makebadges": "npm run test && jest-badge-generator --type \"png\"",
+    "test:watch": "npx jest --watchAll",
+    "test:makebadges": "npm run test && jest-badge-generator --type png",
     "badges": "npm run test-makebadges && npm run test-makebadges"
   },
   "dependencies": {
+    "adm-zip": "^0.4.14",
     "diff": ">=3.5.0",
     "local-devices": "^3.0.0"
   },
