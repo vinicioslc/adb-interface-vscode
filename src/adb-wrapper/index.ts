@@ -1,13 +1,16 @@
 import * as os from 'os'
 import adbCommands from './adb-commands'
-import { ConsoleChannel, consoleReturnAre } from '../console/console-channel'
+import {
+  ConsoleChannel,
+  consoleReturnAre
+} from '../Infraestructure/console/console-channel'
 import adbReturns from './adb-returns'
 import adbMessages from './adb-messages'
-import { NetHelpers } from '../net-helpers'
+import { NetHelpers } from '../Infraestructure/net-helpers'
 import { IPHelpers } from './ip-helpers'
 import { DeviceHelpers } from './device-helpers'
 import { ADBResolver } from '../adb-resolver'
-import { IConsoleInterface } from '../console/console-interface/iconsole-interface'
+import { IConsoleInterface } from '../Infraestructure/console/console-interface/iconsole-interface'
 import { log } from 'util'
 
 export class ADBConnection extends ConsoleChannel {
@@ -60,10 +63,10 @@ export class ADBConnection extends ConsoleChannel {
   public async ResetPorts(): Promise<string> {
     let finalResult = null
     try {
-      const result = await this.resolverInstance.sendADBCommand(
+      const consoleReturn = await this.resolverInstance.sendADBCommand(
         adbCommands.RESET_PORTS()
       )
-      const output = result.toString()
+      const output = consoleReturn.toString()
       if (consoleReturnAre(output, adbReturns.RESTARTING_PORT())) {
         finalResult = adbMessages.DEVICES_IN_TCP_MODE()
       }
@@ -98,6 +101,7 @@ export class ADBConnection extends ConsoleChannel {
     }
     return finalResult
   }
+
   public async FindConnectedDevices(): Promise<Array<string>> {
     let devicesArray = []
     try {

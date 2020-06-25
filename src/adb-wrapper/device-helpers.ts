@@ -1,4 +1,4 @@
-import { IConsoleInterface } from '../console/console-interface/iconsole-interface'
+import { IConsoleInterface } from '../Infraestructure/console/console-interface/iconsole-interface'
 import adbCommands from './adb-commands'
 
 export class DeviceHelpers {

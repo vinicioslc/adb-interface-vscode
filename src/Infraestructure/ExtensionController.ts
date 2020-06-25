@@ -5,15 +5,20 @@ import { IExtController } from './IExtController'
 /**
  Standard Controller for vscode extensions
 */
-export class ExtController implements IExtController, Disposable {
+export class ExtController implements IExtController {
   context: ExtensionContext
 
   constructor(context: ExtensionContext) {
     this.context = context
-    this.onInit()
+    this.onInit(context)
   }
 
-  async onInit(): Promise<void> {
+  /** onInit();
+   *
+   * Must be implemented in every controller, usually where we register the plugin commands.
+   * Called when an controller are instantiated receiving current context.
+   */
+  async onInit(context: ExtensionContext) {
     throw new Error('You must declare onInit method in ExtControllers')
   }
 
@@ -22,9 +27,10 @@ export class ExtController implements IExtController, Disposable {
       this.registerCommand(name, callback)
     }
   }
-  async registerCommand(name: string, callback: (...args: any[]) => any) {
+  registerCommand(name: string, callback: (...args: any[]) => any) {
     let subscription = commands.registerCommand(name, callback)
     this.context.subscriptions.push(subscription)
+    return this
   }
 
   async dispose() {

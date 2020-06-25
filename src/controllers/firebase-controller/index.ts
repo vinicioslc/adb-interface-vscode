@@ -18,17 +18,15 @@ export class FirebaseController extends ADBBaseController {
   }
 
   async onInit() {
-    await this.registerCommand(
-      'adbInterface.enableFirebaseDebug',
-      this.EnableFirebaseDebugView
+    await this.registerCommand('adbInterface.enableFirebaseDebug', () =>
+      this.enableFirebaseDebugView()
     )
-    await this.registerCommand(
-      'adbInterface.disableFirebaseDebug',
-      this.DisableFirebaseDebugView
+    await this.registerCommand('adbInterface.disableFirebaseDebug', () =>
+      this.disableFirebaseDebugView()
     )
   }
 
-  genericErrorReturn(e: Error) {
+  async genericErrorReturn(e: Error) {
     if (e instanceof ADBInterfaceException) {
       vscode.window.showWarningMessage(e.message)
     } else {
@@ -36,7 +34,7 @@ export class FirebaseController extends ADBBaseController {
     }
   }
 
-  async EnableFirebaseDebugView() {
+  async enableFirebaseDebugView() {
     try {
       const lastvalue = this.context.globalState.get(
         appStateKeys.allPackages(),
@@ -64,7 +62,7 @@ export class FirebaseController extends ADBBaseController {
       this.genericErrorReturn(e)
     }
   }
-  async DisableFirebaseDebugView() {
+  async disableFirebaseDebugView() {
     try {
       vscode.window.showInformationMessage(
         await this.firebaseInstance.disableFirebaseDebugView()

@@ -1,5 +1,5 @@
 import { ADBInterfaceError } from '../adb-wrapper'
-import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
+import { ConsoleInterfaceMock } from '../Infraestructure/console/console-interface/console-interface-mock'
 import { FirebaseManagerChannel } from './index'
 
 // Mocked ConsoleInterface

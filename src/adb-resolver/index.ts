@@ -1,5 +1,5 @@
 import * as os from 'os'
-import { ConsoleInterface } from '../console/console-interface'
+import { ConsoleInterface } from '../Infraestructure/console/console-interface'
 import * as helperFunctions from './helper-functions'
 
 export class ADBResolver {

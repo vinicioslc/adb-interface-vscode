@@ -1,5 +1,5 @@
 import { ADBConnection } from '.'
-import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
+import { ConsoleInterfaceMock } from '../Infraestructure/console/console-interface/console-interface-mock'
 
 test('list all devices returning empty array', async () => {
   let cimock = new ConsoleInterfaceMock()

@@ -3,7 +3,7 @@ import { ExtController } from './ExtensionController'
 import { ADBInterfaceException } from '../adb-wrapper'
 
 export class ADBBaseController extends ExtController {
-  genericErrorReturn(e: Error) {
+  async genericErrorReturn(e: Error) {
     if (e instanceof ADBInterfaceException) {
       vscode.window.showWarningMessage(e.message)
     } else {

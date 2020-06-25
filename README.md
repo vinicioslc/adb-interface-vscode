@@ -1,3 +1,5 @@
+# 🔌 ADB Interface for VSCode
+
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fvinicioslc%2Fadb-interface-vscode%2Fbadge%3Fref%3Dmaster&style=flat-square)](https://actions-badge.atrox.dev/vinicioslc/adb-interface-vscode/goto?ref=master)
 ![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/vinicioslc.adb-interface-vscode?style=flat-square)
 ![GitHub](https://img.shields.io/github/license/vinicioslc/adb-interface-vscode?style=flat-square)
@@ -6,9 +8,9 @@
 <a href="https://codeclimate.com/github/vinicioslc/adb-interface-vscode/maintainability">
 <img src="https://api.codeclimate.com/v1/badges/b9fd814b1bdf974a1d16/maintainability" /></a>
 
-# ADB Interface for VSCode
+<div style="text-align:center"><img src="media/icon.png" width="200" /></div>
 
-> ⚠️ WARN !! ONLY TESTED IN WINDOWS !! (For while, you must have ADB at your Enviroment Variables)
+> ⚠️ ONLY TESTED IN WINDOWS (For while, you need ADB at enviroment variables or in default platform-tools folder)
 
 This are an simple ADB-Wrapper that makes possible to connect to an device over wifi connection without console use.
 
@@ -51,7 +53,7 @@ or
 ![coverage-lines](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-lines.png)
 ![coverage-statements](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-statements.png)
 
-## Available Commands
+## Implemented Commands
 
 -   ADB:📱 Reset connected devices port to :5555 (Open current device port with `adb tcpip 5555`)
 -   ADB:📱 Connect to device IP (need inform IP from device wanted `adb connect ${user_ip}:5555`)

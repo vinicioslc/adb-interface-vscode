@@ -5,8 +5,10 @@ import { FirebaseController } from './controllers/firebase-controller'
 import { FirebaseManagerChannel } from './firebase-channel'
 import { ADBConnection } from './adb-wrapper'
 import { ADBCommandsController } from './controllers/adb-controller'
-import { ConsoleInterface } from './console/console-interface/index'
+import { ConsoleInterface } from './Infraestructure/console/console-interface/index'
 
+let firebaseController
+let adbCmdController
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -17,15 +19,14 @@ export function activate(context: vscode.ExtensionContext) {
   // Now provide the implementation of the command with registerCommand
   // The commandId parameter must match the command field in package.json
 
-  let consoleInstance = new ConsoleInterface()
-  let adbInstance = new ADBConnection(consoleInstance)
-  let firebaseManagerChannel = new FirebaseManagerChannel(consoleInstance)
-
-  const firebaseController = new FirebaseController(
+  firebaseController = new FirebaseController(
     context,
-    firebaseManagerChannel
+    new FirebaseManagerChannel(new ConsoleInterface())
   )
-  const adbCmdController = new ADBCommandsController(context, adbInstance)
+  adbCmdController = new ADBCommandsController(
+    context,
+    new ADBConnection(new ConsoleInterface())
+  )
 }
 
 // this method is called when your extension is deactivated

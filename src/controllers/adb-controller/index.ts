@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { ADBConnection } from '../../adb-wrapper'
+import { ADBConnection, ADBInterfaceException } from '../../adb-wrapper'
 import * as appStateKeys from '../../extension/global-state-keys'
 import { IPHelpers } from '../../adb-wrapper/ip-helpers'
 import { ADBBaseController } from '../../Infraestructure/ADBBaseController'
@@ -14,49 +14,38 @@ export class ADBCommandsController extends ADBBaseController {
     this.appStateKeys = appStateKeys
   }
   async onInit() {
-    await this.registerCommand(
-      'adbInterface.adbwificonnect',
-      this.ConnectToDevice
+    this.registerCommand('adbInterface.adbwificonnect', () =>
+      this.connectToDevice()
     )
-    await this.registerCommand(
-      'adbInterface.adbResetPorts',
-      this.ResetDevicesPort
-    )
-    await this.registerCommand(
-      'adbInterface.disconnectEverthing',
-      this.DisconnectAnyDevice
-    )
-    await this.registerCommand(
-      'adbInterface.connectToDeviceFromList',
-      this.ConnectToDeviceFromList
-    )
-    await this.registerCommand('adbInterface.killserver', this.KillADBServer)
+      .registerCommand('adbInterface.adbResetPorts', () =>
+        this.resetDevicesPort()
+      )
+      .registerCommand('adbInterface.disconnectEverthing', () =>
+        this.disconnectAnyDevice()
+      )
+      .registerCommand('adbInterface.connectToDeviceFromList', () =>
+        this.connectToDeviceFromList()
+      )
+      .registerCommand('adbInterface.killserver', () => this.killADBServer())
   }
 
-  async ResetDevicesPort() {
-    vscode.window.withProgress(
-      {
-        location: vscode.ProgressLocation.Notification,
-        title: 'Starting ADB'
-      },
-      async progress => {
-        try {
-          progress.report({
-            message: 'Reseting ports to 5555',
-            increment: 50
-          })
-          let adbInterfaceResult = await this.adbInstance.ResetPorts()
-          vscode.window.showInformationMessage(adbInterfaceResult)
-          return
-        } catch (e) {
-          this.genericErrorReturn(e)
-        }
-      }
-    )
+  async genericErrorReturn(e: Error) {
+    if (e instanceof ADBInterfaceException) {
+      vscode.window.showWarningMessage(e.message)
+    } else {
+      vscode.window.showErrorMessage('Error:' + e.message)
+    }
+  }
+  async resetDevicesPort() {
+    try {
+      vscode.window.showInformationMessage(await this.adbInstance.ResetPorts())
+    } catch (e) {
+      this.genericErrorReturn(e)
+    }
   }
 
-  async ConnectToDevice() {
-    let lastvalue = context.globalState.get(appStateKeys.lastIPUsed(), '')
+  async connectToDevice() {
+    let lastvalue = this.context.globalState.get(appStateKeys.lastIPUsed(), '')
     // The code you place here will be executed every time your command is executed
     vscode.window
       .showInputBox({
@@ -67,7 +56,7 @@ export class ADBCommandsController extends ADBBaseController {
           'Enter the IP address from your device to connect to him. (Last address will be filled in next time) port 5555 added automagically.'
       })
       .then(async value => {
-        await this.connectToAdbDevice(context, value)
+        await this.connectToAdbDevice(this.context, value)
       })
     // Display a message box to the user
   }
@@ -85,7 +74,7 @@ export class ADBCommandsController extends ADBBaseController {
     }
   }
 
-  async DisconnectAnyDevice() {
+  async disconnectAnyDevice() {
     try {
       vscode.window.showInformationMessage(
         await this.adbInstance.DisconnectFromAllDevices()
@@ -94,7 +83,7 @@ export class ADBCommandsController extends ADBBaseController {
       this.genericErrorReturn(e)
     }
   }
-  async KillADBServer() {
+  async killADBServer() {
     try {
       const adbInterfaceResult = await this.adbInstance.KillADBServer()
       if (adbInterfaceResult) {
@@ -107,7 +96,7 @@ export class ADBCommandsController extends ADBBaseController {
     }
   }
 
-  async ConnectToDeviceFromList() {
+  async connectToDeviceFromList() {
     try {
       const ipAddresses = await this.getIPAddressList()
       const ipSelected = await vscode.window.showQuickPick(ipAddresses, {

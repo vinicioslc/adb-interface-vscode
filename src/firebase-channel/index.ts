@@ -1,9 +1,9 @@
 import * as os from 'os'
-import { ConsoleChannel } from '../console/console-channel'
+import { ConsoleChannel } from '../Infraestructure/console/console-channel'
 import * as FIREBASE_COMMANDS from './firebase-commands'
 import { ADBInterfaceError } from '../adb-wrapper'
 import { ADBResolver } from '../adb-resolver'
-import { IConsoleInterface } from '../console/console-interface/iconsole-interface'
+import { IConsoleInterface } from '../Infraestructure/console/console-interface/iconsole-interface'
 
 export class FirebaseManagerChannel extends ConsoleChannel {
   private resolverInstance: ADBResolver

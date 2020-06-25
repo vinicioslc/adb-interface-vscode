@@ -1,5 +1,5 @@
 import { ADBResolver, ADBNotFoundError } from './index'
-import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
+import { ConsoleInterfaceMock } from '../Infraestructure/console/console-interface/console-interface-mock'
 const adbFound = `List of devices`
 
 test('Should return current home dir when path is present', async () => {

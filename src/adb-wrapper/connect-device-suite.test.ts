@@ -1,5 +1,5 @@
 import { ADBConnection } from '.'
-import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
+import { ConsoleInterfaceMock } from '../Infraestructure/console/console-interface/console-interface-mock'
 
 const ip = '192.168.1.102'
 const phoneName = 'DEVICE_NAME'
