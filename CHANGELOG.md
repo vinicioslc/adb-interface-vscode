@@ -1,5 +1,9 @@
 # Changelog
 
+-   0.18.2
+
+    FIX - New buy meacoffee.com button on README.md
+
 -   0.18.1
 
     NEW - Refactor at codebase with `plugin controllers` startegy.

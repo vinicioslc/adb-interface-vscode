@@ -7,6 +7,7 @@
 ![Visual Studio Marketplace Rating (Stars)](https://img.shields.io/visual-studio-marketplace/stars/vinicioslc.adb-interface-vscode?style=flat-square)
 <a href="https://codeclimate.com/github/vinicioslc/adb-interface-vscode/maintainability">
 <img src="https://api.codeclimate.com/v1/badges/b9fd814b1bdf974a1d16/maintainability" /></a>
+<a href="https://www.buymeacoffee.com/vinicioslc" target="_blank"><img src="https://i.imgur.com/aV6DDA7.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important; box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" > </a>
 
 <div style="text-align:center"><img src="media/icon.png" width="200" /></div>
 
@@ -18,10 +19,10 @@ Help are welcome ;)
 
 You can contribute with
 [Code](https://github.com/vinicioslc/adb-interface-vscode)
-or
+or with
 [Energy](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url)
 
-[简体中文指南](https://www.jianshu.com/p/fb8eebc8a2c0)
+Chinese Guide [简体中文指南](https://www.jianshu.com/p/fb8eebc8a2c0)
 
 ## Features Todo/Done
 
