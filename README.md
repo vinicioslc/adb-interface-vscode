@@ -24,20 +24,6 @@ or with
 
 Chinese Guide [简体中文指南](https://www.jianshu.com/p/fb8eebc8a2c0)
 
-## Features Todo/Done
-
--   ☒ Kill ADB server
-
-    ☒ Kills the adb server and all current connections
-
--   ☐ ADB Resolver - Find and resolve ADB Location
-
-    ☒ Use default `ADB` in Enviroment Variable
-
-    ☐ Try Find Android Studio `ADB` in `platform-tools` folder
-
-    ☐ When not founded `ADB` download `platform-tools` to `Android Studio` default folder
-
 ## How to connect my phone via wifi
 
 1.  First connect your device trough USB
@@ -63,3 +49,17 @@ Chinese Guide [简体中文指南](https://www.jianshu.com/p/fb8eebc8a2c0)
 -   ADB:🔥 Enable Firebase events debug mode (Run firebase events in debug mode)
 -   ADB:🔥 Disable Firebase events debug mode (Run firebase events in debug mode)
 -   ADB:⚠️ Kill ADB server (Kill ADB Server runing `adb kill-server`)
+
+## Features Todo/Done
+
+-   ☒ Kill ADB server
+
+    ☒ Kills the adb server and all current connections
+
+-   ☐ ADB Resolver - Find and resolve ADB Location
+
+    ☒ Use default `ADB` in Enviroment Variable
+
+    ☒ Try Find Android Studio `ADB` in `platform-tools` folder
+
+    ☐ When not founded `ADB` download `platform-tools` to `Android Studio` default folder

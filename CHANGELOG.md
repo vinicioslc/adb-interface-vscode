@@ -1,5 +1,9 @@
 # Changelog
 
+-   0.18.3
+
+    FIX - README.md organization
+
 -   0.18.2
 
     FIX - New buy meacoffee.com button on README.md
