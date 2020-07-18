@@ -7,3 +7,6 @@ export function allPackages() {
 export function lastIPUsed() {
   return 'lastIPAddress'
 }
+export function customADBPathKey() {
+  return 'user_adb_path'
+}

@@ -6,19 +6,30 @@ import {
 } from '../Infraestructure/console/console-channel'
 import adbReturns from './adb-returns'
 import adbMessages from './adb-messages'
-import { NetHelpers } from '../Infraestructure/net-helpers'
 import { IPHelpers } from './ip-helpers'
 import { DeviceHelpers } from './device-helpers'
 import { ADBResolver } from '../adb-resolver'
 import { IConsoleInterface } from '../Infraestructure/console/console-interface/iconsole-interface'
-import { log } from 'util'
+import { Memento } from 'vscode'
+import { INetHelpers } from './../Infraestructure/net-helpers/net-helpers-interface'
 
 export class ADBConnection extends ConsoleChannel {
   private resolverInstance: ADBResolver
+  private netHelpers: INetHelpers
 
-  constructor(ciInstance: IConsoleInterface) {
+  constructor(
+    ciInstance: IConsoleInterface,
+    currentStorage: Memento,
+    netHelpers: INetHelpers
+  ) {
     super(ciInstance)
-    this.resolverInstance = new ADBResolver(os.homedir(), os.type(), ciInstance)
+    this.resolverInstance = new ADBResolver(
+      os.homedir(),
+      os.type(),
+      ciInstance,
+      currentStorage
+    )
+    this.netHelpers = netHelpers
   }
 
   /**
@@ -113,10 +124,8 @@ export class ADBConnection extends ConsoleChannel {
         let ips = output.split(/[\r]|[\n]/gim)
         ips = ips.filter(ip => IPHelpers.isAnIPAddress(ip))
         // found devices on lan
-        const foundedLanIps = await NetHelpers.FindLanDevices()
-        for (const variable of foundedLanIps) {
-          ips.push(variable)
-        }
+        const foundedLanIps = await this.netHelpers.FindLanDevices()
+        ips = ips.concat(...foundedLanIps)
 
         // try to get device name trought adb
         ips = ips.map((ipAddress: string): string => {

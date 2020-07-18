@@ -77,6 +77,10 @@
         "title": "ADB:📱 Disconnect from any devices"
       },
       {
+        "command": "adbInterface.adbResetPorts",
+        "title": "ADB:📱 Set custom adb adb folder"
+      },
+      {
         "command": "adbInterface.killserver",
         "title": "ADB:⚠️ Kill ADB server"
       },

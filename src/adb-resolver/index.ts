@@ -1,6 +1,8 @@
 import * as os from 'os'
 import { ConsoleInterface } from '../Infraestructure/console/console-interface'
 import * as helperFunctions from './helper-functions'
+import { Memento } from 'vscode'
+import * as globalStateKeys from '../extension/global-state-keys'
 
 export class ADBResolver {
   osType: string
@@ -9,15 +11,18 @@ export class ADBResolver {
 
   private readonly validADBReturn = 'List of devices'
   private readonly adbTestCommand = 'adb devices'
+  private readonly currentStorage: Memento
 
   constructor(
     homeDir: string,
     osType: string,
-    consoleInterfaceInstance: ConsoleInterface
+    consoleInterfaceInstance: ConsoleInterface,
+    currentStorage: Memento
   ) {
     this.homeDir = homeDir
     this.osType = osType
     this.consoleInterface = consoleInterfaceInstance
+    this.currentStorage = currentStorage
   }
 
   private async hasAndroidInEnv(): Promise<boolean> {
@@ -55,7 +60,15 @@ export class ADBResolver {
     }
   }
 
-  public async getDefaultADBPath() {
+  public async getDefaultADBPath(): Promise<string> {
+    const customADBPath = await this.currentStorage.get(
+      globalStateKeys.customADBPathKey()
+    )
+
+    if (customADBPath && typeof customADBPath == 'string') {
+      return customADBPath
+    }
+
     let isEnv = await this.hasAndroidInEnv()
     if (isEnv) {
       return this.homeDir

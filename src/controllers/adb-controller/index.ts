@@ -3,6 +3,7 @@ import { ADBConnection, ADBInterfaceException } from '../../adb-wrapper'
 import * as appStateKeys from '../../extension/global-state-keys'
 import { IPHelpers } from '../../adb-wrapper/ip-helpers'
 import { ADBBaseController } from '../../Infraestructure/ADBBaseController'
+import { Memento } from 'vscode'
 
 export class ADBCommandsController extends ADBBaseController {
   private adbInstance: ADBConnection
