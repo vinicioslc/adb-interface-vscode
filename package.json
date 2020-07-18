@@ -50,6 +50,8 @@
     "vscode": "^1.1.36"
   },
   "activationEvents": [
+    "onCommand:adbInterface.setCustomADBPath",
+    "onCommand:adbInterface.resetCustomADBPath",
     "onCommand:adbInterface.adbResetPorts",
     "onCommand:adbInterface.connectToDeviceFromList",
     "onCommand:adbInterface.adbwificonnect",
@@ -60,6 +62,18 @@
   ],
   "contributes": {
     "commands": [
+      {
+        "command": "adbInterface.setCustomADBPath",
+        "title": "ADB:📱 Setup custom ADB location"
+      },
+      {
+        "command": "adbInterface.resetCustomADBPath",
+        "title": "ADB:📱 Remove custom ADB location"
+      },
+      {
+        "command": "adbInterface.adbResetPorts",
+        "title": "ADB:📱 Reset connected devices port to :5555"
+      },
       {
         "command": "adbInterface.adbResetPorts",
         "title": "ADB:📱 Reset connected devices port to :5555"
@@ -75,10 +89,6 @@
       {
         "command": "adbInterface.disconnectEverthing",
         "title": "ADB:📱 Disconnect from any devices"
-      },
-      {
-        "command": "adbInterface.adbResetPorts",
-        "title": "ADB:📱 Set custom adb adb folder"
       },
       {
         "command": "adbInterface.killserver",
