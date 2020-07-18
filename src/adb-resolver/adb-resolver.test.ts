@@ -1,13 +1,15 @@
 import { ADBResolver, ADBNotFoundError } from './index'
 import { ConsoleInterfaceMock } from '../Infraestructure/console/console-interface/console-interface-mock'
+import { MementoMock } from '../mock/memento-mock'
 const adbFound = `List of devices`
+const mementoMock = new MementoMock()
 
 test('Should return current home dir when path is present', async () => {
   const cimock = new ConsoleInterfaceMock()
   cimock.setConsoleOutput('')
   cimock.setConsoleOutput(adbFound)
 
-  const adbResolver = new ADBResolver('c:', 'Linux', cimock)
+  const adbResolver = new ADBResolver('c:', 'Linux', cimock, mementoMock)
 
   expect(await adbResolver.getDefaultADBPath()).toBe('c:/Android/Sdk')
 })
@@ -16,7 +18,7 @@ test('ADB Not founded in system Exception', () => {
   try {
     const cimock = new ConsoleInterfaceMock()
     cimock.setConsoleOutput(`Invalid Return`)
-    new ADBResolver('c:', 'Linux', cimock)
+    new ADBResolver('c:', 'Linux', cimock, mementoMock)
   } catch (error) {
     expect(error).toBeInstanceOf(ADBNotFoundError)
   }
@@ -27,7 +29,7 @@ test('Should return path to adb', async () => {
   cimock.returnInfinity = false
   cimock.setConsoleOutput(`Invalid Return`)
   cimock.setConsoleOutput(adbFound)
-  const adbResolver = new ADBResolver('c:', 'Linux', cimock)
+  const adbResolver = new ADBResolver('c:', 'Linux', cimock, mementoMock)
 
   expect(await adbResolver.getDefaultADBPath()).toBe('c:/Android/Sdk')
 })

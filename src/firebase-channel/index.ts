@@ -4,12 +4,19 @@ import * as FIREBASE_COMMANDS from './firebase-commands'
 import { ADBInterfaceError } from '../adb-wrapper'
 import { ADBResolver } from '../adb-resolver'
 import { IConsoleInterface } from '../Infraestructure/console/console-interface/iconsole-interface'
+import { MementoMock } from '../mock/memento-mock'
+import { Memento } from 'vscode'
 
 export class FirebaseManagerChannel extends ConsoleChannel {
   private resolverInstance: ADBResolver
-  constructor(ciInstance: IConsoleInterface) {
+  constructor(ciInstance: IConsoleInterface, currentStorage: Memento) {
     super(ciInstance)
-    this.resolverInstance = new ADBResolver(os.homedir(), os.type(), ciInstance)
+    this.resolverInstance = new ADBResolver(
+      os.homedir(),
+      os.type(),
+      ciInstance,
+      currentStorage
+    )
   }
 
   public async enableFirebaseDebugView(appPackageID: string): Promise<string> {

@@ -1,35 +1,42 @@
 # Changelog
 
--   0.18.3
+## 0.19.0
 
-    FIX - README.md organization
+-   NEW - Bump version for new feature `Custom ADB path picker`
+-   ADDED - ADB Path Picker able to select custom adb executable path
+-   IMPROVED - Improved tests with `net-helpers` mocking the class
+-   IMPROVED - CHANGELOG.md layout
 
--   0.18.2
+## 0.18.3
 
-    FIX - New buy meacoffee.com button on README.md
+-   IMPROVED - README.md layout
 
--   0.18.1
+## 0.18.2
 
-    NEW - Refactor at codebase with `plugin controllers` startegy.
-    NEW - Changed Folder structure.
+-   IMPROVED - New buy meacoffee.com button on README.md
 
--   0.18.0
+## 0.18.1
 
-    NEW - Added test cases for `adb-resolver` use cases.
+-   NEW - Refactor at codebase with `plugin controllers` startegy.
+-   NEW - Changed Folder structure.
 
-    NEW - Improve how extension search `ADB` in enviroment adding `adb-resolver` strategy.
+## 0.18.0
 
-    FIX - Enviroment variables is now accessed directly from path.
+-   NEW - Added test cases for `adb-resolver` use cases.
 
--   0.17.2
+-   NEW - Improve how extension search `ADB` in enviroment adding `adb-resolver` strategy.
 
-    FIX - for issue #7 removing necessity to close "Connecting to X" message
+-   FIX - Enviroment variables is now accessed directly from path.
 
--   0.17.1
+## 0.17.2
 
-    NEW - fully ci/cd enviroment, now new commits in master will be released to production on extensions.
+-   FIX - for issue #7 removing necessity to close "Connecting to X" message
 
--   Past
+## 0.17.1
 
-    NEW - Forbiden Changes
+-   NEW - fully ci/cd enviroment, now new commits in master will be released to production on extensions.
+
+## Past
+
+-   NEW - Forbiden Changes
     ...

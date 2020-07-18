@@ -5,12 +5,12 @@ on:
     branches:
       - master
       - production
-      - release/*
+      - feature/*
   pull_request:
     branches:
       - master
       - production
-      - release/*
+      - feature/*
 jobs:
   test:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}

@@ -6,26 +6,28 @@ import { FirebaseManagerChannel } from './firebase-channel'
 import { ADBConnection } from './adb-wrapper'
 import { ADBCommandsController } from './controllers/adb-controller'
 import { ConsoleInterface } from './Infraestructure/console/console-interface/index'
+import { NetHelpers } from './Infraestructure/net-helpers/index'
+import { ADBPathController } from './controllers/adb-path-controller'
+import { ADBPathManager } from './adb-path-manager'
 
-let firebaseController
-let adbCmdController
+const registered = {}
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
-
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
-
-  firebaseController = new FirebaseController(
+  // Register all controllers used by plugin
+  const netHelper = new NetHelpers()
+  registered['firebaseController'] = new FirebaseController(
     context,
-    new FirebaseManagerChannel(new ConsoleInterface())
+    new FirebaseManagerChannel(new ConsoleInterface(), context.globalState)
   )
-  adbCmdController = new ADBCommandsController(
+  registered['adbCmdController'] = new ADBCommandsController(
     context,
-    new ADBConnection(new ConsoleInterface())
+    new ADBConnection(new ConsoleInterface(), context.globalState, netHelper)
+  )
+  registered['adbPathController'] = new ADBPathController(
+    context,
+    new ADBPathManager(context.globalState)
   )
 }
 

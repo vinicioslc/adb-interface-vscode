@@ -16,16 +16,3 @@ export const getAndroidStudioPath = ({ osType, homeDir }) => {
       throw new TypeError('Android Path Error: Invalid Platform')
   }
 }
-
-export const getDownloadADBUrl = ({ osType }) => {
-  switch (osType) {
-    case 'Windows_NT':
-      return 'https://dl.google.com/android/repository/platform-tools-latest-windows.zip'
-    case 'Darwin':
-      return 'https://dl.google.com/android/repository/platform-tools-latest-darwin.zip'
-    case 'Linux':
-      return 'https://dl.google.com/android/repository/platform-tools-latest-linux.zip'
-    default:
-      throw new TypeError('Invalid Platform')
-  }
-}

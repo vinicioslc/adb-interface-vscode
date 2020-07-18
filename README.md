@@ -11,14 +11,14 @@
 
 <div style="text-align:center"><img src="media/icon.png" width="200" /></div>
 
-> ⚠️ ONLY TESTED IN WINDOWS (For while, you need ADB at enviroment variables or in default platform-tools folder)
+> ⚠️ ONLY TESTED IN WINDOWS (For while, you need have ADB Interface installed in your system)
 
 This are an simple ADB-Wrapper that makes possible to connect to an device over wifi connection without console use.
 
 Help are welcome ;)
 
 You can contribute with
-[Code](https://github.com/vinicioslc/adb-interface-vscode)
+[Code](https://github.com/vinicioslc/adb-interface-vscode/issues)
 or with
 [Energy](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url)
 
@@ -33,13 +33,6 @@ Chinese Guide [简体中文指南](https://www.jianshu.com/p/fb8eebc8a2c0)
 
 ![status bar](media/record1.gif)
 
-### Tests Health Summary by jest-badge-generator
-
-![coverage-branches](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-branches.png)
-![coverage-function](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-functions.png)
-![coverage-lines](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-lines.png)
-![coverage-statements](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-statements.png)
-
 ## Implemented Commands
 
 -   ADB:📱 Reset connected devices port to :5555 (Open current device port with `adb tcpip 5555`)
@@ -50,16 +43,9 @@ Chinese Guide [简体中文指南](https://www.jianshu.com/p/fb8eebc8a2c0)
 -   ADB:🔥 Disable Firebase events debug mode (Run firebase events in debug mode)
 -   ADB:⚠️ Kill ADB server (Kill ADB Server runing `adb kill-server`)
 
-## Features Todo/Done
+### Tests Health Summary by jest-badge-generator
 
--   ☒ Kill ADB server
-
-    ☒ Kills the adb server and all current connections
-
--   ☐ ADB Resolver - Find and resolve ADB Location
-
-    ☒ Use default `ADB` in Enviroment Variable
-
-    ☒ Try Find Android Studio `ADB` in `platform-tools` folder
-
-    ☐ When not founded `ADB` download `platform-tools` to `Android Studio` default folder
+![coverage-branches](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-branches.png)
+![coverage-function](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-functions.png)
+![coverage-lines](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-lines.png)
+![coverage-statements](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-statements.png)
