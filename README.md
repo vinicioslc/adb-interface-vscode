@@ -18,7 +18,7 @@ This are an simple ADB-Wrapper that makes possible to connect to an device over 
 Help are welcome ;)
 
 You can contribute with
-[Code](https://github.com/vinicioslc/adb-interface-vscode)
+[Code](https://github.com/vinicioslc/adb-interface-vscode/issues)
 or with
 [Energy](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url)
 
