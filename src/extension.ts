@@ -7,6 +7,8 @@ import { ADBConnection } from './adb-wrapper'
 import { ADBCommandsController } from './controllers/adb-controller'
 import { ConsoleInterface } from './Infraestructure/console/console-interface/index'
 import { NetHelpers } from './Infraestructure/net-helpers/index'
+import { ADBPathController } from './controllers/adb-path-controller'
+import { ADBPathManager } from './adb-path-manager'
 
 const registered = {}
 
@@ -22,6 +24,10 @@ export function activate(context: vscode.ExtensionContext) {
   registered['adbCmdController'] = new ADBCommandsController(
     context,
     new ADBConnection(new ConsoleInterface(), context.globalState, netHelper)
+  )
+  registered['adbPathController'] = new ADBPathController(
+    context,
+    new ADBPathManager(context.globalState)
   )
 }
 
