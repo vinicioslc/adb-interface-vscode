@@ -1,7 +1,8 @@
 # Changelog
 
-## 0.18.4
+## 0.19.0
 
+-   NEW - Bump version for new feature `Custom ADB path picker`
 -   ADDED - ADB Path Picker able to select custom adb executable path
 -   IMPROVED - Improved tests with `net-helpers` mocking the class
 -   IMPROVED - CHANGELOG.md layout
