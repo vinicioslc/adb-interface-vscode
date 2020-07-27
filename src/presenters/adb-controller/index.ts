@@ -1,8 +1,11 @@
 import * as vscode from 'vscode'
-import { ADBConnection, ADBInterfaceException } from '../../adb-wrapper'
-import * as appStateKeys from '../../extension/global-state-keys'
-import { IPHelpers } from '../../adb-wrapper/ip-helpers'
-import { ADBBaseController } from '../../Infraestructure/ADBBaseController'
+import {
+  ADBConnection,
+  ADBInterfaceException
+} from '../../infraestructure/adb-wrapper'
+import * as appStateKeys from '../../entities/global-state-keys'
+import { IPHelpers } from '../../infraestructure/adb-wrapper/ip-helpers'
+import { ADBBaseController } from '../../infraestructure/ADBBaseController'
 import { Memento } from 'vscode'
 
 export class ADBCommandsController extends ADBBaseController {

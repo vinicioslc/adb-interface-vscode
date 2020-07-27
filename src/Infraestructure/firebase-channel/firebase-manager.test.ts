@@ -1,7 +1,7 @@
 import { ADBInterfaceError } from '../adb-wrapper'
-import { ConsoleInterfaceMock } from '../Infraestructure/console/console-interface/console-interface-mock'
+import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
 import { FirebaseManagerChannel } from './index'
-import { MementoMock } from '../mock/memento-mock'
+import { MementoMock } from '../memento/memento-mock'
 const mementoMock = new MementoMock()
 // Mocked ConsoleInterface
 const missingArgumentsMessage = `usage: setprop NAME VALUE

@@ -16,7 +16,7 @@
   "categories": [
     "Other"
   ],
-  "main": "./out/extension.js",
+  "main": "./out/main.js",
   "test": "jest",
   "scripts": {
     "watch": "tsc -watch -p ./",

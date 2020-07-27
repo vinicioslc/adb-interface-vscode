@@ -1,8 +1,11 @@
 import * as vscode from 'vscode'
-import { ADBInterfaceException, ADBConnection } from '../../adb-wrapper'
-import * as appStateKeys from '../../extension/global-state-keys'
-import { FirebaseManagerChannel } from '../../firebase-channel/index'
-import { ADBBaseController } from '../../Infraestructure/ADBBaseController'
+import {
+  ADBInterfaceException,
+  ADBConnection
+} from '../../infraestructure/adb-wrapper'
+import * as appStateKeys from '../../entities/global-state-keys'
+import { FirebaseManagerChannel } from '../../infraestructure/firebase-channel/index'
+import { ADBBaseController } from '../../infraestructure/ADBBaseController'
 
 export class FirebaseController extends ADBBaseController {
   private firebaseInstance: FirebaseManagerChannel

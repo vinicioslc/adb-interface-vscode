@@ -1,13 +1,13 @@
 import * as os from 'os'
-import { ConsoleChannel } from '../Infraestructure/console/console-channel'
+import { ConsoleInterfaceChannel } from '../console/console-interface-channel'
 import * as FIREBASE_COMMANDS from './firebase-commands'
 import { ADBInterfaceError } from '../adb-wrapper'
 import { ADBResolver } from '../adb-resolver'
-import { IConsoleInterface } from '../Infraestructure/console/console-interface/iconsole-interface'
-import { MementoMock } from '../mock/memento-mock'
+import { IConsoleInterface } from '../console/console-interface/iconsole-interface'
+import { MementoMock } from '../memento/memento-mock'
 import { Memento } from 'vscode'
 
-export class FirebaseManagerChannel extends ConsoleChannel {
+export class FirebaseManagerChannel extends ConsoleInterfaceChannel {
   private resolverInstance: ADBResolver
   constructor(ciInstance: IConsoleInterface, currentStorage: Memento) {
     super(ciInstance)

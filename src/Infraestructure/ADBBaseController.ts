@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import { ExtController } from './ExtensionController'
-import { ADBInterfaceException } from '../adb-wrapper'
+import { ADBInterfaceException } from '../infraestructure/adb-wrapper'
 
 export class ADBBaseController extends ExtController {
   async genericErrorReturn(e: Error) {

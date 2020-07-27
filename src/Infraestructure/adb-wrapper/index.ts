@@ -1,19 +1,19 @@
 import * as os from 'os'
 import adbCommands from './adb-commands'
 import {
-  ConsoleChannel,
+  ConsoleInterfaceChannel,
   consoleReturnAre
-} from '../Infraestructure/console/console-channel'
+} from '../console/console-interface-channel'
 import adbReturns from './adb-returns'
 import adbMessages from './adb-messages'
 import { IPHelpers } from './ip-helpers'
 import { DeviceHelpers } from './device-helpers'
-import { ADBResolver } from '../adb-resolver'
-import { IConsoleInterface } from '../Infraestructure/console/console-interface/iconsole-interface'
+import { ADBResolver } from '../../infraestructure/adb-resolver'
+import { IConsoleInterface } from '../../infraestructure/console/console-interface/iconsole-interface'
 import { Memento } from 'vscode'
-import { INetHelpers } from './../Infraestructure/net-helpers/net-helpers-interface'
+import { INetHelpers } from '../../infraestructure/net-helpers/net-helpers-interface'
 
-export class ADBConnection extends ConsoleChannel {
+export class ADBConnection extends ConsoleInterfaceChannel {
   private resolverInstance: ADBResolver
   private netHelpers: INetHelpers
 

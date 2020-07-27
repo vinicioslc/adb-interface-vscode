@@ -1,14 +1,15 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode'
-import { FirebaseController } from './controllers/firebase-controller'
-import { FirebaseManagerChannel } from './firebase-channel'
-import { ADBConnection } from './adb-wrapper'
-import { ADBCommandsController } from './controllers/adb-controller'
-import { ConsoleInterface } from './Infraestructure/console/console-interface/index'
-import { NetHelpers } from './Infraestructure/net-helpers/index'
-import { ADBPathController } from './controllers/adb-path-controller'
-import { ADBPathManager } from './adb-path-manager'
+import { FirebaseController } from './presenters/firebase-controller'
+import { ADBCommandsController } from './presenters/adb-controller'
+import { ADBPathController } from './presenters/adb-path-controller'
+
+import { FirebaseManagerChannel } from './infraestructure/firebase-channel'
+import { ADBConnection } from './infraestructure/adb-wrapper'
+import { ConsoleInterface } from './infraestructure/console/console-interface/index'
+import { NetHelpers } from './infraestructure/net-helpers/index'
+import { ADBPathManager } from './infraestructure/adb-path-manager'
 
 const registered = {}
 

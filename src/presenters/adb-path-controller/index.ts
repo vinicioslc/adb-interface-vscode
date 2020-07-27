@@ -1,9 +1,9 @@
 import * as vscode from 'vscode'
 import * as path from 'path'
-import { ADBInterfaceException } from '../../adb-wrapper'
-import * as appStateKeys from '../../extension/global-state-keys'
-import { ADBBaseController } from '../../Infraestructure/ADBBaseController'
-import { ADBPathManager } from './../../adb-path-manager/index'
+import { ADBInterfaceException } from '../../infraestructure/adb-wrapper'
+import * as appStateKeys from '../../entities/global-state-keys'
+import { ADBBaseController } from '../../infraestructure/ADBBaseController'
+import { ADBPathManager } from '../../infraestructure/adb-path-manager/index'
 
 export class ADBPathController extends ADBBaseController {
   appStateKeys: typeof appStateKeys
