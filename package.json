@@ -19,11 +19,11 @@
   "main": "./out/main.js",
   "test": "jest",
   "scripts": {
-    "watch": "tsc -watch -p ./",
+    "watch": "tsc -watch",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "vscode:prepublish": "npm run setup && npm run compile",
     "setup": "npm install",
-    "compile": "tsc -p ./",
+    "compile": "tsc",
     "publish": "npx vsce publish -p $VSCE_DEPLOY_TOKEN",
     "pp": "npx vsce package && npx vsce publish",
     "test": "npx jest --coverage",

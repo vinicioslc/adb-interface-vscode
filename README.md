@@ -1,6 +1,6 @@
 # 🔌 ADB Interface for VSCode
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fvinicioslc%2Fadb-interface-vscode%2Fbadge%3Fref%3Dmaster&style=flat-square)](https://actions-badge.atrox.dev/vinicioslc/adb-interface-vscode/goto?ref=master)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fvinicioslc%2Fadb-interface-vscode%2Fbadge%3Fref%3Dproduction&style=flat-square)](https://actions-badge.atrox.dev/vinicioslc/adb-interface-vscode/goto?ref=production)
 ![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/vinicioslc.adb-interface-vscode?style=flat-square)
 ![GitHub](https://img.shields.io/github/license/vinicioslc/adb-interface-vscode?style=flat-square)
 ![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/vinicioslc.adb-interface-vscode?style=flat-square)
@@ -45,7 +45,7 @@ Chinese Guide [简体中文指南](https://www.jianshu.com/p/fb8eebc8a2c0)
 
 ### Tests Health Summary by jest-badge-generator
 
-![coverage-branches](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-branches.png)
-![coverage-function](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-functions.png)
-![coverage-lines](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-lines.png)
-![coverage-statements](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/master/.badges/badge-statements.png)
+![coverage-branches](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/production/.badges/badge-branches.png)
+![coverage-function](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/production/.badges/badge-functions.png)
+![coverage-lines](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/production/.badges/badge-lines.png)
+![coverage-statements](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/production/.badges/badge-statements.png)

@@ -4,7 +4,7 @@ import {
   ADBConnection
 } from '../../infraestructure/adb-wrapper'
 import * as appStateKeys from '../../entities/global-state-keys'
-import { FirebaseManagerChannel } from '../../infraestructure/firebase-channel/index'
+import { FirebaseManagerChannel } from '../../infraestructure/firebase-channel'
 import { ADBBaseController } from '../../infraestructure/ADBBaseController'
 
 export class FirebaseController extends ADBBaseController {
