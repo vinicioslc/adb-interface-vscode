@@ -14,6 +14,6 @@ export class ConsoleInterfaceChannel {
   }
 }
 
-export function consoleReturnAre(output: string, expected: string): boolean {
+export function isValidReturn(output: string, expected: string): boolean {
   return output.includes(expected)
 }

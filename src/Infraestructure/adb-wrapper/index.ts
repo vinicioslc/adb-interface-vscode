@@ -2,12 +2,11 @@ import * as os from 'os'
 import adbCommands from './adb-commands'
 import {
   ConsoleInterfaceChannel,
-  consoleReturnAre
+  isValidReturn
 } from '../console/console-interface-channel'
 import adbReturns from './adb-returns'
 import adbMessages from './adb-messages'
 import { IPHelpers } from './ip-helpers'
-import { DeviceHelpers } from './device-helpers'
 import { ADBResolver } from '../../infraestructure/adb-resolver'
 import { IConsoleInterface } from '../../infraestructure/console/console-interface/iconsole-interface'
 import { Memento } from 'vscode'
@@ -34,35 +33,32 @@ export class ADBConnection extends ConsoleInterfaceChannel {
 
   /**
    *  connect to a given ip address
-   * @param ip "192.168.1.100"
+   * @param ipAddress "192.168.1.100"
    */
-  public async ConnectToDevice(ip: string): Promise<string> {
+  public async ConnectToDevice(ipAddress: string): Promise<string> {
     let finalResult = null
 
-    const deviceIP = IPHelpers.extractIPRegex(ip)
-    const result = await this.resolverInstance.sendADBCommand(
-      adbCommands.CONNECT_IP_AND_PORT(deviceIP, '5555')
-    )
-    const resultString = result.toString()
-    const deviceName = DeviceHelpers.getDeviceModel(
-      this.consoleInstance,
-      deviceIP
-    )
+    const deviceIP = IPHelpers.extractIPRegex(ipAddress)
+    const resultString =
+      (await this.resolverInstance.sendADBCommand(
+        adbCommands.CONNECT_IP_AND_PORT(deviceIP)
+      )).toString()
 
-    if (consoleReturnAre(resultString, adbReturns.CONNECTED_TO())) {
-      finalResult = `Connected to: ${deviceName}`
+
+    if (isValidReturn(resultString, adbReturns.CONNECTED_TO())) {
+      finalResult = `Connected to: ${ipAddress}:5555`
     }
-    if (consoleReturnAre(resultString, adbReturns.ALLREADY_CONNECTED_TO())) {
-      throw new ADBInterfaceException(`Allready connected to: ${deviceName}`)
+    if (isValidReturn(resultString, adbReturns.ALLREADY_CONNECTED_TO())) {
+      throw new ADBInterfaceException(`Allready connected to: ${ipAddress}:5555`)
     }
     if (
-      consoleReturnAre(resultString, adbReturns.CONNECTION_REFUSED(deviceIP))
+      isValidReturn(resultString, adbReturns.CONNECTION_REFUSED(deviceIP))
     ) {
       throw new ADBInterfaceException(
         'Connection refused:\n Target machine actively refused connection.'
       )
     }
-    if (consoleReturnAre(resultString, adbReturns.MISSING_PORT(deviceIP))) {
+    if (isValidReturn(resultString, adbReturns.MISSING_PORT(deviceIP))) {
       throw new ADBInterfaceException('Port is missing fail to connect in ADB.')
     }
 
@@ -78,7 +74,7 @@ export class ADBConnection extends ConsoleInterfaceChannel {
         adbCommands.RESET_PORTS()
       )
       const output = consoleReturn.toString()
-      if (consoleReturnAre(output, adbReturns.RESTARTING_PORT())) {
+      if (isValidReturn(output, adbReturns.RESTARTING_PORT())) {
         finalResult = adbMessages.DEVICES_IN_TCP_MODE()
       }
     } catch (e) {
@@ -101,7 +97,7 @@ export class ADBConnection extends ConsoleInterfaceChannel {
         adbCommands.ADB_DISCONNECT_ALL()
       )
       const output = result.toString()
-      if (consoleReturnAre(output, adbReturns.DISCONNECTED_EVERTHING())) {
+      if (isValidReturn(output, adbReturns.DISCONNECTED_EVERTHING())) {
         finalResult = 'Disconnected from all devices'
       }
     } catch (e) {
@@ -120,8 +116,10 @@ export class ADBConnection extends ConsoleInterfaceChannel {
         adbCommands.LIST_ADB_DEVICES()
       )
       const output = result.toString()
-      if (consoleReturnAre(output, adbReturns.LISTING_DEVICES())) {
+      if (isValidReturn(output, adbReturns.LISTING_DEVICES())) {
+        // split all returned ips separated by line breaks
         let ips = output.split(/[\r]|[\n]/gim)
+        // filter only who is ip address.
         ips = ips.filter(ip => IPHelpers.isAnIPAddress(ip))
         // found devices on lan
         const foundedLanIps = await this.netHelpers.FindLanDevices()
@@ -130,15 +128,7 @@ export class ADBConnection extends ConsoleInterfaceChannel {
         // try to get device name trought adb
         ips = ips.map((ipAddress: string): string => {
           let extractedIP = IPHelpers.extractIPRegex(ipAddress)
-          try {
-            const nameOfDevice = DeviceHelpers.getDeviceModel(
-              this.consoleInstance,
-              extractedIP
-            )
-            return `${extractedIP} | ${nameOfDevice}`
-          } catch (e) {
-            return `${extractedIP} | NO DEVICE INFO`
-          }
+          return `${extractedIP} | NO DEVICE INFO`
         })
 
         return ips
