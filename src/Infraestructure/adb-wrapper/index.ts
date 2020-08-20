@@ -7,10 +7,12 @@ import {
 import adbReturns from './adb-returns'
 import adbMessages from './adb-messages'
 import { IPHelpers } from './ip-helpers'
-import { ADBResolver } from '../../infraestructure/adb-resolver'
-import { IConsoleInterface } from '../../infraestructure/console/console-interface/iconsole-interface'
 import { Memento } from 'vscode'
-import { INetHelpers } from '../../infraestructure/net-helpers/net-helpers-interface'
+import { INetHelpers } from '../net-helpers/net-helpers-interface'
+import { ADBResolver } from '../adb-resolver'
+import { IConsoleInterface } from '../console/console-interface/iconsole-interface'
+
+
 
 export class ADBConnection extends ConsoleInterfaceChannel {
   private resolverInstance: ADBResolver

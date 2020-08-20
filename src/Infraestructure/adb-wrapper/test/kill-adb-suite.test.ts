@@ -1,7 +1,8 @@
 import { ADBConnection, ADBInterfaceError } from '../'
-import { ConsoleInterfaceMock } from '../../../infraestructure/console/console-interface/console-interface-mock'
+
 import { MementoMock } from '../../memento/memento-mock'
 import { NetHelpersMock } from '../../net-helpers/net-helpers-mock'
+import { ConsoleInterfaceMock } from '../../console/console-interface/console-interface-mock'
 const mementoMock = new MementoMock()
 const netHelperMock = new NetHelpersMock()
 
