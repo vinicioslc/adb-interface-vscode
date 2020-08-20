@@ -9,7 +9,7 @@
 <img src="https://api.codeclimate.com/v1/badges/b9fd814b1bdf974a1d16/maintainability" /></a>
 <a href="https://www.buymeacoffee.com/vinicioslc" target="_blank"><img src="https://i.imgur.com/aV6DDA7.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important; box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" > </a>
 
-<div style="text-align:center"><img src="media/icon.png" width="200" /></div>
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/production/media/icon.png" width="200" /></div>
 
 > ⚠️ ONLY TESTED IN WINDOWS (For while, you need have ADB Interface installed in your system)
 
@@ -31,7 +31,7 @@ Chinese Guide [简体中文指南](https://www.jianshu.com/p/fb8eebc8a2c0)
 3.  And run `ADB:📱 Reset connected devices port to :5555`
 4.  And Then `ADB:📱 Connect to device IP` enter your device (settings > status > ip address) IP address and be fine
 
-![status bar](media/record1.gif)
+![status bar](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/production/media/record1.gif)
 
 ## Implemented Commands
 

@@ -1,9 +1,15 @@
-# Changelog
+# CHANGELOG
+
+## 0.19.2
+
+-   FIX - Change broken image links from README.md to working image links, for VSCode extensions.
 
 ## 0.19.1
+
 -   FIX - Issue #13 when connect throws an error, showing error message.
 
 ## 0.19.0
+
 -   NEW - Bump version for new feature `Custom ADB path picker`
 -   ADDED - ADB Path Picker able to select custom adb executable path
 -   IMPROVED - Improved tests with `net-helpers` mocking the class
