@@ -1,14 +1,14 @@
-name: Deploy
+name: Production deploy
 
 env:
   VSCE_DEPLOY_TOKEN: ${{ secrets.VSCE_DEPLOY_TOKEN }}
 on:
   push:
-    branches:
-      - production
+    tags: 
+      - v*
 jobs:
   publish:
-    name: Publishing using node ${{ matrix.node_version }} on ${{ matrix.os }}
+    name: Publish extension, using node ${{ matrix.node_version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
