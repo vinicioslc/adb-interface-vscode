@@ -5,11 +5,11 @@ import { FirebaseController } from './presenters/firebase-controller'
 import { ADBCommandsController } from './presenters/adb-controller'
 import { ADBPathController } from './presenters/adb-path-controller'
 
+import { ADBPathManager } from './infraestructure/adb-path-manager'
+import { NetHelpers } from './infraestructure/net-helpers/index'
+import { ConsoleInterface } from './infraestructure/console/console-interface'
 import { FirebaseManagerChannel } from './infraestructure/firebase-channel'
 import { ADBConnection } from './infraestructure/adb-wrapper'
-import { ConsoleInterface } from './infraestructure/console/console-interface/index'
-import { NetHelpers } from './infraestructure/net-helpers/index'
-import { ADBPathManager } from './infraestructure/adb-path-manager'
 
 const registered = {}
 
@@ -33,4 +33,4 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
