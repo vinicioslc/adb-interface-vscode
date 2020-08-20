@@ -1,5 +1,5 @@
 import { Memento } from 'vscode'
-import * as globalStateKeys from '../../entities/global-state-keys'
+import * as globalStateKeys from '../../config/global-state-keys'
 
 export class ADBPathManager {
   private _storage: Memento

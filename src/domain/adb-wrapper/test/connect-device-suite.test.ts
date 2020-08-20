@@ -1,6 +1,6 @@
 import { ADBConnection } from '..'
 
-import { MementoMock } from '../../memento/memento-mock'
+import { MementoMock } from '../../../infra/memento/memento-mock'
 import { NetHelpersMock } from '../../net-helpers/net-helpers-mock'
 import { ConsoleInterfaceMock } from '../../console/console-interface/console-interface-mock'
 const netHelperMock = new NetHelpersMock()

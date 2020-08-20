@@ -2,7 +2,7 @@ import * as os from 'os'
 import { ConsoleInterface } from '../console/console-interface'
 import * as helperFunctions from './adb-path'
 import { Memento } from 'vscode'
-import * as globalStateKeys from '../../entities/global-state-keys'
+import * as globalStateKeys from '../../config/global-state-keys'
 
 export class ADBResolver {
   osType: string

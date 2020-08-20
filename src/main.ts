@@ -2,15 +2,15 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode'
 
-import { ADBCommandsController } from './presenters/adb-controller'
-import { ADBPathController } from './presenters/adb-path-controller'
-import { FirebaseController } from './presenters/firebase-controller'
+import { ADBCommandsController } from './controllers/adb-controller'
+import { ADBPathController } from './controllers/adb-path-controller'
+import { FirebaseController } from './controllers/firebase-controller'
 
-import { NetHelpers } from './infraestructure/net-helpers'
-import { ADBConnection } from './infraestructure/adb-wrapper'
-import { ADBPathManager } from './infraestructure/adb-path-manager'
-import { FirebaseManagerChannel } from './infraestructure/firebase-channel'
-import { ConsoleInterface } from './infraestructure/console/console-interface'
+import { NetHelpers } from './domain/net-helpers'
+import { ADBConnection } from './domain/adb-wrapper'
+import { ADBPathManager } from './domain/adb-path-manager'
+import { FirebaseManagerChannel } from './domain/firebase-channel'
+import { ConsoleInterface } from './domain/console/console-interface'
 
 const registered = {}
 
