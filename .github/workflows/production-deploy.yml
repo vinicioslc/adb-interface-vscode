@@ -25,4 +25,5 @@ jobs:
       - name: npm install and publish
         run: |
           npm install
+          npm test
           npm run publish
