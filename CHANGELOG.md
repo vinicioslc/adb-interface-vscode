@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.19.3
+
+-   IMPROVED - README links and layout (nothing important).
+
 ## 0.19.2
 
 -   FIX - Change broken image links from README.md to working image links, for VSCode extensions.
