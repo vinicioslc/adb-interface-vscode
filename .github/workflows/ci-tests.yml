@@ -3,12 +3,10 @@ name: CI Tests
 on:
   push:
     branches:
-      - master
       - production
       - feature/*
   pull_request:
     branches:
-      - master
       - production
       - feature/*
 jobs:
@@ -17,7 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: ['12']
+        node_version: ["12"]
         os: [ubuntu-latest]
 
     steps:

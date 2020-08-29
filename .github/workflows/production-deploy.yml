@@ -1,18 +1,18 @@
-name: Production deploy
+name: CI/CD Production
 
 env:
   VSCE_DEPLOY_TOKEN: ${{ secrets.VSCE_DEPLOY_TOKEN }}
 on:
   push:
-    tags: 
-      - v*
+    tags:
+      - v*.*.*
 jobs:
   publish:
     name: Publish extension, using node ${{ matrix.node_version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: ['12']
+        node_version: ["12"]
         os: [ubuntu-latest]
 
     steps:
