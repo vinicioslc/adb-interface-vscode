@@ -5,7 +5,7 @@ env:
 on:
   push:
     tags:
-      - v*.*.*
+      - deploy-v*.*.*
 jobs:
   publish:
     name: Publish extension, using node ${{ matrix.node_version }} on ${{ matrix.os }}
