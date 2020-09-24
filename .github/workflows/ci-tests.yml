@@ -4,18 +4,18 @@ on:
   push:
     branches:
       - production
-      - feature/*
+      - develop**
   pull_request:
     branches:
       - production
-      - feature/*
+      - develop**
 jobs:
   test:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: ["12"]
+        node_version: ['12']
         os: [ubuntu-latest]
 
     steps:
