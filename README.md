@@ -11,7 +11,6 @@
 
 <div style="text-align:center"><img src="https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/production/media/icon.png" width="200" /></div>
 
-
 This simple ADB-Wrapper try makes easy connect to android devices over wifi, without console use, and do other things.
 
 Chinese Guide [简体中文指南](https://www.jianshu.com/p/fb8eebc8a2c0)
@@ -21,9 +20,20 @@ You can help with
 or with
 [Energy](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url) everthing are welcome.
 
-
 > ⚠️ ONLY TESTED IN WINDOWS (For while, you need have ADB Interface installed in your system)
-## How to connect my phone via wifi
+
+## Commands Available
+
+-   ADB:📱 Reset connected devices port to :5555 (Open current device port with (equivalent `adb tcpip 5555`))
+-   ADB:📱 Connect to device IP (Need type the IP from device (equivalent `adb connect ${your ip}:5555`))
+-   ADB:📱 Disconnect from any devices (Disconnect ever device attached (equivalent `adb disconnect`))
+-   ADB:📱 Connect to device from List (Show an list from devices attached to connect (equivalent `adb devices`))
+-   ADB:📱 Pick .APK file and install (Install on current active device (Will prompt user on Android Screen))
+-   ADB:🔥 Enable Firebase events debug mode (Run firebase events in debug mode)
+-   ADB:🔥 Disable Firebase events debug mode (Run firebase events in debug mode)
+-   ADB:⚠️ Kill ADB server (Kill ADB Server runing (equivalent `adb kill-server`))
+
+## How to connect to Android via wifi
 
 1.  First connect your device trough USB
 2.  Run `ADB:📱 Disconnect from any devices`
@@ -31,16 +41,6 @@ or with
 4.  And Then `ADB:📱 Connect to device IP` enter your device (settings > status > ip address) IP address and be fine
 
 ![status bar](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/production/media/record1.gif)
-
-## Implemented Commands
-
--   ADB:📱 Reset connected devices port to :5555 (Open current device port with `adb tcpip 5555`)
--   ADB:📱 Connect to device IP (need inform IP from device wanted `adb connect ${user_ip}:5555`)
--   ADB:📱 Disconnect from any devices (Disconnect ever device attached `adb disconnect`)
--   ADB:📱 Connect to device from List (Show an list from devices attached to connect)
--   ADB:🔥 Enable Firebase events debug mode (Run firebase events in debug mode)
--   ADB:🔥 Disable Firebase events debug mode (Run firebase events in debug mode)
--   ADB:⚠️ Kill ADB server (Kill ADB Server runing `adb kill-server`)
 
 ### Tests Health Summary by jest-badge-generator
 

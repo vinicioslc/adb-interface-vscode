@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.20.3
+
+-   NEW - Feature that enable install apk on currectly connected device (Only windows tested).
+
 ## 0.19.3
 
 -   IMPROVED - README links and layout (nothing important).
@@ -15,8 +19,8 @@
 ## 0.19.0
 
 -   NEW - Bump version for new feature `Custom ADB path picker`
--   ADDED - ADB Path Picker able to select custom adb executable path
--   IMPROVED - Improved tests with `net-helpers` mocking the class
+-   NEW - ADB Path Picker able to select custom adb executable path
+-   IMPROVED - Tests with `net-helpers` mocking the class
 -   IMPROVED - CHANGELOG.md layout
 
 ## 0.18.3
@@ -34,7 +38,7 @@
 
 ## 0.18.0
 
--   NEW - Added test cases for `adb-resolver` use cases.
+-   NEW - Test cases for `adb-resolver` use cases.
 
 -   NEW - Improve how extension search `ADB` in enviroment adding `adb-resolver` strategy.
 
@@ -50,5 +54,5 @@
 
 ## Past
 
--   NEW - Forbiden Changes
+-   OLD - Forbiden Changes
     ...
