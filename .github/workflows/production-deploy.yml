@@ -1,18 +1,18 @@
-name: CI/CD Production
+name: CD - Production
 
 env:
-  VSCE_DEPLOY_TOKEN: ${{ secrets.VSCE_DEPLOY_TOKEN }}
+  VSCE_DEPLOY_TOKEN: ${{ secrets.VSCE_DEPLOY_TOKEN }} # set visual studio deploy token globally
 on:
   push:
     tags:
-      - deploy-v*.*.*
+      - prod-v*.*.*
 jobs:
   publish:
-    name: Publish extension, using node ${{ matrix.node_version }} on ${{ matrix.os }}
+    name: Deploy extension to production, with node ${{ matrix.node_version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: ["12"]
+        node_version: ['12']
         os: [ubuntu-latest]
 
     steps:
@@ -21,6 +21,18 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node_version }}
+
+      - name: Extract version from tag name
+        uses: olegtarasov/get-tag@v2 # that generate $GIT_TAG_NAME env follows semantic versioning
+        id: tagName
+        with:
+          tagRegex: 'prod-v([0-9]+.[0-9]+.[0-9]+)' # Optional. Returns specified group text as tag name. Full tag string is returned if regex is not defined.
+          tagRegexGroup: 1 # Optional. Default is 1.
+
+      - name: Replace package.json version with tag version
+        run: |
+          sed -i 's/99.99.99/'$GIT_TAG_NAME'/g' package.json|
+          echo "Tag version used:"$GIT_TAG_NAME
 
       - name: npm install and publish
         run: |
