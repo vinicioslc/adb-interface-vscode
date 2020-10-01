@@ -167,13 +167,19 @@ export class ADBConnection extends ConsoleInterfaceChannel {
   }
 
   public async InstallApkOnDevice(apkFilePath): Promise<string> {
-    let returned = null
+    let resultString = null
     try {
-      const result = await this.resolverInstance.sendADBCommand(
+      const adbReturn = await this.resolverInstance.sendADBCommand(
         adbCommands.ADB_INSTALL_APK(apkFilePath)
       )
-
-      returned = 'Finished:' + result.toLocaleString()
+      resultString = adbReturn.toLocaleString()
+      if (isValidReturn(resultString, adbReturns.APK_INSTALLED_SUCCESS())) {
+        resultString = `Installed "${apkFilePath}" with success`
+      } else if (isValidReturn(resultString, 'no devices found')) {
+        throw new ADBInterfaceException('No connected devices found')
+      } else {
+        throw new ADBInterfaceError(resultString)
+      }
     } catch (e) {
       if (e instanceof ADBInterfaceError) {
         throw e
@@ -181,10 +187,10 @@ export class ADBConnection extends ConsoleInterfaceChannel {
         throw new ADBInterfaceException(e.message)
       }
     }
-    if (returned == null) {
+    if (resultString == null) {
       throw new ADBInterfaceError('Fail during ADB Kill')
     }
-    return returned
+    return resultString
   }
 }
 
