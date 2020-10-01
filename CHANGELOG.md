@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.20.5
+
+-   FIX - Improved CI/CD for deploy in production, now only need change the version on tagname like prod-v0.20.5 this will build and send the version 0.20.5 to the Extensions.
+
 ## 0.20.4
 
 -   NEW - Tests for apk file picker, including apk install use cases.
