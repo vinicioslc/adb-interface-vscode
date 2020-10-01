@@ -12,5 +12,6 @@ missing port in specification: tcp:${ipAddress}`,
   LISTING_DEVICES: () => 'List of devices attached',
   NO_DEVICES_FOUND: () => `error: no devices/emulators found`,
   ALLREADY_CONNECTED_TO: () => 'already connected to',
-  ADB_KILLED_SUCCESS_RETURN: () => ''
+  ADB_KILLED_SUCCESS_RETURN: () => '',
+  APK_INSTALLED_SUCCESS: () => 'Success'
 }

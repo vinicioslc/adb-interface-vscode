@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.20.4
+
+-   NEW - Tests for apk file picker, including apk install use cases.
+
 ## 0.20.3
 
 -   NEW - Feature that enable install apk on currectly connected device (Only windows tested).
