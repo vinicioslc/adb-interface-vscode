@@ -8,6 +8,19 @@ export default {
    * Kills ADB Server needing some command to restart
    */
   ADB_KILL_SERVER: () => 'adb kill-server',
+  ADB_INSTALL_APK: (
+    apkFilePath = 'app.apk',
+    installInSysMemory = false,
+    installCanDowngrade = true,
+    installOnUSB = true,
+    installAsTestApk = true
+  ) => {
+    const onUSBdevice = installOnUSB ? ' -d' : ''
+    const canDowngrade = installCanDowngrade ? ' -d' : ''
+    const onSysMemory = installInSysMemory ? ' -f' : ''
+    const asTestApk = installAsTestApk ? ' -t' : ''
+    return `adb${onUSBdevice} install${canDowngrade}${onSysMemory}${asTestApk} "${apkFilePath}"`
+  },
   ADB_DISCONNECT_ALL: () => `adb disconnect`,
   CONNECT_IP_AND_PORT: (deviceIP: string = '192.168.1.100', port = '5555') =>
     `adb connect ${deviceIP}:${port}`,

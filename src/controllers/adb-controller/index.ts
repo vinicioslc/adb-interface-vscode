@@ -1,20 +1,17 @@
 import * as vscode from 'vscode'
-import {
-  ADBConnection,
-  ADBInterfaceException
-} from '../../domain/adb-wrapper'
+import { ADBConnection, ADBInterfaceException } from '../../domain/adb-wrapper'
 import * as appStateKeys from '../../config/global-state-keys'
 import { IPHelpers } from '../../domain/adb-wrapper/ip-helpers'
 import { ADBBaseController } from './ADBBaseController'
 import { Memento } from 'vscode'
 
 export class ADBCommandsController extends ADBBaseController {
-  private adbInstance: ADBConnection
+  private adbConnInstance: ADBConnection
   private appStateKeys: typeof appStateKeys
 
   constructor(context: vscode.ExtensionContext, adbInstance: ADBConnection) {
     super(context)
-    this.adbInstance = adbInstance
+    this.adbConnInstance = adbInstance
     this.appStateKeys = appStateKeys
   }
   async onInit() {
@@ -31,18 +28,20 @@ export class ADBCommandsController extends ADBBaseController {
         this.connectToDeviceFromList()
       )
       .registerCommand('adbInterface.killserver', () => this.killADBServer())
+
+      .registerCommand('adbInterface.installAPKFile', () =>
+        this.pickAPKAndInstall()
+      )
   }
 
   async genericErrorReturn(e: Error) {
-    if (e instanceof ADBInterfaceException) {
-      vscode.window.showWarningMessage(e.message)
-    } else {
-      vscode.window.showErrorMessage('Error:' + e.message)
-    }
+    super.genericErrorReturn(e)
   }
   async resetDevicesPort() {
     try {
-      vscode.window.showInformationMessage(await this.adbInstance.ResetPorts())
+      vscode.window.showInformationMessage(
+        await this.adbConnInstance.ResetPorts()
+      )
     } catch (e) {
       this.genericErrorReturn(e)
     }
@@ -71,7 +70,7 @@ export class ADBCommandsController extends ADBBaseController {
       vscode.window.showInformationMessage(`Connecting to ${value} by IP`)
 
       vscode.window.showInformationMessage(
-        await this.adbInstance.ConnectToDevice(value)
+        await this.adbConnInstance.ConnectToDevice(value)
       )
     } catch (e) {
       this.genericErrorReturn(e)
@@ -81,7 +80,7 @@ export class ADBCommandsController extends ADBBaseController {
   async disconnectAnyDevice() {
     try {
       vscode.window.showInformationMessage(
-        await this.adbInstance.DisconnectFromAllDevices()
+        await this.adbConnInstance.DisconnectFromAllDevices()
       )
     } catch (e) {
       this.genericErrorReturn(e)
@@ -89,7 +88,7 @@ export class ADBCommandsController extends ADBBaseController {
   }
   async killADBServer() {
     try {
-      const adbInterfaceResult = await this.adbInstance.KillADBServer()
+      const adbInterfaceResult = await this.adbConnInstance.KillADBServer()
       if (adbInterfaceResult) {
         vscode.window.showInformationMessage(adbInterfaceResult)
       } else {
@@ -97,6 +96,50 @@ export class ADBCommandsController extends ADBBaseController {
       }
     } catch (e) {
       this.genericErrorReturn(e)
+    }
+  }
+  async pickAPKAndInstall() {
+    try {
+      const filename = await this.findApkFile()
+      console.error('filefound', filename)
+
+      if (!filename) {
+        throw new Error('Error: Invalid APK file selected')
+      }
+      const adbInterfaceResult = await this.adbConnInstance.InstallApkOnDevice(
+        filename.toLocaleString()
+      )
+
+      if (adbInterfaceResult) {
+        vscode.window.showInformationMessage(adbInterfaceResult)
+      } else {
+        vscode.window.showErrorMessage('Fail to Kill:' + adbInterfaceResult)
+      }
+    } catch (e) {
+      this.genericErrorReturn(e)
+    }
+  }
+
+  private async findApkFile() {
+    let arrayFounded = await vscode.window.showOpenDialog({
+      canSelectFiles: true,
+      canSelectFolders: false,
+      canSelectMany: false,
+      filters: {
+        'Android APK Files': ['apk']
+      },
+      openLabel: 'Select APK'
+    })
+    let filename: string = null
+    for (const obj of arrayFounded) {
+      if (obj.scheme == 'file') {
+        filename = obj.path
+        if (filename.startsWith('/')) filename = filename.substring(1)
+      }
+    }
+    if (!filename) throw new ADBInterfaceException('Invalid APK file selected.')
+    else {
+      return filename
     }
   }
 
@@ -109,7 +152,7 @@ export class ADBCommandsController extends ADBBaseController {
       })
       if (ipSelected != null) {
         // wait disconnect from adb device
-        await this.adbInstance.DisconnectFromAllDevices()
+        await this.adbConnInstance.DisconnectFromAllDevices()
         await this.connectToAdbDevice(
           this.context,
           IPHelpers.extractIPRegex(ipSelected)
@@ -117,14 +160,14 @@ export class ADBCommandsController extends ADBBaseController {
       } else {
         throw new Error('Device IP Address not selected.')
       }
-    } catch (error) {
-      this.genericErrorReturn(error)
+    } catch (e) {
+      this.genericErrorReturn(e)
     }
   }
 
   async getIPAddressList() {
     try {
-      const connectedDevices = await this.adbInstance.FindConnectedDevices()
+      const connectedDevices = await this.adbConnInstance.FindConnectedDevices()
       const lastIPSelected = await this.context.globalState.get(
         this.appStateKeys.lastIPUsed(),
         ''

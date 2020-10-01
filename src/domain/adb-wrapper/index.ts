@@ -12,8 +12,6 @@ import { INetHelpers } from '../net-helpers/net-helpers-interface'
 import { ADBResolver } from '../adb-resolver'
 import { IConsoleInterface } from '../console/console-interface/iconsole-interface'
 
-
-
 export class ADBConnection extends ConsoleInterfaceChannel {
   private resolverInstance: ADBResolver
   private netHelpers: INetHelpers
@@ -41,21 +39,21 @@ export class ADBConnection extends ConsoleInterfaceChannel {
     let finalResult = null
 
     const deviceIP = IPHelpers.extractIPRegex(ipAddress)
-    const resultString =
-      (await this.resolverInstance.sendADBCommand(
+    const resultString = (
+      await this.resolverInstance.sendADBCommand(
         adbCommands.CONNECT_IP_AND_PORT(deviceIP)
-      )).toString()
-
+      )
+    ).toString()
 
     if (isValidReturn(resultString, adbReturns.CONNECTED_TO())) {
       finalResult = `Connected to: ${ipAddress}:5555`
     }
     if (isValidReturn(resultString, adbReturns.ALLREADY_CONNECTED_TO())) {
-      throw new ADBInterfaceException(`Allready connected to: ${ipAddress}:5555`)
+      throw new ADBInterfaceException(
+        `Allready connected to: ${ipAddress}:5555`
+      )
     }
-    if (
-      isValidReturn(resultString, adbReturns.CONNECTION_REFUSED(deviceIP))
-    ) {
+    if (isValidReturn(resultString, adbReturns.CONNECTION_REFUSED(deviceIP))) {
       throw new ADBInterfaceException(
         'Connection refused:\n Target machine actively refused connection.'
       )
@@ -155,6 +153,27 @@ export class ADBConnection extends ConsoleInterfaceChannel {
       } else {
         throw new ADBInterfaceError('ADB Server not killed')
       }
+    } catch (e) {
+      if (e instanceof ADBInterfaceError) {
+        throw e
+      } else {
+        throw new ADBInterfaceException(e.message)
+      }
+    }
+    if (returned == null) {
+      throw new ADBInterfaceError('Fail during ADB Kill')
+    }
+    return returned
+  }
+
+  public async InstallApkOnDevice(apkFilePath): Promise<string> {
+    let returned = null
+    try {
+      const result = await this.resolverInstance.sendADBCommand(
+        adbCommands.ADB_INSTALL_APK(apkFilePath)
+      )
+
+      returned = 'Finished:' + result.toLocaleString()
     } catch (e) {
       if (e instanceof ADBInterfaceError) {
         throw e

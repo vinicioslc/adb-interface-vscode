@@ -59,7 +59,8 @@
     "onCommand:adbInterface.killserver",
     "onCommand:adbInterface.disconnectEverthing",
     "onCommand:adbInterface.enableFirebaseDebug",
-    "onCommand:adbInterface.disableFirebaseDebug"
+    "onCommand:adbInterface.disableFirebaseDebug",
+    "onCommand:adbInterface.installAPKFile"
   ],
   "contributes": {
     "commands": [
@@ -90,6 +91,10 @@
       {
         "command": "adbInterface.disconnectEverthing",
         "title": "ADB:📱 Disconnect from any devices"
+      },
+      {
+        "command": "adbInterface.installAPKFile",
+        "title": "ADB:📱 Pick .APK file and install (on current active device)"
       },
       {
         "command": "adbInterface.killserver",
