@@ -28,7 +28,7 @@ or with
 
 -   [Table of contents](#table-of-contents)
 -   [Commands Available](#commands-available)
--   [Demo Gifs](#demo-gifs)
+-   [Demo GIFs](#demo-gifs)
 
     -   [Attach ADB to an Device via WIFI](#Attach-ADB-to-an-Device-via-WIFI)
     -   [Installing APK files throught ADB](#Installing-APK-files-throught-ADB)
