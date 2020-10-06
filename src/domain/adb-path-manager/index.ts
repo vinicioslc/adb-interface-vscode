@@ -1,8 +1,8 @@
 import { Memento } from 'vscode'
 import * as globalStateKeys from '../../config/global-state-keys'
 
-private _storage: Memento
-  export class ADBPathManager {
+export class ADBPathManager {
+  private _storage: Memento
   constructor(currentStorage: Memento) {
     this._storage = currentStorage
   }
