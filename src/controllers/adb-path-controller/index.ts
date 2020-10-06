@@ -39,9 +39,9 @@ export class ADBPathController extends ADBBaseController {
         canSelectMany: false,
         canSelectFiles: true,
         canSelectFolders: false,
-        openLabel: 'Select your ADB Executable',
+        openLabel: 'Select the ADB Executable',
         filters: {
-          'ADB Executable': ['*']
+          'ADB Executable': ['exe', '*']
         }
       }
 
@@ -52,10 +52,10 @@ export class ADBPathController extends ADBBaseController {
             RegExp(path.basename(fileUri[0].fsPath) + '$', 'i'),
             ''
           )
-          console.log('Selected file: ' + fileUri[0].fsPath)
-          console.log('Selected file: ' + adbPath)
+
+          this.pathManagerInstance.setFilePath(adbPath)
           vscode.window.showInformationMessage(
-            'Custom ADB path setted:' + adbPath
+            'Custom ADB path configured:' + adbPath
           )
         }
       })
