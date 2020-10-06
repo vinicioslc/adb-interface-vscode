@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.20.6
+
+-   FIX - Save ADB custom path when set it on ADBPathManager.
+-   DOC - Added Info about strategy used by ADBResolver
+-   DOC - Added GIFs section in documentation demostrating how install apk on device
+
 ## 0.20.5
 
 -   FIX - Improved CI/CD for deploy in production, now only need change the version on tagname like prod-v0.20.5 this will build and send the version 0.20.5 to the Extensions.
@@ -10,11 +16,11 @@
 
 ## 0.20.3
 
--   NEW - Feature that enable install apk on currectly connected device (Only windows tested).
+-   NEW - Feature that enable install apk on connected device (Only windows tested).
 
 ## 0.19.3
 
--   IMPROVED - README links and layout (nothing important).
+-   DOC - README links and layout (nothing important).
 
 ## 0.19.2
 
