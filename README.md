@@ -33,6 +33,7 @@ or with
     -   [Attach ADB to an Device via WIFI](#Attach-ADB-to-an-Device-via-WIFI)
     -   [Installing APK files throught ADB](#Installing-APK-files-throught-ADB)
 
+-   [ADB location resolution](#ADB-location-resolution)
 -   [Tests](#Tests)
 
       <!--te-->
