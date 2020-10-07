@@ -33,6 +33,7 @@ or with
     -   [Attach ADB to an Device via WIFI](#Attach-ADB-to-an-Device-via-WIFI)
     -   [Installing APK files throught ADB](#Installing-APK-files-throught-ADB)
 
+-   [ADB location resolution](#ADB-location-resolution)
 -   [Tests](#Tests)
 
       <!--te-->
@@ -44,6 +45,8 @@ or with
 -   ADB:📱 Disconnect from any devices (Disconnect ever device attached (equivalent `adb disconnect`))
 -   ADB:📱 Connect to device from List (Show an list from devices attached to connect (equivalent `adb devices`))
 -   ADB:📱 Pick .APK file and install (Install on current active device (Will prompt user on Android Screen))
+-   ADB:📱 Setup custom ADB location (Configure location of ADB)
+-   ADB:📱 Remove custom ADB location (Clear custom ADB location)
 -   ADB:🔥 Enable Firebase events debug mode (Run firebase events in debug mode)
 -   ADB:🔥 Disable Firebase events debug mode (Run firebase events in debug mode)
 -   ADB:⚠️ Kill ADB server (Kill ADB Server runing (equivalent `adb kill-server`))
@@ -77,6 +80,17 @@ Below you can see some GIFs demostrating use cases.
 ![status bar](/media/install_apk_demo.gif)
 
 </div>
+
+## ADB location resolution
+
+By default the extension is looking for ADB in the following locations:
+- Linux - `$HOME/Android/Sdk`
+- MacOS - `$HOME/Library/Android/sdk/platform-tools`
+- Windows - `%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools` (if the `%USERPROFILE%` environment variable is not defined the path to the profile directory of the current user will be used as the starting point)
+
+The extension will resolve the ADB location each time an ADB command is executed.
+
+The ADB location can be customized using the `Setup custom ADB location` command. The custom ADB location can be cleared using  the `Remove custom ADB location` command.
 
 # Tests
 
