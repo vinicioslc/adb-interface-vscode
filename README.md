@@ -28,13 +28,16 @@ or with
 
 -   [Table of contents](#table-of-contents)
 -   [Commands Available](#commands-available)
--   [Demo GIFs](#demo-gifs)
 
-    -   [Attach ADB to an Device via WIFI](#Attach-ADB-to-an-Device-via-WIFI)
-    -   [Installing APK files throught ADB](#Installing-APK-files-throught-ADB)
+-   [How it works](#how-it-works)
+    -   [ADB location resolution strategy](#adb-location-resolution)
 
--   [ADB location resolution](#ADB-location-resolution)
--   [Tests](#Tests)
+-   [Demo GIFs](#demos)
+
+    -   [Attach ADB to an Device via WIFI](#attach-adb-to-an-device-via-wifi)
+    -   [Installing APK files throught ADB](#installing-apk-files-throught-adb)
+
+-   [Tests](#tests)
 
       <!--te-->
 
@@ -51,7 +54,20 @@ or with
 -   ADB:🔥 Disable Firebase events debug mode (Run firebase events in debug mode)
 -   ADB:⚠️ Kill ADB server (Kill ADB Server runing (equivalent `adb kill-server`))
 
-# Demo GIFs
+# How it works
+
+## ADB location resolution 
+
+By default the extension is looking for ADB in the following locations:
+- Linux - `$HOME/Android/Sdk`
+- MacOS - `$HOME/Library/Android/sdk/platform-tools`
+- Windows - `%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools` (if the `%USERPROFILE%` environment variable is not defined the path to the profile directory of the current user will be used as the starting point)
+
+The extension will resolve the ADB location each time an ADB command is executed.
+
+The ADB location can be customized using the `Setup custom ADB location` command. The custom ADB location can be cleared using  the `Remove custom ADB location` command.
+
+# Demos
 
 Below you can see some GIFs demostrating use cases.
 
@@ -80,17 +96,6 @@ Below you can see some GIFs demostrating use cases.
 ![status bar](/media/install_apk_demo.gif)
 
 </div>
-
-## ADB location resolution
-
-By default the extension is looking for ADB in the following locations:
-- Linux - `$HOME/Android/Sdk`
-- MacOS - `$HOME/Library/Android/sdk/platform-tools`
-- Windows - `%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools` (if the `%USERPROFILE%` environment variable is not defined the path to the profile directory of the current user will be used as the starting point)
-
-The extension will resolve the ADB location each time an ADB command is executed.
-
-The ADB location can be customized using the `Setup custom ADB location` command. The custom ADB location can be cleared using  the `Remove custom ADB location` command.
 
 # Tests
 
