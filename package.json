@@ -2,7 +2,7 @@
   "name": "adb-interface-vscode",
   "displayName": "ADB Interface for VSCode",
   "description": "An interface that allows ADB commands inside IDE with no need to have terminal access.",
-  "version": "0.20.5",
+  "version": "99.99.99",
   "publisher": "vinicioslc",
   "repository": "https://github.com/vinicioslc/adb-interface-vscode",
   "engines": {
