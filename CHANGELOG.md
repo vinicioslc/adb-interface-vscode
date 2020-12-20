@@ -3,7 +3,9 @@
 ## 0.20.6
 
 -   FIX - Save ADB custom path when set it on ADBPathManager.
+
 -   DOC - Added Info about strategy used by ADBResolver
+
 -   DOC - Added GIFs section in documentation demostrating how install apk on device
 
 ## 0.20.5
@@ -12,7 +14,8 @@
 
 ## 0.20.4
 
--   NEW - Tests for apk file picker, including apk install use cases.
+-   NEW - Tests for apk fi
+    le picker, including apk install use cases.
 
 ## 0.20.3
 
