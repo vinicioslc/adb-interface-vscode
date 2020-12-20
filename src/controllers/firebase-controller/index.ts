@@ -10,6 +10,13 @@ export class FirebaseController extends ADBBaseController {
   private firebaseInstance: FirebaseManagerChannel
   appStateKeys: typeof appStateKeys
 
+  get lastUsedAppPackage(): Array<string> {
+    return this.context.globalState.get(
+      appStateKeys.allPackages(),
+      []
+    )
+  }
+
   constructor(
     context: vscode.ExtensionContext,
     firebaseChannel: FirebaseManagerChannel
@@ -38,10 +45,7 @@ export class FirebaseController extends ADBBaseController {
 
   async enableFirebaseDebugView() {
     try {
-      const lastvalue = this.context.globalState.get(
-        appStateKeys.allPackages(),
-        []
-      )
+      const lastvalue = this.lastUsedAppPackage
 
       const packageName = await vscode.window.showInputBox({
         placeHolder: 'com.domain.app.beta',

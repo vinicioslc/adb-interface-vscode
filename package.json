@@ -82,11 +82,11 @@
       },
       {
         "command": "adbInterface.adbResetPorts",
-        "title": "ADB:📱 Reset connected devices port to :5555"
+        "title": "ADB:📱 Reset connected devices port"
       },
       {
         "command": "adbInterface.adbResetPorts",
-        "title": "ADB:📱 Reset connected devices port to :5555"
+        "title": "ADB:📱 Reset connected devices port"
       },
       {
         "command": "adbInterface.connectToDeviceFromList",

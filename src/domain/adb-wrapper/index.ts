@@ -35,27 +35,27 @@ export class ADBConnection extends ConsoleInterfaceChannel {
    *  connect to a given ip address
    * @param ipAddress "192.168.1.100"
    */
-  public async ConnectToDevice(ipAddress: string): Promise<string> {
+  public async ConnectToDevice(ipAddress: string, portAddress: string): Promise<string> {
     let finalResult = null
 
     const deviceIP = IPHelpers.extractIPRegex(ipAddress)
     const resultString = (
       await this.resolverInstance.sendADBCommand(
-        adbCommands.CONNECT_IP_AND_PORT(deviceIP)
+        adbCommands.CONNECT_IP_AND_PORT(deviceIP, portAddress)
       )
     ).toString()
 
     if (isValidReturn(resultString, adbReturns.CONNECTED_TO())) {
-      finalResult = `Connected to: ${ipAddress}:5555`
+      finalResult = `Connected to "${ipAddress}:${portAddress}"`
     }
     if (isValidReturn(resultString, adbReturns.ALLREADY_CONNECTED_TO())) {
       throw new ADBInterfaceException(
-        `Allready connected to: ${ipAddress}:5555`
+        `Allready connected to "${ipAddress}:${portAddress}"`
       )
     }
     if (isValidReturn(resultString, adbReturns.CONNECTION_REFUSED(deviceIP))) {
       throw new ADBInterfaceException(
-        'Connection refused:\n Target machine actively refused connection.'
+        'Connection refused:\n s machine actively refused connection.'
       )
     }
     if (isValidReturn(resultString, adbReturns.MISSING_PORT(deviceIP))) {
@@ -67,11 +67,11 @@ export class ADBConnection extends ConsoleInterfaceChannel {
     }
     return finalResult
   }
-  public async ResetPorts(): Promise<string> {
+  public async ResetPorts(port: string): Promise<string> {
     let finalResult = null
     try {
       const consoleReturn = await this.resolverInstance.sendADBCommand(
-        adbCommands.RESET_PORTS()
+        adbCommands.RESET_PORTS(port)
       )
       const output = consoleReturn.toString()
       if (isValidReturn(output, adbReturns.RESTARTING_PORT())) {
@@ -118,20 +118,20 @@ export class ADBConnection extends ConsoleInterfaceChannel {
       const output = result.toString()
       if (isValidReturn(output, adbReturns.LISTING_DEVICES())) {
         // split all returned ips separated by line breaks
-        let ips = output.split(/[\r]|[\n]/gim)
+        let foundedIPs = output.split(/[\r]|[\n]/gim)
         // filter only who is ip address.
-        ips = ips.filter(ip => IPHelpers.isAnIPAddress(ip))
+        foundedIPs = foundedIPs.filter(ip => IPHelpers.isAnIPAddress(ip))
         // found devices on lan
-        const foundedLanIps = await this.netHelpers.FindLanDevices()
-        ips = ips.concat(...foundedLanIps)
+        const foundedOnLan = await this.netHelpers.FindLanDevices()
+        foundedIPs = foundedIPs.concat(...foundedOnLan)
 
         // try to get device name trought adb
-        ips = ips.map((ipAddress: string): string => {
+        foundedIPs = foundedIPs.map((ipAddress: string): string => {
           let extractedIP = IPHelpers.extractIPRegex(ipAddress)
           return `${extractedIP} | NO DEVICE INFO`
         })
 
-        return ips
+        return foundedIPs
       }
     } catch (e) {
       throw new ADBInterfaceException(e.message)

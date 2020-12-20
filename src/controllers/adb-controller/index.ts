@@ -8,6 +8,13 @@ import { Memento } from 'vscode'
 export class ADBCommandsController extends ADBBaseController {
   private adbConnInstance: ADBConnection
   private appStateKeys: typeof appStateKeys
+  get lastUsedIP(): string {
+    return this.context.globalState.get(appStateKeys.lastUsedIP(), '')
+  }
+
+  get lastUsedPort(): string {
+    return this.context.globalState.get(appStateKeys.lastUsedPort(), '5555')
+  }
 
   constructor(context: vscode.ExtensionContext, adbInstance: ADBConnection) {
     super(context)
@@ -39,38 +46,63 @@ export class ADBCommandsController extends ADBBaseController {
   }
   async resetDevicesPort() {
     try {
-      vscode.window.showInformationMessage(
-        await this.adbConnInstance.ResetPorts()
-      )
+      await (vscode.window
+        .showInputBox({
+          placeHolder: '5555',
+          value: this.lastUsedPort,
+          ignoreFocusOut: true,
+          prompt:
+            'Enter the Port from your device to be used. (Last port used will be filled in next time)'
+        })
+        .then(async port => {
+          await vscode.window.showInformationMessage(
+            await this.adbConnInstance.ResetPorts(port)
+          )
+        }))
     } catch (e) {
       this.genericErrorReturn(e)
     }
   }
 
   async connectToDevice() {
-    let lastvalue = this.context.globalState.get(appStateKeys.lastIPUsed(), '')
+    const ipValue = this.lastUsedIP
+
     // The code you place here will be executed every time your command is executed
     vscode.window
       .showInputBox({
         placeHolder: '192.168.0.1',
-        value: lastvalue,
+        value: ipValue,
         ignoreFocusOut: true,
         prompt:
-          'Enter the IP address from your device to connect to him. (Last address will be filled in next time) port 5555 added automagically.'
+          'Enter the IP Address from your device. (Last IP will be filled in next time) .'
       })
-      .then(async value => {
-        await this.connectToAdbDevice(this.context, value)
+      .then(async ipAddress => {
+        vscode.window
+          .showInputBox({
+            placeHolder: '5555',
+            value: this.lastUsedPort,
+            ignoreFocusOut: true,
+            prompt:
+              'Enter the Port from your device to be used. (Last port used will be filled in next time)'
+          })
+          .then(async port => {
+
+            await this.connectToAdbDevice(this.context, ipAddress, port)
+          })
       })
     // Display a message box to the user
   }
 
-  async connectToAdbDevice(context: vscode.ExtensionContext, value: string) {
-    context.globalState.update(appStateKeys.lastIPUsed(), value)
+  async connectToAdbDevice(context: vscode.ExtensionContext, deviceIP: string, port: string) {
+    if (port)
+      await this.context.globalState.update(appStateKeys.lastUsedPort(), port)
+    if (deviceIP)
+      await this.context.globalState.update(appStateKeys.lastUsedIP(), deviceIP)
     try {
-      vscode.window.showInformationMessage(`Connecting to ${value} by IP`)
+      vscode.window.showInformationMessage(`Connecting to ${deviceIP}:${port}`)
 
       vscode.window.showInformationMessage(
-        await this.adbConnInstance.ConnectToDevice(value)
+        await this.adbConnInstance.ConnectToDevice(deviceIP, port)
       )
     } catch (e) {
       this.genericErrorReturn(e)
@@ -145,18 +177,31 @@ export class ADBCommandsController extends ADBBaseController {
 
   async connectToDeviceFromList() {
     try {
-      const ipAddresses = await this.getIPAddressList()
-      const ipSelected = await vscode.window.showQuickPick(ipAddresses, {
+      vscode.window.showInformationMessage('Searching')
+      const ipAddressList = await this.getIPAddressList()
+      let selectedIP = await vscode.window.showQuickPick(ipAddressList, {
         ignoreFocusOut: true,
         placeHolder: 'Select the IP address of the device to connect to...'
       })
-      if (ipSelected != null) {
-        // wait disconnect from adb device
-        await this.adbConnInstance.DisconnectFromAllDevices()
-        await this.connectToAdbDevice(
-          this.context,
-          IPHelpers.extractIPRegex(ipSelected)
-        )
+      selectedIP = IPHelpers.extractIPRegex(selectedIP)
+      if (selectedIP != null) {
+        vscode.window
+          .showInputBox({
+            placeHolder: '5555',
+            value: this.lastUsedPort,
+            ignoreFocusOut: true,
+            prompt:
+              'Enter the Port from your device to be used. (Last port used will be filled in next time)'
+          })
+          .then(async port => {
+            // wait disconnect from adb device
+            await this.adbConnInstance.DisconnectFromAllDevices()
+            await this.connectToAdbDevice(
+              this.context,
+              selectedIP,
+              port
+            )
+          })
       } else {
         throw new Error('Device IP Address not selected.')
       }
@@ -168,10 +213,7 @@ export class ADBCommandsController extends ADBBaseController {
   async getIPAddressList() {
     try {
       const connectedDevices = await this.adbConnInstance.FindConnectedDevices()
-      const lastIPSelected = await this.context.globalState.get(
-        this.appStateKeys.lastIPUsed(),
-        ''
-      )
+      const lastIPSelected = await this.lastUsedIP
       if (lastIPSelected != null && lastIPSelected != '') {
         // add last selected ip to begining of array
         connectedDevices.unshift(lastIPSelected)

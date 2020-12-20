@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.21.0
+
+-   ADD - Adds port selection during connection.
+
+
 ## 0.20.6
 
 -   FIX - Save ADB custom path when set it on ADBPathManager.

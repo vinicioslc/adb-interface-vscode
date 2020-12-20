@@ -83,6 +83,7 @@ export class ADBResolver {
 
   public async sendADBCommand(command: string): Promise<Buffer> {
     const adbPath = await this.getDefaultADBPath()
+    console.log("Executing", command);
     return this.consoleInterface.execConsoleSync(command, {
       cwd: adbPath
     })
