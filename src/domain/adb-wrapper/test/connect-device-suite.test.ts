@@ -22,7 +22,7 @@ test('Connect to device with success', async () => {
   cimock.returnInfinity = true
   const message = await adbInterfaceInstance.ConnectToDevice(ip, '5555')
 
-  expect(message).toStrictEqual(`Connected to: 192.168.1.102:5555`)
+  expect(message).toStrictEqual(`Connected to "192.168.1.102:5555"`)
 })
 
 test('Fail to connect when allready connected', async () => {
@@ -40,6 +40,6 @@ test('Fail to connect when allready connected', async () => {
 
     await adbInterfaceInstance.ConnectToDevice(ip, '5544')
   } catch (e) {
-    expect(e.message).toBe(`Allready connected to: 192.168.1.102:5544`)
+    expect(e.message).toBe(`Allready connected to "192.168.1.102:5544"`)
   }
 })
