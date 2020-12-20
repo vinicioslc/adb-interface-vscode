@@ -23,7 +23,7 @@ jobs:
           node-version: ${{ matrix.node_version }}
 
       - name: Extract version from tag name
-        uses: olegtarasov/get-tag@v2 # that generate $GIT_TAG_NAME env follows semantic versioning
+        uses: little-core-labs/get-git-tag@v3.0.2 # that generate $GIT_TAG_NAME env follows semantic versioning
         id: tagName
         with:
           tagRegex: 'prod-v([0-9]+.[0-9]+.[0-9]+)' # Optional. Returns specified group text as tag name. Full tag string is returned if regex is not defined.

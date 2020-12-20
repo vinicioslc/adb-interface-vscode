@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.21.1
+
+-   FIX - Get version from tag name on release build pipeline.
+
 ## 0.21.0
 
 -   ADD - Adds port selection during connection.
