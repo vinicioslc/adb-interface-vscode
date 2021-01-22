@@ -6,19 +6,22 @@
 ![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/vinicioslc.adb-interface-vscode?style=flat-square)
 ![Visual Studio Marketplace Rating (Stars)](https://img.shields.io/visual-studio-marketplace/stars/vinicioslc.adb-interface-vscode?style=flat-square)
 <a href="https://codeclimate.com/github/vinicioslc/adb-interface-vscode/maintainability">
-<img src="https://api.codeclimate.com/v1/badges/b9fd814b1bdf974a1d16/maintainability" /></a>
-<a href="https://ko-fi.com/vinicioslc" target="_blank"><img src="https://i.imgur.com/aV6DDA7.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important; box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" > </a>
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=vinicioslc_adb-interface-vscode&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=vinicioslc_adb-interface-vscode)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=vinicioslc_adb-interface-vscode&metric=ncloc)](https://sonarcloud.io/dashboard?id=vinicioslc_adb-interface-vscode)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=vinicioslc_adb-interface-vscode&metric=bugs)](https://sonarcloud.io/dashboard?id=vinicioslc_adb-interface-vscode)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=vinicioslc_adb-interface-vscode&metric=security_rating)](https://sonarcloud.io/dashboard?id=vinicioslc_adb-interface-vscode)
+
+You can help with
+[Code](https://github.com/vinicioslc/adb-interface-vscode/issues)
+or with
+[Energy](https://www.paypal.com/cgi-bin/webscr?cmd=\_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url) everthing are welcome ;)
 
 <div style="text-align:center"><img src="https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/production/media/icon.png" width="200" /></div>
 
 This simple ADB-Wrapper try makes easy connect to android devices over wifi, without console use, and do other things.
 
 Chinese Guide [简体中文指南](https://www.jianshu.com/p/fb8eebc8a2c0)
-
-You can help with
-[Code](https://github.com/vinicioslc/adb-interface-vscode/issues)
-or with
-[Energy](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url) everthing are welcome.
 
 > ⚠️ ONLY TESTED IN WINDOWS (For while, you need have ADB Interface installed in your system)
 
@@ -30,6 +33,7 @@ or with
 -   [Commands Available](#commands-available)
 
 -   [How it works](#how-it-works)
+
     -   [ADB location resolution strategy](#adb-location-resolution)
 
 -   [Demo GIFs](#demos)
@@ -56,16 +60,17 @@ or with
 
 # How it works
 
-## ADB location resolution 
+## ADB location resolution
 
 By default the extension is looking for ADB in the following locations:
-- Linux - `$HOME/Android/Sdk`
-- MacOS - `$HOME/Library/Android/sdk/platform-tools`
-- Windows - `%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools` (if the `%USERPROFILE%` environment variable is not defined the path to the profile directory of the current user will be used as the starting point)
+
+-   Linux - `$HOME/Android/Sdk`
+-   MacOS - `$HOME/Library/Android/sdk/platform-tools`
+-   Windows - `%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools` (if the `%USERPROFILE%` environment variable is not defined the path to the profile directory of the current user will be used as the starting point)
 
 The extension will resolve the ADB location each time an ADB command is executed.
 
-The ADB location can be customized using the `Setup custom ADB location` command. The custom ADB location can be cleared using  the `Remove custom ADB location` command.
+The ADB location can be customized using the `Setup custom ADB location` command. The custom ADB location can be cleared using the `Remove custom ADB location` command.
 
 # Demos
 
