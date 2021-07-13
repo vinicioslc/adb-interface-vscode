@@ -18,7 +18,7 @@ export class ADBConnection extends ConsoleInterfaceChannel {
 
   constructor(
     ciInstance: IConsoleInterface,
-    currentStorage: Memento,
+    currentStorage: any,
     netHelpers: INetHelpers
   ) {
     super(ciInstance)

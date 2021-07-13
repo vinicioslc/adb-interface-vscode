@@ -9,7 +9,7 @@ import { Memento } from 'vscode'
 
 export class FirebaseManagerChannel extends ConsoleInterfaceChannel {
   private resolverInstance: ADBResolver
-  constructor(ciInstance: IConsoleInterface, currentStorage: Memento) {
+  constructor(ciInstance: IConsoleInterface, currentStorage: any) {
     super(ciInstance)
     this.resolverInstance = new ADBResolver(
       os.homedir(),

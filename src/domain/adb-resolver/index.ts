@@ -11,13 +11,13 @@ export class ADBResolver {
 
   private readonly validADBReturn = 'List of devices'
   private readonly adbTestCommand = 'adb devices'
-  private readonly currentStorage: Memento
+  private readonly currentStorage: any
 
   constructor(
     homeDir: string,
     osType: string,
     consoleInterfaceInstance: ConsoleInterface,
-    currentStorage: Memento
+    currentStorage: any
   ) {
     this.homeDir = homeDir
     this.osType = osType
