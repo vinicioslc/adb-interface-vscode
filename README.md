@@ -17,6 +17,9 @@ You can help with
 or with
 [Energy](https://www.paypal.com/cgi-bin/webscr?cmd=\_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url) everthing are welcome ;)
 
+BTC:bc1qufk82juerzuw3d6r5ehkjmufha2xjefp48due9
+ADA:addr1qxyp4l0lxa3gmme65rj5p76uw2quxenwnzrmee06y4432sqxfnfm0ypc9zy9f07rfpjjk3wgw5vh7a0mtqwk8ulwfzcslmzr9z
+
 <div style="text-align:center"><img src="https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/production/media/icon.png" width="200" /></div>
 
 This simple ADB-Wrapper try makes easy connect to android devices over wifi, without console use, and do other things.
