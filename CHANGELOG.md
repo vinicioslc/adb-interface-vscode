@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.22.0
+
+-   FIX - Remove the deprecated `vscode` package due vscode package spliting [vscode changelog](https://code.visualstudio.com/updates/v1_36#_splitting-vscode-package-into-typesvscode-and-vscodetest)
+
 ## 0.21.1
 
 -   FIX - Get version from tag name on release build pipeline.
@@ -7,7 +11,6 @@
 ## 0.21.0
 
 -   ADD - Adds port selection during connection.
-
 
 ## 0.20.6
 
