@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.22.1
+
+-   ADD - Bump version
+
 ## 0.22.0
 
 -   FIX - Remove the deprecated `vscode` package due vscode package spliting [vscode changelog](https://code.visualstudio.com/updates/v1_36#_splitting-vscode-package-into-typesvscode-and-vscodetest)
