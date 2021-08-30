@@ -41,7 +41,6 @@ export class ConsoleInterfaceMock implements IConsoleInterface {
   execConsoleSync(command: string): Buffer {
     let result = Buffer.from('')
 
-    this._callback
     if (this._callback) {
       result = this._callback(command)
     } else {
