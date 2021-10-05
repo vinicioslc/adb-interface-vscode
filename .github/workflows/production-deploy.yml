@@ -1,4 +1,4 @@
-name: CD - Production
+name: Production Deploy
 
 env:
   VSCE_DEPLOY_TOKEN: ${{ secrets.VSCE_DEPLOY_TOKEN }} # set visual studio deploy token globally

@@ -1,0 +1,17 @@
+# .github/workflows/automatic-merge.yml
+name: "Automatic Merge"
+
+on:
+  schedule:
+    - cron:  '*/1 * * * *'
+
+jobs:
+  merge:
+    name: "Merge Pull Requests"
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: "Merge"
+      uses: "nucleos/auto-merge-action@latest"
+      env:
+        "GITHUB_TOKEN": ${{ secrets.GITHUB_TOKEN }}
