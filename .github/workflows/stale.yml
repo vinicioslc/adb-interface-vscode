@@ -2,6 +2,8 @@ name: 'Stale old issues and PRs'
 on:
   schedule:
     - cron: '30 6 * * *'
+  workflow_dispatch: # execute manualy
+    branches: [main, production]
 
 jobs:
   stale:

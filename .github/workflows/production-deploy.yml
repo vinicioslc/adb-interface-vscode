@@ -6,6 +6,8 @@ on:
   push:
     tags:
       - prod-v*.*.*
+  workflow_dispatch: # execute manualy
+    branches: [main, production]
 jobs:
   publish:
     name: Deploy extension to production, with node ${{ matrix.node_version }} on ${{ matrix.os }}

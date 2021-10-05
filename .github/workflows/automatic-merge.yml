@@ -4,6 +4,8 @@ name: "Automatic Merge"
 on:
   schedule:
     - cron:  '0 * * * *'
+  workflow_dispatch: # execute manualy
+    branches: [main, production]
 
 jobs:
   merge:
