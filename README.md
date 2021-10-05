@@ -115,42 +115,9 @@ We need help to incrase test coverage report, if you can learn, send a pull requ
 
 ```bash
 ➥ npm run test
-
-
-> adb-interface-vscode@0.20.5 test F:\vinic\Documents\GitHub\adb-wifi-code
-> npx jest --coverage
-
- PASS  src/domain/adb-wrapper/test/list-adb-suite.test.ts (5.26s)
- PASS  src/domain/adb-wrapper/test/install-apk-file.test.ts (5.28s)
- PASS  src/domain/firebase-channel/firebase-manager.test.ts (5.33s)
- PASS  src/domain/adb-resolver/adb-resolver.test.ts
- PASS  src/domain/adb-wrapper/test/connect-device-suite.test.ts
- PASS  src/domain/adb-wrapper/test/kill-adb-suite.test.ts
- PASS  src/domain/adb-wrapper/test/helpers.test.ts
-------------------------------------------|----------|----------|----------|----------|-------------------|
-File                                      |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
-------------------------------------------|----------|----------|----------|----------|-------------------|
-All files                                 |    72.22 |    55.81 |    73.81 |    71.96 |                   |
-------------------------------------------|----------|----------|----------|----------|-------------------|
-
-=============================== Coverage summary ===============================
-Statements   : 72.22% ( 156/216 )
-Branches     : 55.81% ( 48/86 )
-Functions    : 73.81% ( 31/42 )
-Lines        : 71.96% ( 154/214 )
-================================================================================
-
-Test Suites: 7 passed, 7 total
-Tests:       16 passed, 16 total
-Snapshots:   0 total
-Time:        17.148s
-Ran all test suites.
-
 ```
-
 > You can also use the project alias that watch file changes while developing:
 
 ```bash
 ➥ npm run test:watch
-# output...
 ```
