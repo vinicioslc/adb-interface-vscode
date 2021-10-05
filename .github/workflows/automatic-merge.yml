@@ -25,11 +25,11 @@ jobs:
           ignoreActions: automerge
           checkInterval: 13
         env:
-          GITHUB_TOKEN: "${{ secrets.AUTH_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: 'Merge'
         uses: "pascalgn/automerge-action@v0.14.2"
         if: steps.waitforstatuschecks.outputs.status == 'success'
         env:
-          GITHUB_TOKEN: "${{ secrets.AUTH_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_LABELS: ""
           MERGE_FORKS: true
