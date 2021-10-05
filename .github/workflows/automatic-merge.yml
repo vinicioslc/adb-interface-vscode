@@ -1,19 +1,35 @@
-# .github/workflows/automatic-merge.yml
-name: "Automatic Merge"
-
+name: Auto Merge
 on:
-  schedule:
-    - cron:  '0 * * * *'
-  workflow_dispatch: # execute manualy
-    branches: [main, production]
-
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
+  status: {}
 jobs:
-  merge:
-    name: "Merge Pull Requests"
+  automerge:
     runs-on: ubuntu-latest
-
     steps:
-    - name: "Merge"
-      uses: "nucleos/auto-merge-action@1.1.0"
-      env:
-        "GITHUB_TOKEN": ${{ secrets.GITHUB_TOKEN }}
+      - name: 'Wait for status checks'
+        id: waitforstatuschecks
+        uses: "WyriHaximus/github-action-wait-for-status@v1"
+        with:
+          ignoreActions: automerge
+          checkInterval: 13
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - name: 'Merge'
+        uses: "pascalgn/automerge-action@v0.14.2"
+        if: steps.waitforstatuschecks.outputs.status == 'success'
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_LABELS: ""
+          MERGE_FORKS: true
