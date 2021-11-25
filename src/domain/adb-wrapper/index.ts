@@ -35,7 +35,10 @@ export class ADBConnection extends ConsoleInterfaceChannel {
    *  connect to a given ip address
    * @param ipAddress "192.168.1.100"
    */
-  public async ConnectToDevice(ipAddress: string, portAddress: string): Promise<string> {
+  public async ConnectToDevice(
+    ipAddress: string,
+    portAddress: string
+  ): Promise<string> {
     let finalResult = null
 
     const deviceIP = IPHelpers.extractIPRegex(ipAddress)
@@ -136,7 +139,7 @@ export class ADBConnection extends ConsoleInterfaceChannel {
     } catch (e) {
       throw new ADBInterfaceException(e.message)
     }
-    if (devicesArray.length <= 0) {
+    if (!devicesArray || (devicesArray && devicesArray.length <= 0)) {
       throw new ADBInterfaceException('List from devices are empty.')
     }
     return devicesArray

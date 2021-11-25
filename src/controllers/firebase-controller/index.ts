@@ -1,7 +1,5 @@
 import * as vscode from 'vscode'
-import {
-  ADBInterfaceException,
-} from '../../domain/adb-wrapper'
+import { ADBInterfaceException } from '../../domain/adb-wrapper'
 import * as appStateKeys from '../../config/global-state-keys'
 import { FirebaseManagerChannel } from '../../domain/firebase-channel'
 import { ADBBaseController } from '../adb-controller/ADBBaseController'
@@ -11,10 +9,7 @@ export class FirebaseController extends ADBBaseController {
   appStateKeys: typeof appStateKeys
 
   get lastUsedAppPackage(): Array<string> {
-    return this.context.globalState.get(
-      appStateKeys.allPackages(),
-      []
-    )
+    return this.context.globalState.get(appStateKeys.allPackages(), [])
   }
 
   constructor(
@@ -52,7 +47,7 @@ export class FirebaseController extends ADBBaseController {
         value: lastvalue[0],
         ignoreFocusOut: true,
         validateInput: (str: string) => {
-          if (str.length <= 4) {
+          if (!str || (str && str.length <= 4)) {
             return 'Must be an valid package name (min length 4 characters)'
           }
           return undefined

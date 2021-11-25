@@ -28,7 +28,7 @@ export class FirebaseManagerChannel extends ConsoleInterfaceChannel {
       )
     ).toString()
 
-    if (output.length < 2) {
+    if (output && output.length < 2) {
       result = `Setted firebase debug mode to [${appPackageID}] app`
     }
 

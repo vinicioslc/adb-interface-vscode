@@ -44,7 +44,11 @@ export class ConsoleInterfaceMock implements IConsoleInterface {
     if (this._callback) {
       result = this._callback(command)
     } else {
-      if (this._returnStack.length == 1 && this.returnInfinity) {
+      if (
+        this._returnStack &&
+        this._returnStack.length == 1 &&
+        this.returnInfinity
+      ) {
         result = this._returnStack[this._returnStack.length - 1]
       } else {
         result = this._returnStack.shift()

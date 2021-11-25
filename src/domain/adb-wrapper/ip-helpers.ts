@@ -1,7 +1,7 @@
 /**
  * Helpers for manipulate IP String Addresses
  */
-export class IPHelpers {  
+export class IPHelpers {
   static ipv4Regex = /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})/gim
   static minimumAcceptableMatches = 0
   /**
@@ -12,7 +12,7 @@ export class IPHelpers {
     const matches = /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})/gim.exec(
       ipAddress
     )
-    if (matches != null && matches.length > this.minimumAcceptableMatches) {
+    if (matches && matches.length > this.minimumAcceptableMatches) {
       returned = matches[0]
     } else {
       returned = null
