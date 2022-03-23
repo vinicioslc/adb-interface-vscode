@@ -12,19 +12,20 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=vinicioslc_adb-interface-vscode&metric=bugs)](https://sonarcloud.io/dashboard?id=vinicioslc_adb-interface-vscode)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=vinicioslc_adb-interface-vscode&metric=security_rating)](https://sonarcloud.io/dashboard?id=vinicioslc_adb-interface-vscode)
 
-You can help with
-[Code](https://github.com/vinicioslc/adb-interface-vscode/issues)
-or with
-[Energy](https://www.paypal.com/cgi-bin/webscr?cmd=\_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url) everthing are welcome ;)
-
-BTC:bc1qufk82juerzuw3d6r5ehkjmufha2xjefp48due9
-ADA:addr1qxyp4l0lxa3gmme65rj5p76uw2quxenwnzrmee06y4432sqxfnfm0ypc9zy9f07rfpjjk3wgw5vh7a0mtqwk8ulwfzcslmzr9z
-
 <div style="text-align:center"><img src="https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/production/media/icon.png" width="200" /></div>
 
 This simple ADB-Wrapper try makes easy connect to android devices over wifi, without console use, and do other things.
 
 Chinese Guide [简体中文指南](https://www.jianshu.com/p/fb8eebc8a2c0)
+
+
+You can help with
+[Code](https://github.com/vinicioslc/adb-interface-vscode/issues)
+or with
+[Energy](https://www.paypal.com/cgi-bin/webscr?cmd=\_s-xclick&hosted_button_id=TKRZ7F4FV4QY4&source=url) everthing are welcome ;)
+
+<a href='https://ko-fi.com/K3K424BR8' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+
 
 > ⚠️ ONLY TESTED IN WINDOWS (For while, you need have ADB Interface installed in your system)
 
