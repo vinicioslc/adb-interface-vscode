@@ -24,7 +24,7 @@ export class IPHelpers {
    * Returns if the ipAddress contains some ip address pattern
    * @param ipAddress string to test
    */
-  static isAnIPAddress(ipAddress: string): Boolean {
+  static isAnIPAddress(ipAddress: string): boolean {
     return /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})/gim.test(ipAddress)
   }
 }

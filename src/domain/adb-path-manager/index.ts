@@ -1,4 +1,3 @@
-import { Memento } from 'vscode'
 import * as globalStateKeys from '../../config/global-state-keys'
 
 export class ADBPathManager {

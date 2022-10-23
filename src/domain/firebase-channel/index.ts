@@ -4,8 +4,6 @@ import * as FIREBASE_COMMANDS from './firebase-commands'
 import { ADBInterfaceError } from '../adb-wrapper'
 import { ADBResolver } from '../adb-resolver'
 import { IConsoleInterface } from '../console/console-interface/iconsole-interface'
-import { MementoMock } from '../../infra/memento/memento-mock'
-import { Memento } from 'vscode'
 
 export class FirebaseManagerChannel extends ConsoleInterfaceChannel {
   private resolverInstance: ADBResolver

@@ -1,4 +1,4 @@
-import { ExtensionContext, commands, Disposable } from 'vscode'
+import { ExtensionContext, commands } from 'vscode'
 
 import { IExtController } from './IExtController'
 
@@ -18,6 +18,7 @@ export class ExtController implements IExtController {
    * Must be implemented in every controller, usually where we register the plugin commands.
    * Called when an controller are instantiated receiving current context.
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async onInit(context: ExtensionContext) {
     throw new Error('You must declare onInit method in ExtControllers')
   }
@@ -28,7 +29,7 @@ export class ExtController implements IExtController {
     }
   }
   registerCommand(name: string, callback: (...args: any[]) => any) {
-    let subscription = commands.registerCommand(name, callback)
+    const subscription = commands.registerCommand(name, callback)
     this.context.subscriptions.push(subscription)
     return this
   }
