@@ -1,5 +1,4 @@
-import { execSync, ExecSyncOptions, exec } from 'child_process'
-import { resolve } from 'url'
+import { execSync, ExecSyncOptions } from 'child_process'
 import { IConsoleInterface } from './iconsole-interface'
 
 export class ConsoleInterface implements IConsoleInterface {

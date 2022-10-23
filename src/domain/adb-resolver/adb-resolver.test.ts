@@ -1,7 +1,7 @@
 import { ADBResolver, ADBNotFoundError } from './index'
 import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
 import { MementoMock } from '../../infra/memento/memento-mock'
-import { IConsoleInterface } from '../console/console-interface/iconsole-interface'
+
 const adbFound = `List of devices`
 const mementoMock = new MementoMock()
 
