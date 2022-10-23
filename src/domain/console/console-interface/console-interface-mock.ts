@@ -1,6 +1,4 @@
-import { execSync } from 'child_process'
 import { IConsoleInterface } from './iconsole-interface'
-import { isArray } from 'util'
 
 interface ConsoleCallback {
   (myArgument: string): Buffer
@@ -12,7 +10,7 @@ export class ConsoleInterfaceMock implements IConsoleInterface {
   }
   private _callback: ConsoleCallback
   private _returnStack: Array<Buffer> = []
-  public returnInfinity: boolean = true
+  public returnInfinity = true
 
   constructor() {
     this._callback = null

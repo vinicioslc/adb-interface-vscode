@@ -44,7 +44,7 @@ export class ADBResolver {
 
   private async hasPlatformToolsDefaultFolder(): Promise<boolean> {
     try {
-      let adbFolder = this.returnDefaultADBPath()
+      const adbFolder = this.returnDefaultADBPath()
       const consoleString = await this.consoleInterface.execConsoleStringSync(
         this.adbTestCommand,
         {

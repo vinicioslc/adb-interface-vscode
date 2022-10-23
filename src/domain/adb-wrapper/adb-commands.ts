@@ -22,7 +22,7 @@ export default {
     return `adb${onUSBdevice} install${canDowngrade}${onSysMemory}${asTestApk} "${apkFilePath}"`
   },
   ADB_DISCONNECT_ALL: () => `adb disconnect`,
-  CONNECT_IP_AND_PORT: (deviceIP: string = '192.168.1.100', port = '5555') =>
+  CONNECT_IP_AND_PORT: (deviceIP = '192.168.1.100', port = '5555') =>
     `adb connect ${deviceIP}:${port}`,
   RESET_PORTS: (port = '5555') => `adb tcpip ${port}`,
   GET_DEVICE_MODEL: (deviceIP = '192.168.1.100') =>

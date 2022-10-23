@@ -1,6 +1,5 @@
 import { Memento } from 'vscode'
 export class MementoMock implements Memento {
-
   _keys = []
   constructor() {
     this._keys = []
@@ -13,7 +12,7 @@ export class MementoMock implements Memento {
   valueToReturn: any = undefined
   get<T>(key: string): T
   get<T>(key: string, defaultValue: T): T
-  get(key: any, defaultValue?: any) {
+  get() {
     return this.valueToReturn
   }
   /**
@@ -23,8 +22,8 @@ export class MementoMock implements Memento {
    * @param value A value. MUST not contain cyclic references.
    */
   update(key: string, value: any): Thenable<void> {
-    this._keys.push(key);
-    let mapped = {}
+    this._keys.push(key)
+    const mapped = {}
 
     this._keys.forEach(key => {
       if (!mapped[key]) {
@@ -39,7 +38,7 @@ export class MementoMock implements Memento {
     }
 
     this.valueToReturn = value
-    return new Promise((res, rej) => {
+    return new Promise(res => {
       return res(this.valueToReturn)
     })
   }

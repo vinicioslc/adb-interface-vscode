@@ -155,7 +155,7 @@ export class ADBCommandsController extends ADBBaseController {
   }
 
   private async findApkFile() {
-    let arrayFounded = await vscode.window.showOpenDialog({
+    const arrayFounded = await vscode.window.showOpenDialog({
       canSelectFiles: true,
       canSelectFolders: false,
       canSelectMany: false,
