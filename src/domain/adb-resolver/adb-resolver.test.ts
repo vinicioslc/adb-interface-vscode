@@ -1,6 +1,7 @@
 import { ADBResolver, ADBNotFoundError } from './index'
 import { ConsoleInterfaceMock } from '../console/console-interface/console-interface-mock'
 import { MementoMock } from '../../infra/memento/memento-mock'
+import { IConsoleInterface } from '../console/console-interface/iconsole-interface'
 const adbFound = `List of devices`
 const mementoMock = new MementoMock()
 
@@ -9,7 +10,12 @@ test('Should return current home dir when path is present', async () => {
   cimock.setConsoleOutput('')
   cimock.setConsoleOutput(adbFound)
 
-  const adbResolver = new ADBResolver('c:', 'Linux', cimock, mementoMock)
+  const adbResolver = new ADBResolver(
+    'c:',
+    'Linux',
+    cimock,
+    mementoMock
+  )
 
   expect(await adbResolver.getDefaultADBPath()).toBe('c:/Android/Sdk')
 })

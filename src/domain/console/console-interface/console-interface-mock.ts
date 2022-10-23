@@ -59,4 +59,8 @@ export class ConsoleInterfaceMock implements IConsoleInterface {
 
     return result
   }
+
+  execConsoleStringSync(command): string {
+    return this.execConsoleSync(command).toString()
+  }
 }

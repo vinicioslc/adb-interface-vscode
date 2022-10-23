@@ -1,22 +1,20 @@
-import * as os from 'os'
-import { ConsoleInterface } from '../console/console-interface'
+import { IConsoleInterface } from './../console/console-interface/iconsole-interface'
 import * as helperFunctions from './adb-path'
-import { Memento } from 'vscode'
 import * as globalStateKeys from '../../config/global-state-keys'
 
 export class ADBResolver {
   osType: string
   homeDir: string
-  consoleInterface: ConsoleInterface
+  consoleInterface: IConsoleInterface
 
-  private readonly validADBReturn = 'List of devices'
+  private readonly validADBReturn = 'List of'
   private readonly adbTestCommand = 'adb devices'
   private readonly currentStorage: any
 
   constructor(
     homeDir: string,
     osType: string,
-    consoleInterfaceInstance: ConsoleInterface,
+    consoleInterfaceInstance: IConsoleInterface,
     currentStorage: any
   ) {
     this.homeDir = homeDir
@@ -27,10 +25,10 @@ export class ADBResolver {
 
   private async hasAndroidInEnv(): Promise<boolean> {
     try {
-      const consoleString = await this.consoleInterface.execConsoleSync(
+      const consoleString = await this.consoleInterface.execConsoleStringSync(
         this.adbTestCommand
       )
-      return consoleString.toString().includes(this.validADBReturn)
+      return consoleString.includes(this.validADBReturn)
     } catch (e) {
       console.error('[LOG] Not founded in default env', e)
       return false
@@ -47,13 +45,13 @@ export class ADBResolver {
   private async hasPlatformToolsDefaultFolder(): Promise<boolean> {
     try {
       let adbFolder = this.returnDefaultADBPath()
-      const consoleString = await this.consoleInterface.execConsoleSync(
+      const consoleString = await this.consoleInterface.execConsoleStringSync(
         this.adbTestCommand,
         {
           cwd: adbFolder
         }
       )
-      return consoleString.toString().includes(this.validADBReturn)
+      return consoleString.includes(this.validADBReturn)
     } catch (e) {
       console.error('[LOG] Not founded in common folder', e)
       return false
@@ -69,12 +67,12 @@ export class ADBResolver {
       return customADBPath
     }
 
-    let isEnv = await this.hasAndroidInEnv()
+    const isEnv = await this.hasAndroidInEnv()
     if (isEnv) {
       return this.homeDir
     }
-    let isFolder = await this.hasPlatformToolsDefaultFolder()
-    if (isFolder) {
+    const isOnDefaultFolder = await this.hasPlatformToolsDefaultFolder()
+    if (isOnDefaultFolder) {
       return this.returnDefaultADBPath()
     }
 
@@ -83,7 +81,7 @@ export class ADBResolver {
 
   public async sendADBCommand(command: string): Promise<Buffer> {
     const adbPath = await this.getDefaultADBPath()
-    console.log("Executing", command);
+    console.log('Executing', command)
     return this.consoleInterface.execConsoleSync(command, {
       cwd: adbPath
     })

@@ -7,7 +7,6 @@ import {
 import adbReturns from './adb-returns'
 import adbMessages from './adb-messages'
 import { IPHelpers } from './ip-helpers'
-import { Memento } from 'vscode'
 import { INetHelpers } from '../net-helpers/net-helpers-interface'
 import { ADBResolver } from '../adb-resolver'
 import { IConsoleInterface } from '../console/console-interface/iconsole-interface'

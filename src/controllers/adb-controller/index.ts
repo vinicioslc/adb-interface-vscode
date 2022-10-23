@@ -3,7 +3,6 @@ import { ADBConnection, ADBInterfaceException } from '../../domain/adb-wrapper'
 import * as appStateKeys from '../../config/global-state-keys'
 import { IPHelpers } from '../../domain/adb-wrapper/ip-helpers'
 import { ADBBaseController } from './ADBBaseController'
-import { Memento } from 'vscode'
 
 export class ADBCommandsController extends ADBBaseController {
   private adbConnInstance: ADBConnection
@@ -46,7 +45,7 @@ export class ADBCommandsController extends ADBBaseController {
   }
   async resetDevicesPort() {
     try {
-      await (vscode.window
+      await vscode.window
         .showInputBox({
           placeHolder: '5555',
           value: this.lastUsedPort,
@@ -58,7 +57,7 @@ export class ADBCommandsController extends ADBBaseController {
           await vscode.window.showInformationMessage(
             await this.adbConnInstance.ResetPorts(port)
           )
-        }))
+        })
     } catch (e) {
       this.genericErrorReturn(e)
     }
@@ -86,14 +85,17 @@ export class ADBCommandsController extends ADBBaseController {
               'Enter the Port from your device to be used. (Last port used will be filled in next time)'
           })
           .then(async port => {
-
             await this.connectToAdbDevice(this.context, ipAddress, port)
           })
       })
     // Display a message box to the user
   }
 
-  async connectToAdbDevice(context: vscode.ExtensionContext, deviceIP: string, port: string) {
+  async connectToAdbDevice(
+    context: vscode.ExtensionContext,
+    deviceIP: string,
+    port: string
+  ) {
     if (port)
       await this.context.globalState.update(appStateKeys.lastUsedPort(), port)
     if (deviceIP)
@@ -196,11 +198,7 @@ export class ADBCommandsController extends ADBBaseController {
           .then(async port => {
             // wait disconnect from adb device
             await this.adbConnInstance.DisconnectFromAllDevices()
-            await this.connectToAdbDevice(
-              this.context,
-              selectedIP,
-              port
-            )
+            await this.connectToAdbDevice(this.context, selectedIP, port)
           })
       } else {
         throw new Error('Device IP Address not selected.')
