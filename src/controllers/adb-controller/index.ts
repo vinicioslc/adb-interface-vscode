@@ -3,7 +3,6 @@ import { ADBConnection, ADBInterfaceException } from '../../domain/adb-wrapper'
 import * as appStateKeys from '../../config/global-state-keys'
 import { IPHelpers } from '../../domain/adb-wrapper/ip-helpers'
 import { ADBBaseController } from './ADBBaseController'
-import { Memento } from 'vscode'
 
 export class ADBCommandsController extends ADBBaseController {
   private adbConnInstance: ADBConnection
@@ -153,7 +152,7 @@ export class ADBCommandsController extends ADBBaseController {
   }
 
   private async findApkFile() {
-    let arrayFounded = await vscode.window.showOpenDialog({
+    const arrayFounded = await vscode.window.showOpenDialog({
       canSelectFiles: true,
       canSelectFolders: false,
       canSelectMany: false,

@@ -1,7 +1,5 @@
-import * as os from 'os'
 import { ConsoleInterface } from '../console/console-interface'
 import * as helperFunctions from './adb-path'
-import { Memento } from 'vscode'
 import * as globalStateKeys from '../../config/global-state-keys'
 
 export class ADBResolver {
@@ -46,7 +44,7 @@ export class ADBResolver {
 
   private async hasPlatformToolsDefaultFolder(): Promise<boolean> {
     try {
-      let adbFolder = this.returnDefaultADBPath()
+      const adbFolder = this.returnDefaultADBPath()
       const consoleString = await this.consoleInterface.execConsoleSync(
         this.adbTestCommand,
         {
@@ -69,11 +67,11 @@ export class ADBResolver {
       return customADBPath
     }
 
-    let isEnv = await this.hasAndroidInEnv()
+    const isEnv = await this.hasAndroidInEnv()
     if (isEnv) {
       return this.homeDir
     }
-    let isFolder = await this.hasPlatformToolsDefaultFolder()
+    const isFolder = await this.hasPlatformToolsDefaultFolder()
     if (isFolder) {
       return this.returnDefaultADBPath()
     }

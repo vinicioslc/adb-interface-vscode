@@ -8,8 +8,8 @@ const mementoMock = new MementoMock()
 const netHelperMock = new NetHelpersMock()
 
 test('list all devices returning empty array', async () => {
-  let cimock = new ConsoleInterfaceMock()
-  let adbInterfaceInstance = new ADBConnection(
+  const cimock = new ConsoleInterfaceMock()
+  const adbInterfaceInstance = new ADBConnection(
     cimock,
     mementoMock,
     netHelperMock
@@ -23,7 +23,7 @@ test('list all devices returning empty array', async () => {
   cimock.setConsoleOutput(`PEAR_PHONE`)
   cimock.returnInfinity = true
 
-  let result = await adbInterfaceInstance.FindConnectedDevices()
+  const result = await adbInterfaceInstance.FindConnectedDevices()
 
   expect(result instanceof Array).toBe(true)
 }, 12000)

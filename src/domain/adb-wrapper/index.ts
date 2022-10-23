@@ -7,7 +7,6 @@ import {
 import adbReturns from './adb-returns'
 import adbMessages from './adb-messages'
 import { IPHelpers } from './ip-helpers'
-import { Memento } from 'vscode'
 import { INetHelpers } from '../net-helpers/net-helpers-interface'
 import { ADBResolver } from '../adb-resolver'
 import { IConsoleInterface } from '../console/console-interface/iconsole-interface'
@@ -113,7 +112,7 @@ export class ADBConnection extends ConsoleInterfaceChannel {
   }
 
   public async FindConnectedDevices(): Promise<Array<string>> {
-    let devicesArray = []
+    const devicesArray = []
     try {
       const result = await this.resolverInstance.sendADBCommand(
         adbCommands.LIST_ADB_DEVICES()
@@ -130,7 +129,7 @@ export class ADBConnection extends ConsoleInterfaceChannel {
 
         // try to get device name trought adb
         foundedIPs = foundedIPs.map((ipAddress: string): string => {
-          let extractedIP = IPHelpers.extractIPRegex(ipAddress)
+          const extractedIP = IPHelpers.extractIPRegex(ipAddress)
           return `${extractedIP} | NO DEVICE INFO`
         })
 

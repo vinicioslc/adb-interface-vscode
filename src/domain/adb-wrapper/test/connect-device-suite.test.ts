@@ -9,8 +9,8 @@ const ip = '192.168.1.102'
 const phoneName = 'DEVICE_NAME'
 
 test('Connect to device with success', async () => {
-  let cimock = new ConsoleInterfaceMock()
-  let adbInterfaceInstance = new ADBConnection(
+  const cimock = new ConsoleInterfaceMock()
+  const adbInterfaceInstance = new ADBConnection(
     cimock,
     mementoMock,
     netHelperMock
@@ -27,8 +27,8 @@ test('Connect to device with success', async () => {
 
 test('Fail to connect when allready connected', async () => {
   try {
-    let cimock = new ConsoleInterfaceMock()
-    let adbInterfaceInstance = new ADBConnection(
+    const cimock = new ConsoleInterfaceMock()
+    const adbInterfaceInstance = new ADBConnection(
       cimock,
       mementoMock,
       netHelperMock
