@@ -6,4 +6,10 @@ export class ConsoleInterface implements IConsoleInterface {
     console.log('Executed ', command)
     return execSync(command, options)
   }
+  execConsoleStringSync(
+    command: string,
+    options: ExecSyncOptions = null
+  ): string {
+    return this.execConsoleSync(command, options).toString()
+  }
 }

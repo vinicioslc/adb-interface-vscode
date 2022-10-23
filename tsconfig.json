@@ -4,6 +4,7 @@
 		"target": "es6",
 		"noImplicitAny": false,
 		"outDir": "out",
+		"noImplicitAny": false,
 		"lib": [
 			"es6"
 		],
