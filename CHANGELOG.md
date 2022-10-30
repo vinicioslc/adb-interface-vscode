@@ -1,11 +1,12 @@
 # Changelog
 
-<a name="0.22.1"></a>
-## 0.22.1 (2022-10-30)
+<a name="0.22.2"></a>
+## 0.22.2 (2022-10-30)
 
 ### Changed
 
-- 🚚 chore(release-action): remove invalid files from release-it config [[54fd1eb](https://github.com/vinicioslc/adb-interface-vscode/commit/54fd1eb531c869210156b821871d4759bf8c3411)]
+- 🚚 chore(packages): bump typescript, jsdom, jest and ts-jest [[659a738](https://github.com/vinicioslc/adb-interface-vscode/commit/659a7387993a4d94169983f756b9d9d1d52e2c6a)]
+- 🚚 chore(changelog): standarlize changelog.md and remove invalid files from release-it bumper [[0a07c55](https://github.com/vinicioslc/adb-interface-vscode/commit/0a07c556e166abbe1ecb4279f60eed5cbbbd37ca)]
 
 ### Fixed
 
@@ -13,6 +14,8 @@
 
 ### Miscellaneous
 
+-  build(deps): bump jsdom, jest and ts-jest [[85c2a86](https://github.com/vinicioslc/adb-interface-vscode/commit/85c2a862b548e16ae19817a789aea242db4a6b31)]
+-  Merge pull request [#61](https://github.com/vinicioslc/adb-interface-vscode/issues/61) from vinicioslc/docs/standarlize-changelog-file [[74d5272](https://github.com/vinicioslc/adb-interface-vscode/commit/74d5272451ef863807db8d2f480eb747cd4cdb12)]
 -  Merge pull request [#60](https://github.com/vinicioslc/adb-interface-vscode/issues/60) from vinicioslc/docs/improv-readme-docs [[1362ea9](https://github.com/vinicioslc/adb-interface-vscode/commit/1362ea97b0a37c4539e9f4f633f3560cbf3e00c9)]
 - 📝 docs(readme): remove not allowed svg on readme, distribute sections better for vscocde extensions page [[8a6d064](https://github.com/vinicioslc/adb-interface-vscode/commit/8a6d0645fc6b1b8518086bc872c64af98db8ec08)]
 -  Merge pull request [#58](https://github.com/vinicioslc/adb-interface-vscode/issues/58) from vinicioslc/ci/add-emoji-commits-workflow-to-deploy [[55b7ef6](https://github.com/vinicioslc/adb-interface-vscode/commit/55b7ef6bf7bfb037645e3def0fe84053ecf9fc69)]
