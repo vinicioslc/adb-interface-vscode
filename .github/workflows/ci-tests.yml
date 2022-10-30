@@ -3,14 +3,14 @@ name: CI Tests
 on:
   push:
     branches:
-      - production
+      - main
       - develop**
   pull_request:
     branches:
-      - production
+      - main
       - develop**
   workflow_dispatch: # execute manualy
-    branches: [main, production]
+    branches: [main, develop]
 jobs:
   test:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
