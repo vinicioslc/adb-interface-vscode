@@ -28,7 +28,7 @@ jobs:
       - name: Merge main into develop branch
         uses: thomaseizinger/create-pull-request@1.0.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MERGE_PAT_TOKEN }}
         with:
           head: main
           base: develop

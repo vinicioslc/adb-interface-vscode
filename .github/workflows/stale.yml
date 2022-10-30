@@ -3,7 +3,7 @@ on:
   schedule:
     - cron: '30 6 * * *'
   workflow_dispatch: # execute manualy
-    branches: [main, production]
+    branches: [main, develop]
 
 jobs:
   stale:
@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/stale@v3
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.MERGE_PAT_TOKEN }}
           stale-issue-message: 'This issue is stale because it has been open 35 days with no activity. Remove stale label or comment or this will be closed in 5 days.'
           stale-pr-message: 'This PR is stale because it has been open 35 days with no activity. Remove stale label or comment or this will be closed in 10 days.'
           close-issue-message: 'This issue was closed because it has been stalled for 60 days with no activity.'
