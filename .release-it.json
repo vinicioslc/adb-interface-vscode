@@ -17,14 +17,7 @@
     "beforeStage": "./node_modules/.bin/conventional-changelog -p @favoloso/emoji -i CHANGELOG.md -s"
   },
   "plugins": {
-    "@release-it/bumper": {
-      "out": [
-        "./client/package.json",
-        "./server/package.json",
-        "./docs/package.json",
-        "./generator/package.json"
-      ]
-    }
+    "@release-it/bumper": {}
   },
   "hooks": {
     "after:bump": "npx gitmoji-changelog -y --group-similar-commits && git add CHANGELOG.md"
