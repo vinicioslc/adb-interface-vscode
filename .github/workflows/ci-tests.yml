@@ -3,32 +3,34 @@ name: CI Tests
 on:
   push:
     branches:
-      - production
+      - main
       - develop**
   pull_request:
     branches:
-      - production
+      - main
       - develop**
   workflow_dispatch: # execute manualy
-    branches: [main, production]
+    branches: [main, develop]
 jobs:
   test:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: ['12']
+        node_version: ['14']
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node_version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
 
       - name: npm install, build and test
+        # update npm version to allow use package-lock.json version 2
         run: |
+          npm install -g npm
           npm install
           npm run build --if-present
           npm test
