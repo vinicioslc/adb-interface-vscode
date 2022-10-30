@@ -5,3 +5,12 @@
 /.badges
 /.vscode
 /coverage
+
+a.vscode/**
+**/*.map
+.gitignore
+**/tsconfig.json
+**/tsconfig.base.json
+contributing.md
+.travis.yml
+test/sample-project/**

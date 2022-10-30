@@ -2,7 +2,7 @@
   "name": "adb-interface-vscode",
   "displayName": "ADB Interface for VSCode",
   "description": "An interface that allows ADB commands inside IDE with no need to have terminal access.",
-  "version": "99.99.99",
+  "version": "0.22.1",
   "publisher": "vinicioslc",
   "repository": "https://github.com/vinicioslc/adb-interface-vscode",
   "engines": {
@@ -27,12 +27,32 @@
     "pp": "npx vsce package && npx vsce publish",
     "test": "npx jest --coverage",
     "test:watch": "npx jest --watchAll",
-    "makebadges": "npm run test && jest-badge-generator --type png",
-    "badges": "npm run makebadges"
+    "_____________________________________________________": "UTILITY SCRIPTS",
+    "prepare": "husky install",
+    "commit": "npm run cm",
+    "cm": "cz",
+    "cma": "git add . && cz",
+    "ri": "npm run release",
+    "rici": "release-it --ci",
+    "release": "release-it",
+    "release:patch": "release-it patch",
+    "release:minor": "release-it minor",
+    "release:major": "release-it major"
   },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "favolosoEmoji": {
+    "showEmojiPerCommit": true
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-customizable"
     }
   },
   "dependencies": {
@@ -41,20 +61,26 @@
     "local-devices": "^3.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
+    "@commitlint/cli": "^16.3.0",
+    "@favoloso/conventional-changelog-emoji": "^0.10.0",
+    "@release-it/bumper": "^4.0.0",
     "@types/jest": "^24.0.23",
     "@types/node": "^8.10.59",
-    "@types/vscode": "^1.34.0",
+    "@types/vscode": "^1.25.0",
     "@typescript-eslint/eslint-plugin": "^5.40.1",
     "@typescript-eslint/parser": "^5.40.1",
     "acorn": ">=5.7.4",
+    "commitizen": "^4.2.4",
+    "commitlint-config-gitmoji": "^2.2.5",
+    "concurrently": "^7.1.0",
+    "cross-env": "^7.0.3",
+    "cz-customizable": "^6.3.0",
     "diff": ">=3.5.0",
     "eslint": "^8.26.0",
-    "husky": "^4.3.6",
+    "husky": "^7.0.0",
     "jest": "^24.9.0",
-    "jest-badge-generator": "^1.1.5",
     "minimist": ">=1.2.6",
+    "release-it": "^15.5.0",
     "ts-jest": "^24.2.0",
     "tslint": "^5.20.1",
     "typescript": "^3.7.3",
