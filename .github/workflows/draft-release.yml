@@ -30,13 +30,13 @@ jobs:
         with:
           cache: "npm"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.MERGE_PAT_TOKEN }}
       - run: npm install -g npm gitmoji-changelog release-it
       - run: npm ci
 
       - name: Update package.json and CHANGELOG.md
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MERGE_PAT_TOKEN }}
         # npm ci skip run additional scripts after install - this remove any necessary setup.
         run: npx release-it ${{ github.event.inputs.version }} --ci
 
@@ -48,7 +48,7 @@ jobs:
       - name: Create pull request
         uses: thomaseizinger/create-pull-request@1.0.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MERGE_PAT_TOKEN }}
         with:
           head: release/${{ github.event.inputs.version }}
           base: main
