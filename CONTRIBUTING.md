@@ -16,15 +16,15 @@ We use github to host code, to track issues and feature requests, as well as acc
 
 Pull requests are the best way to propose changes to the codebase (we use [Github Flow](https://guides.github.com/introduction/flow/index.html)). We actively welcome your pull requests:
 
-1. Fork the repo and create your branch from `production`.
+1. Fork the repo and create your branch from `main`.
 2. Write clear meaningful git commit messages (try use commintlint rules).
-3. Always create PR to `production` branch.
+3. Always create PR to `main` branch.
 4. Make sure your code lints.
 5. Issue that pull request!
 
 ## Any contributions you make will be under the MIT Software License
 
-In short, when you submit code changes, your submissions are understood to be under the same [MIT License](https://github.com/vinicioslc/adb-wifi-code/blob/production/LICENSE) that covers the project. Feel free to contact the maintainers if that's a concern.
+In short, when you submit code changes, your submissions are understood to be under the same [MIT License](https://github.com/vinicioslc/adb-wifi-code/blob/main/LICENSE) that covers the project. Feel free to contact the maintainers if that's a concern.
 
 ## Report bugs using Github's [issues](https://github.com/vinicioslc/adb-wifi-code/issues)
 
@@ -32,4 +32,4 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under its [MIT License](https://github.com/vinicioslc/adb-wifi-code/blob/production/LICENSE).
+By contributing, you agree that your contributions will be licensed under its [MIT License](https://github.com/vinicioslc/adb-wifi-code/blob/main/LICENSE).

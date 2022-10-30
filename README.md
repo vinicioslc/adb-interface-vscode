@@ -2,11 +2,11 @@
 
 <div style="text-align:center">
 
-<img src="https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/production/media/icon.png" width="200" />
+<img src="https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/main/media/icon.png" width="200" />
 
 </div>
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fvinicioslc%2Fadb-interface-vscode%2Fbadge%3Fref%3Dproduction&style=flat-square)](https://actions-badge.atrox.dev/vinicioslc/adb-interface-vscode/goto?ref=production) ![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/vinicioslc.adb-interface-vscode?style=flat-square) ![GitHub](https://img.shields.io/github/license/vinicioslc/adb-interface-vscode?style=flat-square) ![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/vinicioslc.adb-interface-vscode?style=flat-square) ![Visual Studio Marketplace Rating (Stars)](https://img.shields.io/visual-studio-marketplace/stars/vinicioslc.adb-interface-vscode?style=flat-square)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fvinicioslc%2Fadb-interface-vscode%2Fbadge%3Fref%3Dmain&style=flat-square)](https://actions-badge.atrox.dev/vinicioslc/adb-interface-vscode/goto?ref=main) ![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/vinicioslc.adb-interface-vscode?style=flat-square) ![GitHub](https://img.shields.io/github/license/vinicioslc/adb-interface-vscode?style=flat-square) ![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/vinicioslc.adb-interface-vscode?style=flat-square) ![Visual Studio Marketplace Rating (Stars)](https://img.shields.io/visual-studio-marketplace/stars/vinicioslc.adb-interface-vscode?style=flat-square)
 <a href="https://codeclimate.com/github/vinicioslc/adb-interface-vscode/maintainability">
 
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=vinicioslc_adb-interface-vscode&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=vinicioslc_adb-interface-vscode) [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=vinicioslc_adb-interface-vscode&metric=ncloc)](https://sonarcloud.io/dashboard?id=vinicioslc_adb-interface-vscode) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=vinicioslc_adb-interface-vscode&metric=bugs)](https://sonarcloud.io/dashboard?id=vinicioslc_adb-interface-vscode) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=vinicioslc_adb-interface-vscode&metric=security_rating)](https://sonarcloud.io/dashboard?id=vinicioslc_adb-interface-vscode)
@@ -23,7 +23,7 @@ You can help with [Code](https://github.com/vinicioslc/adb-interface-vscode/issu
 
 <div style="text-align:center">
 
-![status bar](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/production/media/record1.gif)
+![status bar](https://raw.githubusercontent.com/vinicioslc/adb-interface-vscode/main/media/record1.gif)
 
 </div>
 
