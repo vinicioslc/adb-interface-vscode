@@ -1,0 +1,32 @@
+name: auto-merge-bot
+
+on:
+  pull_request:
+    types:
+      - labeled
+      - ready_for_review
+      - review_request_removed
+      - review_requested
+      - synchronize
+      - unlabeled
+  pull_request_review:
+    types:
+      - dismissed
+      - submitted
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    name: merge
+    steps:
+      - name: do auto merge pr
+        uses: vinicioslc/merge-bot@latest
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          test: false
+          reviewers: false
+          checks_enabled: true
+          labels: ignore
+          blocking_labels: do not merge, dont merge, not ready
+          method: merge
+          delete_source_branch: false
