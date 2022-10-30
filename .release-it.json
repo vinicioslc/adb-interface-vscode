@@ -1,0 +1,32 @@
+{
+  "git": {
+    "tagName": "${version}",
+    "commitMessage": "🔖 chore(release): ${version}",
+    "pushArgs": ["--follow-tags", "--force"],
+    "requireUpstream": false
+  },
+  "github": {
+    "release": true
+  },
+  "npm": {
+    "publish": false
+  },
+  "increment": "conventional:@favoloso/emoji",
+  "scripts": {
+    "changelog": "./node_modules/.bin/conventional-changelog -p @favoloso/emoji | tail -n +3",
+    "beforeStage": "./node_modules/.bin/conventional-changelog -p @favoloso/emoji -i CHANGELOG.md -s"
+  },
+  "plugins": {
+    "@release-it/bumper": {
+      "out": [
+        "./client/package.json",
+        "./server/package.json",
+        "./docs/package.json",
+        "./generator/package.json"
+      ]
+    }
+  },
+  "hooks": {
+    "after:bump": "npx gitmoji-changelog -y --group-similar-commits && git add CHANGELOG.md"
+  }
+}
