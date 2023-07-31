@@ -29,12 +29,12 @@ You can help with [Code](https://github.com/vinicioslc/adb-interface-vscode/issu
 
 ## Attach ADB to an Device via WIFI
 
-1.  First connect your device trough USB
-2.  Run `ADB:📱 Disconnect from any devices`
-3.  And run `ADB:📱 Reset connected devices port to :5555`
-4.  And Then `ADB:📱 Connect to device IP` enter your device (settings > status > ip address) IP address and be fine
+1. First connect your device trough USB
+2. Run `ADB:📱 Disconnect from any devices`
+3. And run `ADB:📱 Reset connected devices port to :5555`
+4. And Then `ADB:📱 Connect to device IP` enter your device (settings > status > ip address) IP address and be fine
 
-<div style="text-align:center">
+<div style="text-align: center">
 
 ![status bar](/media/install_apk_demo.gif)
 
@@ -42,12 +42,12 @@ You can help with [Code](https://github.com/vinicioslc/adb-interface-vscode/issu
 
 ## Installing APK files throught ADB
 
-1. Pick apk file with command `ADB:📱 Pick .APK file and install `
+1. Pick apk file with command `ADB:📱 Pick .APK file and install`
 2. Allow ADB install on device screen
 3. Wait until copy de file and icon appear
 4. Now you can run the APP
 
-# Table of contents
+## Table of contents
 
 <!--ts-->
 
@@ -61,9 +61,9 @@ You can help with [Code](https://github.com/vinicioslc/adb-interface-vscode/issu
     -   [ADB location resolution strategy](#adb-location-resolution)
 -   [Tests](#tests)
 
-      <!--te-->
+        <!--te-->
 
-## Commands Available
+### Commands Available
 
 -   ADB:📱 Reset connected devices port to :5555 (Open current device port with (equivalent `adb tcpip 5555`))
 -   ADB:📱 Connect to device IP (Need type the IP from device (equivalent `adb connect ${your ip}:5555`))
@@ -76,9 +76,9 @@ You can help with [Code](https://github.com/vinicioslc/adb-interface-vscode/issu
 -   ADB:🔥 Disable Firebase events debug mode (Run firebase events in debug mode)
 -   ADB:⚠️ Kill ADB server (Kill ADB Server runing (equivalent `adb kill-server`))
 
-# How it works
+## How it works
 
-## ADB location resolution
+### ADB location resolution
 
 By default the extension is looking for ADB in the following locations:
 
@@ -90,7 +90,7 @@ The extension will resolve the ADB location each time an ADB command is executed
 
 The ADB location can be customized using the `Setup custom ADB location` command. The custom ADB location can be cleared using the `Remove custom ADB location` command.
 
-# Tests
+## Tests
 
 All done with [Jest](https://jestjs.io/) you can read more about [here.](https://jestjs.io/docs/en/getting-started.html)
 
@@ -107,3 +107,21 @@ We need help to incrase test coverage report, if you can learn, send a pull requ
 ```bash
 ➥ npm run test:watch
 ```
+
+## Commits
+
+All commits are done runing the command `npm run cm` to ensure some rules used during CHANGELOG.md generation with `npm run release-it`
+
+```bash
+➥ npm run cm
+```
+
+Type your commit info like type, scope, short.
+
+```bash
+➥ npm run release
+```
+
+Confirm information to create new release and update [CHAGELOG.md](/CHANGELOG.md)
+
+Now we can run `npm publish` to publish new version.

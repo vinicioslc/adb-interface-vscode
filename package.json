@@ -2,7 +2,7 @@
   "name": "adb-interface-vscode",
   "displayName": "ADB Interface for VSCode",
   "description": "An interface that allows ADB commands inside IDE with no need to have terminal access.",
-  "version": "0.22.2",
+  "version": "0.22.3",
   "publisher": "vinicioslc",
   "repository": "https://github.com/vinicioslc/adb-interface-vscode",
   "engines": {
@@ -31,6 +31,7 @@
     "prepare": "husky install",
     "commit": "npm run cm",
     "cm": "cz",
+    "changelog": "npx conventional-changelog-cli -p cz-emoji-config -i CHANGELOG.md -s -r 0",
     "cma": "git add . && cz",
     "ri": "npm run release",
     "rici": "release-it --ci",
@@ -52,7 +53,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "cz-customizable"
+      "path": "cz-emoji"
     }
   },
   "dependencies": {
@@ -73,14 +74,18 @@
     "commitizen": "^4.2.4",
     "commitlint-config-gitmoji": "^2.2.5",
     "concurrently": "^7.1.0",
+    "conventional-changelog-cli": "^3.0.0",
+    "conventional-changelog-custom-config": "^0.3.1",
+    "conventional-changelog-cz-emoji-config": "^1.0.1",
     "cross-env": "^7.0.3",
     "cz-customizable": "^6.3.0",
+    "cz-emoji": "^1.3.2-canary.2",
     "diff": ">=3.5.0",
     "eslint": "^8.26.0",
     "husky": "^7.0.0",
     "jest": "^29.2.2",
     "minimist": ">=1.2.6",
-    "release-it": "^15.5.0",
+    "release-it": "^15.11.0",
     "ts-jest": "^29.0.3",
     "tslint": "^5.20.1",
     "typescript": "4.3",
