@@ -11,7 +11,7 @@ missing port in specification: tcp:${ipAddress}`,
     `cannot connect to ${ipAddress}:${port}: No connection could be made because the target machine actively refused it. (10061)`,
   LISTING_DEVICES: () => 'List of devices attached',
   NO_DEVICES_FOUND: () => `error: no devices/emulators found`,
-  ALLREADY_CONNECTED_TO: () => 'already connected to',
+  ALREADY_CONNECTED_TO: () => 'already connected to',
   ADB_KILLED_SUCCESS_RETURN: () => '',
   APK_INSTALLED_SUCCESS: () => 'Success'
 }

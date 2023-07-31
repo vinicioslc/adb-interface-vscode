@@ -50,9 +50,9 @@ export class ADBConnection extends ConsoleInterfaceChannel {
     if (isValidReturn(resultString, adbReturns.CONNECTED_TO())) {
       finalResult = `Connected to "${ipAddress}:${portAddress}"`
     }
-    if (isValidReturn(resultString, adbReturns.ALLREADY_CONNECTED_TO())) {
+    if (isValidReturn(resultString, adbReturns.ALREADY_CONNECTED_TO())) {
       throw new ADBInterfaceException(
-        `Allready connected to "${ipAddress}:${portAddress}"`
+        `Already connected to "${ipAddress}:${portAddress}"`
       )
     }
     if (isValidReturn(resultString, adbReturns.CONNECTION_REFUSED(deviceIP))) {
